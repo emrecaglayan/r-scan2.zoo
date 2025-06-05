@@ -195,9 +195,19 @@ annotate.gatk <- function(gatk, genome.string, add.mutsig=TRUE) {
         gatk[muttype == 'snv',
             mutsig := get.3mer(chr=chr, pos=pos, refnt=refnt, altnt=altnt,
                                genome=genome.string.to.bsgenome.object(genome.string))]
-        chs <- classify.indels(gatk[muttype == 'indel'], genome.string=genome.string)
-        gatk[muttype == 'indel', mutsig := chs]
-    }
+	       
+        gatk_indel <- gatk[muttype == 'indel'] 	
+        if (nrow(gatk_indel) != 0) {
+          chs_list <- lapply(1:nrow(gatk_indel), function(i) {
+  	    chr=gatk_indel$chr[i]
+  	    pos=gatk_indel$pos[i]
+  	    refnt=gatk_indel$refnt[i]
+  	    altnt=gatk_indel$altnt[i]
+   	    chs=attribution_of_indels(genome=genome.string.to.bsgenome.object(genome.string),
+  			in_CHROM=chr, in_POS=pos, in_REF=refnt, in_ALT=altnt) })
+          gatk[muttype == 'indel', mutsig := unlist(chs_list)] 
+        }  
+     }
 }
 
 

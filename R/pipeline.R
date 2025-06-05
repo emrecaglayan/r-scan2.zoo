@@ -157,11 +157,13 @@ make.integrated.table = function(mmq60.tab, mmq1.tab, bulk.sample, sc.samples,
                   legacy = legacy, quiet = quiet)
                   
                # Modification: make add.mutsig=F for species that are not supported by SigProfiler
-               if(!( grs@seqinfo@genome[1] %in% c("hs37d5", "hg38", "mm10","rn6")) ){
-			annotate.gatk(gatk = sitewide, genome.string = genome, add.mutsig = F)
-		} else{
-                        annotate.gatk(gatk = sitewide, genome.string = genome, add.mutsig = T)
-               }
+               #if(!( grs@seqinfo@genome[1] %in% c("hs37d5", "hg38", "mm10","rn6")) ){
+		#	annotate.gatk(gatk = sitewide, genome.string = genome, add.mutsig = F)
+		#} else{
+                #        annotate.gatk(gatk = sitewide, genome.string = genome, add.mutsig = T)
+               #}
+
+                annotate.gatk(gatk = sitewide, genome.string = genome, add.mutsig = T)
                
                 annotate.gatk.lowmq(sitewide, path = mmq1.tab, 
                   bulk = bulk.sample, region = gr, quiet = quiet)
