@@ -53,12 +53,12 @@ setMethod("show.abmodel.training.sites", "SCAN2", function(object) {
             cat(" (training data removed, likely minimized SCAN2 object)\n")
         } else {
             # germline indels are not used for AB model training
-            per.hap <- object@gatk[training.site==TRUE & muttype == 'snv', .N, by=phased.gt]
-            tdata <- object@gatk[training.site==TRUE & muttype=='snv']
-            cat('', nrow(tdata),
-                sprintf("phasing: %s=%d, %s=%d\n",
-                    per.hap$phased.gt[1], per.hap$N[1],
-                    per.hap$phased.gt[2], per.hap$N[2]))
+            #per.hap <- object@gatk[training.site==TRUE & muttype == 'snv', .N, by=phased.gt]
+            #tdata <- object@gatk[training.site==TRUE & muttype=='snv']
+            #cat('', nrow(tdata),
+            #    sprintf("phasing: %s=%d, %s=%d\n",
+            #        per.hap$phased.gt[1], per.hap$N[1],
+            #        per.hap$phased.gt[2], per.hap$N[2]))
             neighbor.approx <- approx.abmodel.covariance(object, bin.breaks=10^(0:5))
             cors <- round(neighbor.approx$observed.cor, 3)
                 cat('#       OBSERVED VAF correlation between neighboring hSNPs:\n')

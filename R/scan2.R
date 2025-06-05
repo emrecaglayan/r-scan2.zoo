@@ -637,7 +637,7 @@ function(object, config.path, muttype=c('snv', 'indel'),
 #               in that case, allowing >= cutoff effectively disables the filter, which
 #               is necessary.
 
-compute.static.filters99 = function(object, mode=c('new', 'legacy'))
+compute.static.filters = function(object, mode=c('new', 'legacy'))
 {
     check.slots(object, c("gatk", "cigar.data", "mut.models"))
     mode <- match.arg(mode)
