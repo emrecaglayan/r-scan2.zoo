@@ -2,7 +2,6 @@
 gatk.meta.cols <- c(
     chr='character',
     pos='integer',
-    dbsnp='character',
     refnt='character',
     altnt='character'
 )
@@ -14,22 +13,22 @@ read.gatk.1sample <- function(path, sample.id, region=NULL, quiet=FALSE) {
 integrated.table.meta.cols <- c(
     chr='character',
     pos='integer',
-    dbsnp='character',
     refnt='character',
     altnt='character',
-    mq='numeric',
-    mqrs='numeric',
+    mq = 'numeric',
+    mqrs = 'numeric',
     bulk.gt='character',
     bref='integer',
     balt='integer',
     bulk.dp='integer',
     bulk.af='numeric',
+#    bulk.binom.prob='numeric',
     tref='integer',
     talt='integer',
+#    tcells='integer',
     muttype='character',
     mutsig='character',
     balt.lowmq='integer',
-    phased.gt='character',
     nalleles='integer',
     unique.donors='integer',
     unique.cells='integer',
@@ -38,11 +37,14 @@ integrated.table.meta.cols <- c(
     sum.out='integer',
     sum.bulk='integer',
     somatic.candidate='logical',
+#    training.site='logical',
     resampled.training.site='logical'
 )
-read.integrated.table.1sample <- function(path, sample.id, region=NULL, quiet=FALSE) {
-    read.table.1sample(path=path, sample.id=sample.id, region=region,
-        meta.cols=integrated.table.meta.cols, quiet=quiet)
+
+read.integrated.table.1sample = function(path, sample.id, region = NULL, quiet = FALSE) 
+{
+    read.table.1sample(path = path, sample.id = sample.id, region = region, 
+        meta.cols = integrated.table.meta.cols, quiet = quiet)
 }
 
 
@@ -56,9 +58,14 @@ read.integrated.table.1sample <- function(path, sample.id, region=NULL, quiet=FA
 # region can be a GRanges object with a single interval to read only
 # a subset of the GATK table. The table is tabix indexed, so this can
 # be done quickly.
-read.table.1sample <- function(path, sample.id, meta.cols, region=NULL, quiet=FALSE) {
+
+read.table.1sample <- function(path, sample.id, meta.cols, region=NULL, quiet=FALSE){
     if (!quiet) cat("Importing GATK table..\n")
 
+	if(quiet == F){
+		print(meta.cols)
+	}
+	
     n.meta.cols <- length(meta.cols)
 
     # Step 1: just get the header and detect the columns corresponding to sample.id
@@ -81,14 +88,8 @@ read.table.1sample <- function(path, sample.id, meta.cols, region=NULL, quiet=FA
         }
     }
     
-    # Step 2: really read the tables in, but only the relevant columns
-    cols.to.read <- rep("NULL", tot.cols)
-    cols.to.read[1:n.meta.cols] <- meta.cols
-
-    # Read 3 columns for the single cell, 3 columns for bulk
-    cols.to.read[sample.idx + 0:2] <- c('character', 'integer', 'integer')
-
-    gatk <- read.tabix.data(path=path, region=region, header=header, quiet=quiet, colClasses=cols.to.read)
+    # remove colClasses option
+    gatk <- read.tabix.data(path=path, region=region, header=header, quiet=quiet)
 
     new.sample.idx <- which(colnames(gatk) == sample.id)
     colnames(gatk)[new.sample.idx+1:2] <- c('scref', 'scalt')
@@ -98,6 +99,7 @@ read.table.1sample <- function(path, sample.id, meta.cols, region=NULL, quiet=FA
     cols.to.keep <- c(cols.to.keep, sample.id, c('scref', 'scalt'))
 
     gatk <- gatk[,..cols.to.keep]
+    gatk$chr = as.character(gatk$chr)
 
     gatk
 }
@@ -283,42 +285,31 @@ annotate.gatk.panel <- function(gatk, panel.path, region=NULL, quiet=FALSE) {
 #
 # XXX: any filter not dependent on specific single cell info (like min.bulk.dp)
 # should really be applied here.
-annotate.gatk.candidate.loci <- function(gatk, snv.min.bulk.dp, snv.max.bulk.alt, snv.max.bulk.af, indel.min.bulk.dp, indel.max.bulk.alt, indel.max.bulk.af, mode=c('new', 'legacy')) {
+
+annotate.gatk.candidate.loci <- function(gatk, snv.min.bulk.dp, snv.max.bulk.alt, snv.max.bulk.af, indel.min.bulk.dp, indel.max.bulk.alt, indel.max.bulk.af, mode = c("new", "legacy"))
+{
     mode <- match.arg(mode)
-
-    # In legacy mode, bulk depth and bulk alt reads in the low MMQ GATK table
-    # were checked later in the pipeline. However, since these do not change
-    # from single cell to single cell, we prefer to handle them here.
-    # bulk.af was never checked because max bulk alt was always 0 in legacy.
-    if (mode == 'new') {
-        snv.allow.bulk.gt <- snv.max.bulk.alt > 0 | snv.max.bulk.af > 0
-        indel.allow.bulk.gt <- indel.max.bulk.alt > 0 | indel.max.bulk.af > 0
-
-        gatk[, somatic.candidate :=
-            ((muttype == 'snv' & balt <= snv.max.bulk.alt & 
-                    bulk.dp >= snv.min.bulk.dp &
-                    !is.na(bulk.af) & bulk.af <= snv.max.bulk.af &
-                    (is.na(balt.lowmq) | balt.lowmq <= snv.max.bulk.alt) &
-                    # to continue old SCAN2 (intended for non-clonal calling) behavior, require
-                    # bulk.gt==0/0 when the user doesn't allow any bulk read support.
-                    (snv.allow.bulk.gt | bulk.gt == '0/0')
-            ) |
-            (muttype == 'indel' & balt <= indel.max.bulk.alt &
-                bulk.dp >= indel.min.bulk.dp &
-                !is.na(bulk.af) & bulk.af <= indel.max.bulk.af &
-                (is.na(balt.lowmq) | balt.lowmq <= indel.max.bulk.alt) &
-                (indel.allow.bulk.gt | bulk.gt == '0/0')
-            )) &
-            # N.B. talt >= 2 becomes a less useful cutoff as #cells increases..
-            dbsnp == '.' & talt >= 2]
-    } else if (mode == 'legacy') {
-        gatk[, somatic.candidate :=
-            ((muttype == 'snv' & balt <= snv.max.bulk.alt) |
-             (muttype == 'indel' & balt <= indel.max.bulk.alt)) &
-            bulk.gt == '0/0' & dbsnp == '.' & talt >= 2]
-    } else
-        stop('unrecognized mode')
-
+    if (mode == "new") {
+        snv.allow.bulk.gt <- snv.max.bulk.alt > 0 | snv.max.bulk.af > 
+            0
+        indel.allow.bulk.gt <- indel.max.bulk.alt > 0 | indel.max.bulk.af > 
+            0
+        gatk[, `:=`(somatic.candidate, ((muttype == "snv" & balt <= 
+            snv.max.bulk.alt & bulk.dp >= snv.min.bulk.dp & !is.na(bulk.af) & 
+            bulk.af <= snv.max.bulk.af & (is.na(balt.lowmq) | 
+            balt.lowmq <= snv.max.bulk.alt) & (snv.allow.bulk.gt | 
+            bulk.gt == "0/0")) | (muttype == "indel" & balt <= 
+            indel.max.bulk.alt & bulk.dp >= indel.min.bulk.dp & 
+            !is.na(bulk.af) & bulk.af <= indel.max.bulk.af & 
+            (is.na(balt.lowmq) | balt.lowmq <= indel.max.bulk.alt) & 
+            (indel.allow.bulk.gt | bulk.gt == "0/0"))) & talt >= 2)]
+    }
+    else if (mode == "legacy") {
+        gatk[, `:=`(somatic.candidate, ((muttype == "snv" & balt <= 
+            snv.max.bulk.alt) | (muttype == "indel" & balt <= 
+            indel.max.bulk.alt)) & bulk.gt == "0/0" & talt >= 2)]
+    }
+    else stop("unrecognized mode")
     gatk
 }
 
@@ -326,46 +317,44 @@ annotate.gatk.candidate.loci <- function(gatk, snv.min.bulk.dp, snv.max.bulk.alt
 # Again, modifying 'gatk' by reference.
 # Returns list of resampling auxiliary data with one entry for SNVs and one for indels
 # and modifies `gatk` by reference.
-# FIXME: germline indels, not germline SNVs, were used by legacy SCAN2 calling when
-# downsampling. This is right and wrong in various scenarios:
-#    - For sensitivity estimation, this is WRONG because only hSNPs are used to
-#      in AB model inference. Thus, to best reflect sensitivity due to proximity
-#      to AB model training sites (somatic sites closer to training sites have more
-#      accurate AB estimates and therefore probably higher sensitivity), only hSNPs
-#      should be used.
-#    - For CIGAR op filtering, this is CORRECT because somatic indel CIGAR profiles
-#      should be compared to germline indel CIGAR profiles. Of course, applying certain
-#      CIGAR op filters (indel ops) is actually incorrect either way.
-# In any case, this likely has a relatively insignificant effect so we are leaving it as
-# it was in legacy calling for now.
-gatk.resample.phased.sites <- function(gatk, M=20, seed=0) {
-    ret <- list()
-    for (mt in c('snv', 'indel')) {
-        aux.data <- resample.germline(
-            sites=gatk[somatic.candidate == TRUE & muttype == mt],
-            hsnps=gatk[!is.na(phased.gt) & phased.gt != './.' & muttype == mt],
-            M=M, seed=seed)
+gatk.resample.phased.sites = function (gatk, M = 20, seed = 0) 
+{
 
-        # aux.data$selection is aligned to the input 'hsnps' table
-        # FIXME: resampled.training.site here assumes that all phased sites are
-        # training sites. This is legacy behavior, but isn't ideal.
-        gatk[!is.na(phased.gt) & phased.gt != './.' & muttype == mt,
-            resampled.training.site := aux.data$selection$keep]
-        ret[[mt]] <- aux.data
-    }
+	# Modification: Instead of properly phased snps, hsnps are chosen based on their af and depth using binomial distribution
 
-    gatk[is.na(resampled.training.site), resampled.training.site := FALSE]
+	# Remove homozygous
+	tokeep1 = which(!(gatk$balt == 0 | gatk$bulk.gt == '1/1' | gatk$bulk.gt == '0/0'))
+	#gatk_filt <- gatk[!(balt == 0 | bulk.gt == '1/1' | bulk.gt == '0/0')]
 
-    # reorder columns so that resampled.training.site, applicable to all single
-    # cells in the integrated table, is in the left block of columns. the right block of
-    # columns is intended to only contain per-sample read count data.
-    #
-    # must use column numbers because column names are not unique: each sample has a 'ref'
-    # and 'alt' column.
-    n.meta.cols <- length(integrated.table.meta.cols)
-    data.table::setcolorder(gatk, neworder=c(1:(n.meta.cols-1), ncol(gatk), n.meta.cols:(ncol(gatk)-1)))
+	require(parallel)
+	tokeep1_perc <- quantile(tokeep1, probs = seq(0, 1, by = 0.025))
+	indexes <- as.numeric( sapply(tokeep1_perc, function(p) which.min(abs(tokeep1 - p))) )
+	indexes = tokeep1[indexes]
+	
+	resL = mclapply(tokeep1, mc.cores = M, function(x){
+			if(x %in% indexes){print(paste0('Choosing likely hSNPs without phasing: ', round(100 * (x / max(tokeep1))), '%'))}
+			res = binom.confint(gatk[x,bulk.dp] * 0.5, gatk[x,bulk.dp], 0.99, method = 'bayes')
+			interval_check = gatk[x,bulk.af] > res$lower & gatk[x,bulk.af] < res$upper
+			nan_check = is.nan(res$lower) | is.nan(res$upper)
+			!(nan_check) & interval_check
+			})
+	tokeep2 = tokeep1[which(unlist(resL))]
 
-    return(ret)
+	# Subset the data frame to include only high-quality SNPs
+	gatk[, hetSNP := .I %in% tokeep2]
+
+	ret <- list()
+	for (mt in c("snv", "indel")) {
+		aux.data <- resample.germline(sites = gatk[somatic.candidate == T & muttype == mt],
+						hsnps = gatk[hetSNP == T & muttype == mt], M = M, seed = seed)
+		
+		#is_present = paste0(gatk$chr, gatk$pos) %in% paste0(hqSNP$chr, hqSNP$pos)
+		gatk[hetSNP == T & muttype == mt, `:=`(resampled.training.site, aux.data$selection$keep)]
+		ret[[mt]] <- aux.data
+	}
+	gatk[is.na(resampled.training.site), `:=`(resampled.training.site, FALSE)]
+	gatk[, hetSNP := NULL]
+	return(ret)
 }
 
 

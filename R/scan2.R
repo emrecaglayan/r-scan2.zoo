@@ -46,84 +46,140 @@ check.chunked <- function(object, message) {
         warning(message)
 }
 
-genome.string.to.seqinfo.object <- function(genome=c('hs37d5', 'hg38', 'mm10')) {
+genome.string.to.seqinfo.object = function(genome = c("hs37d5", "hg38", "mm10", "rheMac10", "panTro6", "calJac4")) 
+{
     genome <- match.arg(genome)
-    if (genome == 'hs37d5') {
-        return(GenomeInfoDb::Seqinfo(genome='GRCh37.p13'))
-    } else if (genome == 'hg38') {
-        return(GenomeInfoDb::Seqinfo(genome='hg38'))
-    } else if (genome == 'mm10') {
-        return(GenomeInfoDb::Seqinfo(genome='mm10'))
-    } else {
-        # shouldn't be possible
+    if (genome == "hs37d5") {
+        return(GenomeInfoDb::Seqinfo(genome = "GRCh37.p13"))
+    }
+    else if (genome == "hg38") {
+        return(GenomeInfoDb::Seqinfo(genome = "hg38"))
+    }
+    else if (genome == "mm10") {
+        return(GenomeInfoDb::Seqinfo(genome = "mm10"))
+    }
+    else if (genome == "rheMac10") {
+        return(GenomeInfoDb::Seqinfo(genome = "rheMac10"))
+    }
+    else if (genome == "panTro6") {
+        return(GenomeInfoDb::Seqinfo(genome = "panTro6"))
+    }
+    else if (genome == "calJac4") {
+        return(GenomeInfoDb::Seqinfo(genome = "calJac4"))
+    }
+    else {
         stop("unsupported genome string")
     }
 }
 
-genome.string.to.bsgenome.object <- function(genome=c('hs37d5', 'hg38', 'mm10')) {
+genome.string.to.bsgenome.object = function(genome = c("hs37d5", "hg38", "mm10", 'rheMac10', 'panTro6', 'calJac4'))                                 
+{
     genome <- match.arg(genome)
-
-    if (genome == 'hs37d5') {
-        require(BSgenome.Hsapiens.1000genomes.hs37d5)
-        genome <- BSgenome.Hsapiens.1000genomes.hs37d5
-    } else if (genome == 'hg38') {
-        require(BSgenome.Hsapiens.UCSC.hg38)
-        genome <- BSgenome.Hsapiens.UCSC.hg38
-    } else if (genome == 'mm10') {
-        require(BSgenome.Mmusculus.UCSC.mm10)
-        genome <- BSgenome.Mmusculus.UCSC.mm10
-    } else {
-        # shouldn't be possible
-        stop('unsupported genome string')
+    if (genome == "hs37d5") {
+        require(BSgenome.Hsapiens.1000genomes.hs37d5)                          
+        genome <- BSgenome.Hsapiens.1000genomes.hs37d5                         
+    }
+    else if (genome == "hg38") {
+        require(BSgenome.Hsapiens.UCSC.hg38)                                   
+        genome <- BSgenome.Hsapiens.UCSC.hg38                                  
+    }
+    else if (genome == "mm10") {
+        require(BSgenome.Mmusculus.UCSC.mm10)                                  
+        genome <- BSgenome.Mmusculus.UCSC.mm10                                 
+    }
+    else if (genome == "rheMac10") {
+        require(BSgenome.Mmulatta.UCSC.rheMac10)                                  
+        genome <- BSgenome.Mmulatta.UCSC.rheMac10                               
+    }
+    else if (genome == "panTro6") {
+        require(BSgenome.Ptroglodytes.UCSC.panTro6)                                  
+        genome <- BSgenome.Ptroglodytes.UCSC.panTro6                                 
+    }
+    else if (genome == "calJac4") {
+        require(BSgenome.Cjacchus.UCSC.calJac4)                                  
+        genome <- BSgenome.Cjacchus.UCSC.calJac4                                 
+    }
+    else {
+        stop("unsupported genome string")                                      
     }
     genome
 }
 
-genome.string.to.tiling <- function(genome=c('hs37d5', 'hg38', 'mm10'), tilewidth=10e6, group=c('auto', 'sex', 'circular', 'all')) {
+genome.string.to.tiling = function(genome = c("hs37d5", "hg38", "mm10", "rheMac10", "panTro6", "calJac4"), tilewidth = 1e+07, 
+    group = c("auto", "sex", "circular", "all")) 
+{
     genome <- match.arg(genome)
     group <- match.arg(group)
-
-    if (genome == 'hs37d5') {
-        species <- 'Homo_sapiens'
-    } else if (genome == 'hg38') {
-        species <- 'Homo_sapiens'
-    } else if (genome == 'mm10') {
-        species <- 'Mus_musculus'
-    } else {
-        # shouldn't be possible
+    if (genome == "hs37d5") {
+        species <- "Homo_sapiens"
+	sqi <- genome.string.to.seqinfo.object(genome)
+	chroms.to.tile <- GenomeInfoDb::extractSeqlevelsByGroup(species = species,
+	style = seqlevelsStyle(sqi)[1], group = group)
+    }
+    else if (genome == "hg38") {
+        species <- "Homo_sapiens"
+	sqi <- genome.string.to.seqinfo.object(genome)
+	chroms.to.tile <- GenomeInfoDb::extractSeqlevelsByGroup(species = species,
+	style = seqlevelsStyle(sqi)[1], group = group)
+    }
+    else if (genome == "mm10") {
+        species <- "Mus_musculus"
+	sqi <- genome.string.to.seqinfo.object(genome)
+	chroms.to.tile <- GenomeInfoDb::extractSeqlevelsByGroup(species = species,
+	style = seqlevelsStyle(sqi)[1], group = group)
+    }
+    else if (genome == "rheMac10") {
+        species <- "Macaca_mulatta"
+        
+	# Get all chromosomes and haplotypes, keep only primary chromosome assemblies
+	sqi <- genome.string.to.seqinfo.object(genome)
+	sqi_levels = seqlevels(sqi)
+	sqi_levels_uniq = unique(gsub('_.*', '', sqi_levels))
+	lastchar = substr(sqi_levels_uniq, nchar(sqi_levels_uniq), nchar(sqi_levels_uniq))
+	chroms.to.tile = sqi_levels_uniq[grep("[0-9]", lastchar)]
+    }
+    else if (genome == "panTro6") {
+        species <- "Pan_troglodytes"
+        
+	# Get all chromosomes and haplotypes, keep only primary chromosome assemblies
+	sqi <- genome.string.to.seqinfo.object(genome)
+	sqi_levels = seqlevels(sqi)
+	sqi_levels_uniq = unique(gsub('_.*', '', sqi_levels))
+	lastchar = substr(sqi_levels_uniq, nchar(sqi_levels_uniq), nchar(sqi_levels_uniq))
+	chroms.to.tile = sqi_levels_uniq[grep("[0-9]", lastchar)]
+	chroms.to.tile = c(chroms.to.tile[1], 'chr2A', 'chr2B', chroms.to.tile[2:length(chroms.to.tile)])
+    }
+    else if (genome == "calJac4") {
+        species <- "Callithrix_jacchus"
+        
+	# Get all chromosomes and haplotypes, keep only primary chromosome assemblies
+	sqi <- genome.string.to.seqinfo.object(genome)
+	sqi_levels = seqlevels(sqi)
+	sqi_levels_uniq = unique(gsub('_.*', '', sqi_levels))
+	lastchar = substr(sqi_levels_uniq, nchar(sqi_levels_uniq), nchar(sqi_levels_uniq))
+	chroms.to.tile = sqi_levels_uniq[grep("[0-9]", lastchar)]
+    }
+    else {
         stop("unsupported genoome string")
     }
-
-    sqi <- genome.string.to.seqinfo.object(genome)
-    # seqlevelsStyle()[1] - 'hs37d5' returns both NCBI and Ensembl as styles, pick the first one
-    chroms.to.tile <-
-        GenomeInfoDb::extractSeqlevelsByGroup(species=species, style=seqlevelsStyle(sqi)[1], group=group)
-
-    grs <- GenomicRanges::tileGenome(seqlengths=sqi[chroms.to.tile], tilewidth=tilewidth, cut.last.tile.in.chrom=TRUE)
+    
+        
+    grs <- GenomicRanges::tileGenome(seqlengths = sqi[chroms.to.tile], 
+        tilewidth = tilewidth, cut.last.tile.in.chrom = TRUE)
     grs
 }
 
-make.scan <- function(single.cell, bulk, genome=c('hs37d5', 'hg38', 'mm10'), region=NULL) {
-    genome <- match.arg(genome)
-    new("SCAN2", single.cell=single.cell, bulk=bulk,
-        genome.string=genome,
-        genome.seqinfo=genome.string.to.seqinfo.object(genome),
-        region=region,
-        gatk=NULL,
-        ab.fits=NULL,
-        # these slots used to hold tables; now their data is incorporated into @gatk and
-        # they only record analysis parameters, if any apply.
-        ab.estimates=NULL,
-        mut.models=NULL,
-        cigar.data=NULL,
-        excess.cigar.scores=NULL,
-        static.filter.params=NULL,
-        fdr.prior.data=NULL,
-        fdr=NULL,
-        call.mutations=NULL,
-        mutburden=NULL,
-        mutsig.rescue=NULL,
-        spatial.sensitivity=NULL)
+
+make.scan = function(single.cell, bulk, genome = c("hs37d5", "hg38", "mm10", 'rheMac10', 'panTro6', 'calJac4'), region = NULL) 
+{
+    genome <- match.arg(genome, choices = c("hs37d5", "hg38", "mm10", 'rheMac10', 'panTro6', 'calJac4'))
+    new("SCAN2", single.cell = single.cell, bulk = bulk, genome.string = genome, 
+        genome.seqinfo = genome.string.to.seqinfo.object(genome), 
+        region = region, gatk = NULL, ab.fits = NULL, ab.estimates = NULL, 
+        mut.models = NULL, cigar.data = NULL, excess.cigar.scores = NULL, 
+        static.filter.params = NULL, fdr.prior.data = NULL, fdr = NULL, 
+        call.mutations = NULL, mutburden = NULL, mutsig.rescue = NULL, 
+        spatial.sensitivity = NULL)
 }
 
 
@@ -160,7 +216,7 @@ setValidity("SCAN2", function(object) {
             return("@gatk must have 13 columns")
         }
         if (!all(colnames(object@gatk)[1:7] ==
-                c('chr', 'pos', 'refnt', 'altnt', 'dbsnp', 'mq', 'mqrs'))) {
+                c('chr', 'pos', 'refnt', 'altnt', 'mq', 'mqrs'))) {
             return("@gatk is improperly formatted")
         }
     }
@@ -220,141 +276,117 @@ check.slots <- function(object, slots, abort=TRUE) {
 # to use: e.g., x <- do.call(concat, xs)
 # where xs is a list of SCAN2 chunks. the chunks must not overlap. one day this
 # might be enforced programatically
+
 setGeneric("concat", function(...) standardGeneric("concat"))
 setMethod("concat", signature="SCAN2", function(...) {
-    args <- list(...)
-
-    if (length(args) == 0)
-        stop('tried to concat() 0 objects')
-
-    if (length(args) == 1)
-        return(args[[1]])
-
-    init <- args[[1]]
-
-    ret <- make.scan(init@single.cell, init@bulk,
-        genome=init@genome.string,
-        region=reduce(do.call(c, lapply(args, function(a) a@region))))
-
-    # rbindlist quickly concatenates data.tables
-    ret@gatk <- rbindlist(lapply(args, function(a) a@gatk))
-
-    ensure.same <- function(l, slot.name, var.name, var.name2) {
-        if (missing(var.name) & !missing(var.name2))
-            stop("var.name2 only valid if var.name also specified")
-
-        # either all slots are NULL or they have the same value
-        if (all(sapply(l, function(element) is.null(slot(element, slot.name))))) {
-            return()
-        }
-        # if var.name isn't supplied, assume that `slot.name` is just a vector
-        if (!missing(var.name)) {
-            if (missing(var.name2)) {
-                if (!all(sapply(l, function(element)
-                    all(slot(l[[1]], slot.name)[[var.name]] == slot(element, slot.name)[[var.name]]))))
-                    stop(paste('list of SCAN2 chunks cannot be concatenated; slot', slot.name,
-                        'does not have consistent values for', var.name))
-            } else {
-                # very hackish way to allow nested testing
-                if (!all(sapply(l, function(element)
-                    all(slot(l[[1]], slot.name)[[var.name]][[var.name2]] == slot(element, slot.name)[[var.name]][[var.name2]]))))
-                    stop(paste('list of SCAN2 chunks cannot be concatenated; slot', slot.name,
-                        'does not have consistent values for', var.name))
-            }
-        } else {
-            if (!all(sapply(l, function(element)
-                all(slot(l[[1]], slot.name) == slot(element, slot.name)))))
-                stop(paste('list of SCAN2 chunks cannot be concatenated; slot', slot.name,
-                    'does not have consistent values'))
-        }
-    }
-
-    # XXX: TODO: would be nice to ensure same genome object. just not sure how to
-    # check equality at the moment.
-    ensure.same(args, 'genome.string')
-    ensure.same(args, 'single.cell')
-    ensure.same(args, 'bulk')
-
-    for (mt in c('snv', 'indel')) {
-        ensure.same(args, 'static.filter.params', mt, 'min.sc.alt')
-        ensure.same(args, 'static.filter.params', mt, 'min.sc.dp')
-        ensure.same(args, 'static.filter.params', mt, 'min.bulk.dp')
-        ensure.same(args, 'static.filter.params', mt, 'max.bulk.alt')
-        ensure.same(args, 'static.filter.params', mt, 'max.bulk.af')
-        ensure.same(args, 'static.filter.params', mt, 'exclude.dbsnp')
-        ensure.same(args, 'static.filter.params', mt, 'cg.id.q')
-        ensure.same(args, 'static.filter.params', mt, 'cg.hs.q')
-        ensure.same(args, 'static.filter.params', mt, 'disable.hs.filter')
-    }
-    ret@static.filter.params <- init@static.filter.params
-
-    ensure.same(args, 'cigar.data', 'sc.path')
-    ensure.same(args, 'cigar.data', 'bulk.path')
-    ret@cigar.data <- data.frame(sc.sites=sum(sapply(args, function(a) ifelse(is.null(a@cigar.data), 0, a@cigar.data$sc.sites))),
-                               bulk.sites=sum(sapply(args, function(a) ifelse(is.null(a@cigar.data), 0, a@cigar.data$bulk.sites)))
-    )
-
-    for (mt in c('snv', 'indel')) {
-        ensure.same(args, 'excess.cigar.scores', mt, 'legacy')
-        ensure.same(args, 'excess.cigar.scores', mt, 'null.sites')
-    }
-    ret@excess.cigar.scores <- init@excess.cigar.scores
-    ret@excess.cigar.scores$snv$sites <- sum(sapply(args, function(a) ifelse(is.null(a@excess.cigar.scores$snv), 0, a@excess.cigar.scores$snv$sites)))
-    ret@excess.cigar.scores$indel$sites <- sum(sapply(args, function(a) ifelse(is.null(a@excess.cigar.scores$indel), 0, a@excess.cigar.scores$indel$sites)))
-
-    # fdr.prior.data: 'fcs' should also be identical, but the list is a little
-    # inconvenient to check. the below should detect misuse 99% of the time.
-    for (mt in c('snv', 'indel')) {
-        ensure.same(args, 'fdr.prior.data', mt, 'bins')
-        ensure.same(args, 'fdr.prior.data', mt, 'max.dp')
-        ensure.same(args, 'fdr.prior.data', mt, 'candidates.used')
-        ensure.same(args, 'fdr.prior.data', mt, 'hsnps.used')
-        ensure.same(args, 'fdr.prior.data', mt, 'nt.tab')
-        ensure.same(args, 'fdr.prior.data', mt, 'na.tab')
-        ensure.same(args, 'fdr.prior.data', mt, 'mode')
-    }
-    ret@fdr.prior.data <- init@fdr.prior.data
-
-    ret@fdr <- NULL
-    if (any(sapply(args, function(a) !is.null(a@fdr)))) {
-        ret@fdr <- list()
-        for (mt in c('snv', 'indel')) {
-            ensure.same(args, 'fdr', mt, 'mode')
-            ret@fdr[[mt]] <- data.frame(mode=init@fdr[[mt]]$mode,
-                sites=sum(sapply(args, function(a) ifelse(is.null(a@fdr[[mt]]), 0, a@fdr[[mt]]$sites))))
-        }
-    }
-
-    # policy: ab.fits has to be the same for all chunks being concat()ed
-    # if that's true, just use the first one
-    if (any(sapply(args, function(a) any(as.matrix(init@ab.fits) != as.matrix(a@ab.fits)))))
-        stop('@ab.fits must be identical for all concat() elements')
-    ret@ab.fits <- init@ab.fits
-
-    ret@ab.estimates <- data.frame(sites=sum(sapply(args, function(a) ifelse(is.null(a@ab.estimates), 0, a@ab.estimates$sites))))
-
-    ret@mut.models <- data.frame(sites=sum(sapply(args, function(a) ifelse(is.null(a@mut.models), 0, a@mut.models$sites))))
-
-    ret
+	args <- list(...)
+	if (length(args) == 0) stop("tried to concat() 0 objects")
+	if (length(args) == 1) return(args[[1]])
+	init <- args[[1]]
+	ret <- make.scan(init@single.cell, init@bulk, genome = init@genome.string, region = reduce(do.call(c, lapply(args, function(a) a@region))))
+	ret@gatk <- rbindlist(lapply(args, function(a) a@gatk))
+	ensure.same <- function(l, slot.name, var.name, var.name2) {
+	    if (missing(var.name) & !missing(var.name2)) 
+		stop("var.name2 only valid if var.name also specified")
+	    if (all(sapply(l, function(element) is.null(slot(element, slot.name))))) {
+		return()
+	    }
+	    if (!missing(var.name)) {
+		if (missing(var.name2)) {
+		    if (!all(sapply(l, function(element) all(slot(l[[1]], slot.name)[[var.name]] == slot(element, slot.name)[[var.name]])))) 
+		        stop(paste("list of SCAN2 chunks cannot be concatenated; slot", slot.name, "does not have consistent values for", var.name))
+		}
+		else {
+		    if (!all(sapply(l, function(element) all(slot(l[[1]], slot.name)[[var.name]][[var.name2]] == slot(element, slot.name)[[var.name]][[var.name2]])))) 
+		        stop(paste("list of SCAN2 chunks cannot be concatenated; slot", slot.name, "does not have consistent values for", var.name))
+		}
+	    }
+	    else {
+		if (!all(sapply(l, function(element) all(slot(l[[1]], slot.name) == slot(element, slot.name))))) 
+		    stop(paste("list of SCAN2 chunks cannot be concatenated; slot", slot.name, "does not have consistent values"))
+	    }
+	}
+	ensure.same(args, "genome.string")
+	ensure.same(args, "single.cell")
+	ensure.same(args, "bulk")
+	for (mt in c("snv", "indel")) {
+	    ensure.same(args, "static.filter.params", mt, "min.sc.alt")
+	    ensure.same(args, "static.filter.params", mt, "min.sc.dp")
+	    ensure.same(args, "static.filter.params", mt, "min.bulk.dp")
+	    ensure.same(args, "static.filter.params", mt, "max.bulk.alt")
+	    ensure.same(args, "static.filter.params", mt, "max.bulk.af")
+	    ensure.same(args, "static.filter.params", mt, "cg.id.q")
+	    ensure.same(args, "static.filter.params", mt, "cg.hs.q")
+	    ensure.same(args, "static.filter.params", mt, "disable.hs.filter")
+	}
+	ret@static.filter.params <- init@static.filter.params
+	ensure.same(args, "cigar.data", "sc.path")
+	ensure.same(args, "cigar.data", "bulk.path")
+	ret@cigar.data <- data.frame(sc.sites = sum(sapply(args, function(a) ifelse(is.null(a@cigar.data), 0, a@cigar.data$sc.sites))), bulk.sites = sum(sapply(args, function(a) ifelse(is.null(a@cigar.data), 0, a@cigar.data$bulk.sites))))
+	for (mt in c("snv", "indel")) {
+	    ensure.same(args, "excess.cigar.scores", mt, "legacy")
+	    ensure.same(args, "excess.cigar.scores", mt, "null.sites")
+	}
+	ret@excess.cigar.scores <- init@excess.cigar.scores
+	ret@excess.cigar.scores$snv$sites <- sum(sapply(args, function(a) ifelse(is.null(a@excess.cigar.scores$snv), 0, a@excess.cigar.scores$snv$sites)))
+	ret@excess.cigar.scores$indel$sites <- sum(sapply(args, function(a) ifelse(is.null(a@excess.cigar.scores$indel), 0, a@excess.cigar.scores$indel$sites)))
+	for (mt in c("snv", "indel")) {
+	    ensure.same(args, "fdr.prior.data", mt, "bins")
+	    ensure.same(args, "fdr.prior.data", mt, "max.dp")
+	    ensure.same(args, "fdr.prior.data", mt, "candidates.used")
+	    ensure.same(args, "fdr.prior.data", mt, "hsnps.used")
+	    ensure.same(args, "fdr.prior.data", mt, "nt.tab")
+	    ensure.same(args, "fdr.prior.data", mt, "na.tab")
+	    ensure.same(args, "fdr.prior.data", mt, "mode")
+	}
+	ret@fdr.prior.data <- init@fdr.prior.data
+	ret@fdr <- NULL
+	if (any(sapply(args, function(a) !is.null(a@fdr)))) {
+	    ret@fdr <- list()
+	    for (mt in c("snv", "indel")) {
+		ensure.same(args, "fdr", mt, "mode")
+		ret@fdr[[mt]] <- data.frame(mode = init@fdr[[mt]]$mode, sites = sum(sapply(args, function(a) ifelse(is.null(a@fdr[[mt]]), 0, a@fdr[[mt]]$sites))))
+	    }
+	}
+	if (any(sapply(args, function(a) any(as.matrix(init@ab.fits) != as.matrix(a@ab.fits))))) stop("@ab.fits must be identical for all concat() elements")
+	ret@ab.fits <- init@ab.fits
+	ret@ab.estimates <- data.frame(sites = sum(sapply(args, function(a) ifelse(is.null(a@ab.estimates), 0, a@ab.estimates$sites))))
+	ret@mut.models <- data.frame(sites = sum(sapply(args, function(a) ifelse(is.null(a@mut.models), 0, a@mut.models$sites))))
+	ret
 })
 
 
-
-setGeneric("read.integrated.table", function(object, path, quiet=FALSE)
-    standardGeneric("read.integrated.table"))
-setMethod("read.integrated.table", "SCAN2", function(object, path, quiet=FALSE) {
-    object@gatk <- read.and.annotate.integrated.table(path=path, sample.id=object@single.cell,
-        region=object@region, quiet=quiet)
+read.integrated.table = function(object, path, quiet = FALSE) 
+{
+    object@gatk <- read.and.annotate.integrated.table(path = path, 
+        sample.id = object@single.cell, region = object@region, 
+        quiet = quiet)
     object@integrated.table.path <- path
 
-    id <- object@gatk[,paste(chr, pos, refnt, altnt)]
+    id <- object@gatk[, paste(chr, pos, refnt, altnt)]
     dupid <- duplicated(id)
     if (sum(dupid)) {
-        stop(paste('found', sum(dupid), 'duplicate (chr,pos,refnt,altnt) instances in integrated table. This is likely a bug, please report it.'))
+        stop(paste("found", sum(dupid), "duplicate (chr,pos,refnt,altnt) instances in integrated table. This is likely a bug, please report it."))
     }
-
     object
-})
+}
+
+
+#setGeneric("read.integrated.table", function(object, path, quiet=FALSE)
+#    standardGeneric("read.integrated.table"))
+#setMethod("read.integrated.table", "SCAN2", function(object, path, quiet=FALSE) {
+#    object@gatk <- read.and.annotate.integrated.table(path=path, sample.id=object@single.cell,
+#        region=object@region, quiet=quiet)
+#    object@integrated.table.path <- path
+#
+#    id <- object@gatk[,paste(chr, pos, refnt, altnt)]
+#    dupid <- duplicated(id)
+#    if (sum(dupid)) {
+#        stop(paste('found', sum(dupid), 'duplicate (chr,pos,refnt,altnt) instances in integrated table. This is likely a bug, please report it.'))
+#    }
+#
+#    object
+#})
 
 
 
@@ -490,121 +522,68 @@ setMethod("compute.models", "SCAN2", function(object, verbose=TRUE) {
 
 setGeneric("compute.fdr.prior.data", function(object, mode=c('legacy', 'new'), quiet=FALSE)
     standardGeneric("compute.fdr.prior.data"))
-setMethod("compute.fdr.prior.data", "SCAN2", function(object, mode=c('legacy', 'new'), quiet=FALSE) {
-    # to a chunked SCAN2 object (these are used for parallelization).
-    check.slots(object, c('gatk', 'static.filter.params'))
-    # ALL candidates must be present for FDR estimation. So this function cannot be applied
-    # to a chunked SCAN2 object (these are used for parallelization).
-    check.chunked(object, 'compute.fdr.prior must be called on a SCAN2 object containing all sites, not a chunked parallelized object')
-
-    mode <- match.arg(mode)
-    if (!('static.filter' %in% colnames(object@gatk)))
-        stop('must compute static filters before running compute.fdr.prior.data')
-
-    muttypes <- c('snv', 'indel')
-    object@fdr.prior.data <- c(setNames(lapply(muttypes, function(mt) {
-        if (mode == 'legacy') {
-            # in legacy mode, only candidate sites passing a small set of pre-genotyping
-            # crtieria were used. also, notably, indel-specific hard filters (the only one
-            # was dp >= 10 instead of dp >= 6) was not used here even though it should've
-            # been.
-            sfp <- object@static.filter.params[['snv']]
-            cand <- object@gatk[
-                muttype == mt &
-                balt <= sfp$max.bulk.alt &
-                bulk.gt == '0/0' &
-                dbsnp == '.' &
-                scalt >= sfp$min.sc.alt &
-                dp >= sfp$min.sc.dp &
-                bulk.dp >= sfp$min.bulk.dp &
-                (is.na(balt.lowmq) | balt.lowmq <= sfp$max.bulk.alt)]
-            hets=object@gatk[muttype == mt & training.site == TRUE & scalt >= sfp$min.sc.alt]
-        } else {
-            sfp <- object@static.filter.params[[mt]]
-            # somatic.candidate already implies many non-single-cell-specific filters
-            cand <- object@gatk[muttype == mt & somatic.candidate == TRUE & scalt >= sfp$min.sc.alt & dp >= sfp$min.sc.dp]
-            # This is not supposed to be a highly filtered list. The filtering
-            # should be somewhat equivalent to the pre-filtering steps on somatic
-            # mutation candidate sites.
-            #
-            # Eventually, I think it would make most sense to apply the entire static
-            # filter set to both candidates and hets (minus bulk alt filters, which
-            # obviously will not work for hets) before computing FDR priors.
-            hets <- object@gatk[muttype == mt & training.site == TRUE & scalt >= sfp$min.sc.alt & dp >= sfp$min.sc.dp & bulk.dp >= sfp$min.bulk.dp]
-        }
-    
-        # Add the mode used to the fdr prior data structure
-        c(compute.fdr.prior.data.for.candidates(candidates=cand, hsnps=hets, random.seed=0, quiet=quiet), mode=mode)
-    }), muttypes), list(mode=mode))
-
-    object
+setMethod("compute.fdr.prior.data", "SCAN2", function(object, mode=c('legacy', 'new'), quiet=FALSE)
+{
+	check.slots(object, c("gatk", "static.filter.params"))
+	check.chunked(object, "compute.fdr.prior must be called on a SCAN2 object containing all sites, not a chunked parallelized object")
+	mode <- match.arg(mode)
+	if (!("static.filter" %in% colnames(object@gatk))) stop("must compute static filters before running compute.fdr.prior.data")
+	muttypes <- c("snv", "indel")
+	object@fdr.prior.data <- c(setNames(lapply(muttypes, function(mt) {
+	    if (mode == "legacy") {
+		sfp <- object@static.filter.params[["snv"]]
+		cand <- object@gatk[muttype == mt & balt <= sfp$max.bulk.alt & bulk.gt == "0/0" & scalt >= sfp$min.sc.alt & dp >= sfp$min.sc.dp & bulk.dp >= sfp$min.bulk.dp & (is.na(balt.lowmq) | balt.lowmq <= sfp$max.bulk.alt)]
+		hets = object@gatk[muttype == mt & training.site == TRUE & scalt >= sfp$min.sc.alt]
+	    } else {
+		sfp <- object@static.filter.params[[mt]]
+		cand <- object@gatk[muttype == mt & somatic.candidate == TRUE & scalt >= sfp$min.sc.alt & dp >= sfp$min.sc.dp]
+		hets <- object@gatk[muttype == mt & training.site == TRUE & scalt >= sfp$min.sc.alt & dp >= sfp$min.sc.dp & bulk.dp >= sfp$min.bulk.dp]
+	    }
+	    c(compute.fdr.prior.data.for.candidates(candidates = cand, hsnps = hets, random.seed = 0, quiet = quiet), mode = mode)
+	}), muttypes), list(mode = mode))
+	object
 })
 
 
 setGeneric("compute.fdr", function(object, path, mode=c('legacy', 'new'), quiet=FALSE)
     standardGeneric("compute.fdr"))
-setMethod("compute.fdr", "SCAN2", function(object, path, mode=c('legacy', 'new'), quiet=FALSE) {
+setMethod("compute.fdr", "SCAN2", function(object, path, mode=c('legacy', 'new'), quiet=FALSE)
+{
     mode <- match.arg(mode)
-
-    check.slots(object, c('gatk', 'ab.estimates', 'mut.models'))
-
-    if (!missing(path) & !is.null(slot(object, 'fdr.prior.data')))
-        stop('fdr.prior.data is already loaded; path to new fdr.prior.data would overwrite')
-
-    if (!missing(path))
+    check.slots(object, c("gatk", "ab.estimates", "mut.models"))
+    if (!missing(path) & !is.null(slot(object, "fdr.prior.data"))) 
+        stop("fdr.prior.data is already loaded; path to new fdr.prior.data would overwrite")
+    if (!missing(path)) 
         object@fdr.prior.data <- get(load(path))
-
-    check.slots(object, 'fdr.prior.data')
-
-    muttypes <- c('snv', 'indel')
+    check.slots(object, "fdr.prior.data")
+    muttypes <- c("snv", "indel")
     object@fdr <- c(setNames(lapply(muttypes, function(mt) {
-        # First use NT/NA tables to assign NT and NA to every site
-        object@gatk[muttype == mt, c('nt', 'na') :=
-            estimate.fdr.priors(.SD, object@fdr.prior.data[[mt]], use.ghet.loo=FALSE)]
-
-        # Re-assign NT/NA values to germline het training sites using a
-        # leave-one-out appraoch.
-        # Technically this should only be applied to the same sites used
-        # as 'hets' in compute.fdr.prior.data.for.candidates(). 
-        object@gatk[muttype == mt & training.site == TRUE &
-            scalt >= object@static.filter.params[[mt]]$min.sc.alt, c('nt', 'na') :=
-                estimate.fdr.priors(.SD, object@fdr.prior.data[[mt]], use.ghet.loo=TRUE)]
-
-        # lysis.fdr and mda.fdr represent the false discovery rate of a population of
-        # candidate mutation sites with the same DP and VAF as the site in question.
-        # Legacy computation finds min FDR over all alphas and is too slow for all sites.
-        if (mode == 'legacy') {
-            sfp <- object@static.filter.params[['snv']]
-            # legacy computed FDR only for (almost) candidate sites and het germline
-            # variants chosen for sensitivity calculation
-            object@gatk[
-                muttype == mt &
-                (resampled.training.site |
-                    (balt == 0 & bulk.gt == '0/0' &
-                     dbsnp == '.' & scalt >= sfp$min.sc.alt &
-                     dp >= sfp$min.sc.dp)),
-                c('lysis.fdr', 'mda.fdr') := 
-                    compute.fdr.legacy(altreads=scalt, dp=dp, gp.mu=match.ab(af=af, gp.mu=gp.mu),
-                                       gp.sd=gp.sd, nt=nt, na=na, verbose=!quiet)]
-                # legacy did NOT require passing min.bulk.dp or 0 bulk alt reads at low MQ
-                #bulk.dp >= object@static.filter.params$min.bulk.dp]
-                #(is.na(balt.lowmq) | balt.lowmq == 0)]
-            sites <- nrow(object@gatk[
-                muttype == mt &
-                balt == 0 &
-                bulk.gt == '0/0' &
-                dbsnp == '.' &
-                scalt >= sfp$min.sc.alt &
-                dp >= sfp$min.sc.dp])
-        } else if (mode == 'new') {
-            object@gatk[muttype == mt, c('lysis.fdr', 'mda.fdr') :=
-                list(lysis.pv*na / (lysis.pv*na + lysis.beta*nt),
-                    mda.pv*na / (mda.pv*na + mda.beta*nt))]
+        object@gatk[muttype == mt, `:=`(c("nt", "na"), estimate.fdr.priors(.SD, 
+            object@fdr.prior.data[[mt]], use.ghet.loo = FALSE))]
+        object@gatk[muttype == mt & training.site == TRUE & scalt >= 
+            object@static.filter.params[[mt]]$min.sc.alt, `:=`(c("nt", 
+            "na"), estimate.fdr.priors(.SD, object@fdr.prior.data[[mt]], 
+            use.ghet.loo = TRUE))]
+        if (mode == "legacy") {
+            sfp <- object@static.filter.params[["snv"]]
+            object@gatk[muttype == mt & (resampled.training.site | 
+                (balt == 0 & bulk.gt == "0/0" &
+                  scalt >= sfp$min.sc.alt & dp >= sfp$min.sc.dp)), 
+                `:=`(c("lysis.fdr", "mda.fdr"), compute.fdr.legacy(altreads = scalt, 
+                  dp = dp, gp.mu = match.ab(af = af, gp.mu = gp.mu), 
+                  gp.sd = gp.sd, nt = nt, na = na, verbose = !quiet))]
+            sites <- nrow(object@gatk[muttype == mt & balt == 
+                0 & bulk.gt == "0/0" & scalt >= 
+                sfp$min.sc.alt & dp >= sfp$min.sc.dp])
+        } else if (mode == "new") {
+            object@gatk[muttype == mt, `:=`(c("lysis.fdr", "mda.fdr"), 
+                list(lysis.pv * na/(lysis.pv * na + lysis.beta * 
+                  nt), mda.pv * na/(mda.pv * na + mda.beta * 
+                  nt)))]
             sites <- nrow(object@gatk[muttype == mt])
         }
-        list(sites=sites)
-    }), muttypes), list(mode=mode))
-
+        list(sites = sites)
+    }), muttypes), list(mode = mode))
     object
 })
 
@@ -657,44 +636,74 @@ function(object, config.path, muttype=c('snv', 'indel'),
 #               generate no such CIGAR ops, causing all points to have the same scores.
 #               in that case, allowing >= cutoff effectively disables the filter, which
 #               is necessary.
-setGeneric("compute.static.filters", function(object, mode=c('new', 'legacy'))
-        standardGeneric("compute.static.filters"))
-setMethod("compute.static.filters", "SCAN2", function(object, mode=c('new', 'legacy')) {
-    check.slots(object, c('gatk', 'cigar.data', 'mut.models'))
+
+compute.static.filters99 = function(object, mode=c('new', 'legacy'))
+{
+    check.slots(object, c("gatk", "cigar.data", "mut.models"))
     mode <- match.arg(mode)
-
     object@static.filter.params$mode <- mode
-
-    for (mt in c('snv', 'indel')) {
+    for (mt in c("snv", "indel")) {
         sfp <- object@static.filter.params[[mt]]
-        object@gatk[muttype == mt, c('cigar.id.test', 'cigar.hs.test', 'lowmq.test',
-                'dp.test', 'abc.test', 'min.sc.alt.test',
-                'max.bulk.alt.test', 'max.bulk.af.test',
-                'dbsnp.test', 'csf.test') :=
-                    list(id.score >= object@excess.cigar.scores[[mt]]$id.score.q,
-                        hs.score >= object@excess.cigar.scores[[mt]]$hs.score.q,
-                        is.na(balt.lowmq) | balt.lowmq <= sfp$max.bulk.alt,
-                        dp >= sfp$min.sc.dp & bulk.dp >= sfp$min.bulk.dp,
-                        abc.pv > 0.05,
-                        scalt >= sfp$min.sc.alt,
-                        balt <= sfp$max.bulk.alt,
-                        bulk.af <= sfp$max.bulk.af,
-                        !sfp$exclude.dbsnp | dbsnp == '.',
-                        muttype == 'snv' | unique.donors <= 1 | max.out <= 2)]
-
-        if (mode == 'legacy') {
-            object@gatk[muttype == mt, c('cigar.id.test', 'cigar.hs.test') := 
-                    list(id.score > object@excess.cigar.scores[[mt]]$id.score.q,
-                        hs.score > object@excess.cigar.scores[[mt]]$hs.score.q)]
+        object@gatk[muttype == mt, `:=`(c("cigar.id.test", "cigar.hs.test", 
+            "lowmq.test", "dp.test", "abc.test", "min.sc.alt.test", 
+            "max.bulk.alt.test", "max.bulk.af.test", "csf.test"), list(id.score >= object@excess.cigar.scores[[mt]]$id.score.q, 
+            hs.score >= object@excess.cigar.scores[[mt]]$hs.score.q, 
+            is.na(balt.lowmq) | balt.lowmq <= sfp$max.bulk.alt, 
+            dp >= sfp$min.sc.dp & bulk.dp >= sfp$min.bulk.dp, 
+            abc.pv > 0.05, scalt >= sfp$min.sc.alt, balt <= sfp$max.bulk.alt, 
+            bulk.af <= sfp$max.bulk.af, muttype == "snv" | unique.donors <= 
+                1 | max.out <= 2))]
+        if (mode == "legacy") {
+            object@gatk[muttype == mt, `:=`(c("cigar.id.test", 
+                "cigar.hs.test"), list(id.score > object@excess.cigar.scores[[mt]]$id.score.q, 
+                hs.score > object@excess.cigar.scores[[mt]]$hs.score.q))]
         }
-
-        object@gatk[muttype == mt, static.filter :=
-            cigar.id.test & cigar.hs.test & lowmq.test & dp.test &
-            abc.test & min.sc.alt.test & max.bulk.alt.test & max.bulk.af.test &
-            dbsnp.test & csf.test]
+        object@gatk[muttype == mt, `:=`(static.filter, cigar.id.test & 
+            cigar.hs.test & lowmq.test & dp.test & abc.test & 
+            min.sc.alt.test & max.bulk.alt.test & max.bulk.af.test & csf.test)]
     }
     object
-})
+
+}
+
+#setGeneric("compute.static.filters", function(object, mode=c('new', 'legacy'))
+#        standardGeneric("compute.static.filters"))
+#setMethod("compute.static.filters", "SCAN2", function(object, mode=c('new', 'legacy')) {
+#    check.slots(object, c('gatk', 'cigar.data', 'mut.models'))
+#    mode <- match.arg(mode)
+#
+#    object@static.filter.params$mode <- mode
+#
+#    for (mt in c('snv', 'indel')) {
+#        sfp <- object@static.filter.params[[mt]]
+#        object@gatk[muttype == mt, c('cigar.id.test', 'cigar.hs.test', 'lowmq.test',
+#                'dp.test', 'abc.test', 'min.sc.alt.test',
+#                'max.bulk.alt.test', 'max.bulk.af.test',
+#                'dbsnp.test', 'csf.test') :=
+#                    list(id.score >= object@excess.cigar.scores[[mt]]$id.score.q,
+#                        hs.score >= object@excess.cigar.scores[[mt]]$hs.score.q,
+#                        is.na(balt.lowmq) | balt.lowmq <= sfp$max.bulk.alt,
+#                        dp >= sfp$min.sc.dp & bulk.dp >= sfp$min.bulk.dp,
+#                        abc.pv > 0.05,
+#                        scalt >= sfp$min.sc.alt,
+#                        balt <= sfp$max.bulk.alt,
+#                        bulk.af <= sfp$max.bulk.af,
+#                        !sfp$exclude.dbsnp | dbsnp == '.',
+#                        muttype == 'snv' | unique.donors <= 1 | max.out <= 2)]
+#
+#        if (mode == 'legacy') {
+#            object@gatk[muttype == mt, c('cigar.id.test', 'cigar.hs.test') := 
+#                    list(id.score > object@excess.cigar.scores[[mt]]$id.score.q,
+#                        hs.score > object@excess.cigar.scores[[mt]]$hs.score.q)]
+#        }
+#
+#        object@gatk[muttype == mt, static.filter :=
+#            cigar.id.test & cigar.hs.test & lowmq.test & dp.test &
+#            abc.test & min.sc.alt.test & max.bulk.alt.test & max.bulk.af.test &
+#            dbsnp.test & csf.test]
+#    }
+#    object
+#})
 
 
 # Do not change any static filter parameter manually if any of fdr.priors, fdr or
@@ -806,28 +815,48 @@ setMethod("update.static.filter.params", "SCAN2", function(object, fdr.prior.mod
 # `sample.id`. This includes training site definitions (which varies from cell
 # to cell depending on whether there is no data at the site in that single cell;
 # gt=./.) and assigning single cell ref/alt read counts to phased haplotypes.
-#
-# N.B. parsimony phasing (adjust.phase()) used to be called here, but that is not
-# a good idea. That should happen in the make.integrated.table pipeline where the
-# full single cell+bulk count table is available. Information shared across single
-# cells is useful to improve phasing and the final phase decision should be
-# consistent across single cells.
-read.and.annotate.integrated.table <- function(path, sample.id, region=NULL, quiet=FALSE) {
-    tr <- read.integrated.table.1sample(path, sample.id, region=region, quiet=quiet)
-    setindex(tr, resampled.training.site)
 
-    # Add some convenient calculations
-    tr[, dp := scalt + scref]
-    tr[, af := scalt / dp]
-    data.table::setkey(tr, chr, pos, refnt, altnt)
-    setindex(tr, muttype) # allow for fast selection of SNVs or indels
+read.and.annotate.integrated.table <- function(path, sample.id, region=NULL, quiet=FALSE, ncores = 10) {
 
-    sc.gt <- tr[[sample.id]]  # the column named after the sample is the GATK GT string for that sample
-    tr[, training.site := (!is.na(phased.gt) & (phased.gt == '1|0' | phased.gt == '0|1')) & sc.gt != './.' & bulk.gt != './.']
-    tr[, c('phased.hap1', 'phased.hap2') :=
-        list(ifelse(phased.gt == '0|1', scref, scalt),
-             ifelse(phased.gt == '0|1', scalt, scref))]
-    tr
+	tr <- read.integrated.table.1sample(path, sample.id, region = region, quiet = quiet)
+	
+	if(nrow(tr) == 0){
+		return(tr)
+	}
+	
+	setindex(tr, resampled.training.site)
+	tr[, `:=`(dp, scalt + scref)]
+	tr[, `:=`(af, scalt/dp)]
+	data.table::setkey(tr, chr, pos, refnt, altnt)
+	setindex(tr, muttype)
+	sc.gt <- tr[[sample.id]]
+
+	# Modification: Instead of properly phased snps, hsnps are chosen based on their af and depth using binomial distribution
+
+	# Remove homozygous
+	tokeep1 = which(!(tr$balt == 0 | tr$bulk.gt == '1/1' | tr$bulk.gt == '0/0'))
+
+	require(parallel)
+	tokeep1_perc <- quantile(tokeep1, probs = seq(0, 1, by = 0.025))
+	indexes <- as.numeric( sapply(tokeep1_perc, function(p) which.min(abs(tokeep1 - p))) )
+	indexes = tokeep1[indexes]
+	
+	resL = mclapply(tokeep1, mc.cores = ncores, function(x){
+			if(x %in% indexes){print(paste0('Choosing likely hSNPs without phasing: ', round(100 * (x / max(tokeep1))), '%'))}
+			res = binom.confint(tr[x,bulk.dp] * 0.5, tr[x,bulk.dp], 0.99, method = 'bayes')
+			interval_check = tr[x,bulk.af] > res$lower & tr[x,bulk.af] < res$upper
+			nan_check = is.nan(res$lower) | is.nan(res$upper)
+			!(nan_check) & interval_check
+			})
+	tokeep2 = tokeep1[which(unlist(resL))]
+
+	# Subset the data frame to include only high-quality SNPs
+	tr[, hetSNP := .I %in% tokeep2]
+
+	tr[, `:=`(training.site, hetSNP == T & sc.gt != "./." & bulk.gt != "./.")]
+	tr[, hetSNP := NULL]
+	tr
+
 }
 
 

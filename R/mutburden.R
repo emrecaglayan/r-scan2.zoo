@@ -1,33 +1,53 @@
 # Number of haploid basepairs (in billions) per genome. The default
 # value of 5.845001134 corresponds to AUTOSOMES as determined by GRCh37
-get.gbp.by.genome <- function(object) {
-    if (object@genome.string == 'hs37d5') {
-        # 93 contigs includes unplaced; see http://genomewiki.ucsc.edu/index.php/Hg19_Genome_size_statistics.
-        total <- 3137161264
+get.gbp.by.genome = function (object)
+{
+    if (object@genome.string == "hs37d5") {                                                             
+        total <- 3137161264                                                                             
         chrx <- 155270560
-        chry <- 59373566
-        chrm <- 16571
-        return((total - chrx - chry - chrm)*2 / 1e9) # = 5.845001134
-    } else if (object@genome.string == 'hg38') {
-        # 455 contigs; see http://genomewiki.ucsc.edu/index.php/Hg38_100-way_Genome_size_statistics
-        total <- 3209286105
+        chry <- 59373566                                                                                
+        chrm <- 16571                                                                                   
+        return((total - chrx - chry - chrm) * 2/1e+09)                                                  
+    }
+    else if (object@genome.string == "hg38") {                                                          
+        total <- 3209286105                                                                             
         chrx <- 156040895
-        chry <- 57227415
-        chrm <- 16569
-        return((total - chrx - chry - chrm)*2 / 1e9) # = 5.992002452
-    } else if (object@genome.string == 'mm10') {
-        # 66 contigs; see http://genomewiki.ucsc.edu/index.php/Hg38_100-way_Genome_size_statistics
-        total <- 2730871774
+        chry <- 57227415                                                                                
+        chrm <- 16569                                                                                   
+        return((total - chrx - chry - chrm) * 2/1e+09)                                                  
+    }                                                                                                   
+    else if (object@genome.string == "mm10") {                                                          
+        total <- 2730871774                                                                             
         chrx <- 171031299
         chry <- 91744698
-        chrm <- 16299
-        return((total - chrx - chry - chrm)*2 / 1e9) # = 4.936158956
-    } else {
-        warn(paste('gbp not yet implemented for genome', object@genome.string))
-        warn("the mutation burden for this analysis is a placeholder!")
+        chrm <- 16299                                                                                   
+        return((total - chrx - chry - chrm) * 2/1e+09)                                                  
+    }                                                                                            
+    else if (object@genome.string == "rheMac10") {                                                          
+        total <- 2853992905                                                                             
+        chrx <- 153388924
+        chry <- 11753682                                                                                
+        chrm <- 16564                                                                                   
+        return((total - chrx - chry - chrm) * 2/1e+09)
+    }                                                                                             
+    else if (object@genome.string == "calJac4") {                                                          
+        total <- 2830217926                                                                             
+        chrx <- 148168104
+        chry <- 8228174                                                                                
+        chrm <- 16499                                                                                   
+        return((total - chrx - chry - chrm) * 2/1e+09)
+    }                                                                                              
+    else if (object@genome.string == "panTro6") {                                                          
+        total <- 2832631814                                                                             
+        chrx <- 151576176
+        chry <- 26350515                                                                                
+        chrm <- 16554                                                                                   
+        return((total - chrx - chry - chrm) * 2/1e+09)
+    }                                                                        
+    else {                                                                                              
+        warn(paste("gbp not yet implemented for genome", object@genome.string))                         
+        warn("the mutation burden for this analysis is a placeholder!")                                 
         warn("DO NOT USE!")
-        # hopefully returning a negative number will alert people that something
-        # has gone wrong so they don't ignore the warning messages above
         return(-1)
     }
 }

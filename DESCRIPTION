@@ -1,9 +1,9 @@
-Package: scan2
-Version: 1.0
-Date: 2022-03-02
+Package: scanZooTrial1
+Version: 0.1
+Date: 2025-06-04
 Title: Single Cell ANalysis 2
 Description: Single cell genotyper using a spatial model of allele balance.
-Author: Lovelace J. Luquette <luquette@g.harvard.edu>
+Author: Emre Caglayan <emre.caglayan@childrens.harvard.edu>
 Depends: data.table, GenomicRanges, GenomeInfoDb
-Imports: plyr, methods, fastGHQuad, yaml, pracma, Rsamtools, future, future.apply, progressr, RhpcBLASctl, reticulate, SigProfilerMatrixGeneratorR, BSgenome, qs, bedtoolsr, digest, viridisLite
-Maintainer: Lovelace J. Luquette <lovelace_luquette@hms.harvard.edu>
+Imports: methods, fastGHQuad, yaml, pracma, Rsamtools, future, future.apply, progressr, RhpcBLASctl, reticulate, SigProfilerMatrixGeneratorR, BSgenome, qs, bedtoolsr, digest, viridisLite, DNAcopy, UpSetR, KernSmooth
+Maintainer: Emre Caglayan <emre.caglayan@childrens.harvard.edu>

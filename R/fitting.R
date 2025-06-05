@@ -1,47 +1,52 @@
 # n.tiles - if NULL, then downsampling is not performed (uses full set of
 #           hSNP training sites).
-abmodel.fit.one.chrom <- function(path, sc.sample, chrom, genome.seqinfo,
-    n.chunks=1, n.logp.samples.per.chunk=20000,  # this default implies no parallelization
-    hsnp.tilesize=100, n.tiles=250,
-    refine.n.steps=4, refine.top.n=50,
-    logp.samples.per.step=20000,
-    alim=c(-7, 2), blim=c(2, 4), clim=c(-7, 2), dlim=c(2, 6))
+
+abmodel.fit.one.chrom = function(path, sc.sample, chrom, genome.seqinfo, n.chunks = 1, 
+    n.logp.samples.per.chunk = 20000, hsnp.tilesize = 100, n.tiles = 250, 
+    refine.n.steps = 4, refine.top.n = 50, logp.samples.per.step = 20000, 
+    alim = c(-7, 2), blim = c(2, 4), clim = c(-7, 2), dlim = c(2, 
+        6)) 
 {
     chrom <- as.character(chrom)
     if (!(chrom %in% seqnames(genome.seqinfo))) {
         stop(paste0("invalid chromosome name '", chrom, "'\n"))
     }
+    region <- as(genome.seqinfo, "GRanges")[chrom, ]
+    hsnps <- read.training.hsnps(path = path, sample.id = sc.sample, 
+        region = region)
+    hsnps <- abmodel.downsample.hsnps(hsnps, hsnp.tilesize = hsnp.tilesize, 
+        n.tiles = n.tiles, verbose = TRUE)
+        
+    # Assign max(scalt, scref) to scalt
+    maxes = pmax(hsnps$scalt, hsnps$scref)
+    mins = pmin(hsnps$scalt, hsnps$scref)
+    hsnps$scalt = maxes
+    hsnps$scref = mins
 
-    # Fitting will be per-chrom, so only read one in at a time. This saves a
-    # good deal of memory in some cases, e.g., crossbred mice with ~10-fold more
-    # SNPs than humans.
-    # GRanges interval that covers the whole chromosome
-    region <- as(genome.seqinfo, 'GRanges')[chrom,]
-    hsnps <- read.training.hsnps(path=path, sample.id=sc.sample, region=region)
-    hsnps <- abmodel.downsample.hsnps(hsnps, hsnp.tilesize=hsnp.tilesize, n.tiles=n.tiles, verbose=TRUE)
+    # Assign max(scalt, scref) to phased.hap1
+    hsnps$phased.hap1 = maxes
+    hsnps$phased.hap2 = mins
+
 
     refine.records <- list()
     for (i in 1:refine.n.steps) {
-    cat('Chrom:', chrom, 'refinement step', i, 'n.chunks', n.chunks, '\n')
-            refine.record <- abmodel.refine.parameter.space(
-                hsnps, n.chunks=n.chunks, n.logp.samples.per.chunk=n.logp.samples.per.chunk,
-                top.n=refine.top.n, hsnp.tilesize=hsnp.tilesize,
-                alim=alim, blim=blim, clim=clim, dlim=dlim)
+        cat("Chrom:", chrom, "refinement step", i, "n.chunks", 
+            n.chunks, "\n")
+        refine.record <- abmodel.refine.parameter.space(hsnps, 
+            n.chunks = n.chunks, n.logp.samples.per.chunk = n.logp.samples.per.chunk, 
+            top.n = refine.top.n, hsnp.tilesize = hsnp.tilesize, 
+            alim = alim, blim = blim, clim = clim, dlim = dlim)
         refine.records[[i]] <- refine.record
-        alim <- refine.record$new.param.space[,'a']
-        blim <- refine.record$new.param.space[,'b']
-        clim <- refine.record$new.param.space[,'c']
-        dlim <- refine.record$new.param.space[,'d']
-    }   
-
-    # The best parameter set (i.e., maximum likelihood based on our grid
-    # search) is the first row in the logp.samples table, which is sorted
-    # by logp.
-    list(n.chunks=n.chunks, n.logp.samples.per.chunk=n.logp.samples.per.chunk,
-        n.tiles=n.tiles, hsnp.tilesize=hsnp.tilesize,
-        n.steps=refine.n.steps, top.n=refine.top.n,
-        refine.records=refine.records,
-        fit=refine.records[[refine.n.steps]]$logp.samples[1,,drop=FALSE])
+        alim <- refine.record$new.param.space[, "a"]
+        blim <- refine.record$new.param.space[, "b"]
+        clim <- refine.record$new.param.space[, "c"]
+        dlim <- refine.record$new.param.space[, "d"]
+    }
+    list(n.chunks = n.chunks, n.logp.samples.per.chunk = n.logp.samples.per.chunk, 
+        n.tiles = n.tiles, hsnp.tilesize = hsnp.tilesize, n.steps = refine.n.steps, 
+        top.n = refine.top.n, refine.records = refine.records, 
+        fit = refine.records[[refine.n.steps]]$logp.samples[1, 
+            , drop = FALSE])
 }
 
 
@@ -152,7 +157,7 @@ abmodel.approx.logp <- function(a, b, c, d, ctx,
         ctx$U, ctx$V, ctx$B, ctx$sqrtW,
         ctx$K, ctx$A,
         max.it, verbose,
-        PACKAGE="scan2")
+        PACKAGE="scanZooTrial1")
     return(result)
 }
 

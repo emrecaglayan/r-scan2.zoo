@@ -61,39 +61,53 @@ get.training.sites.for.abmodel <- function(object, region,
 
 
 
-compute.ab.given.sites.and.training.data <- function(sites, training.hsnps, ab.fits, quiet=FALSE)
+compute.ab.given.sites.and.training.data = function(sites, training.hsnps, ab.fits, quiet = FALSE) 
 {
-    # Splitting by chromosome is not for parallelization; the AB model
-    # is fit separately for each chromosome and thus applies different
-    # parameter estimates.
     chroms <- unique(sites$chr)
+
+    if(nrow(training.hsnps) == 0){
+    	return(NULL)
+    }
+
+    # Assign max(scalt, scref) to scalt
+    maxes = pmax(training.hsnps$scalt, training.hsnps$scref)
+    mins = pmin(training.hsnps$scalt, training.hsnps$scref)
+    training.hsnps$scalt = maxes
+    training.hsnps$scref = mins
+
+    # Assign max(scalt, scref) to phased.hap1
+    training.hsnps$phased.hap1 = maxes
+    training.hsnps$phased.hap2 = mins
+
     do.work <- function(chrom, sites, ab.fit, hsnps) {
-        if (!quiet)
+        if (!quiet) 
             cat(sprintf("inferring AB for %d sites on %s:%d-%d\n", 
-                nrow(sites), chrom, as.integer(min(sites$pos)), as.integer(max(sites$pos))))
-        time.elapsed <- system.time(z <- infer.gp1(ssnvs=sites, fit=ab.fit,
-            hsnps=hsnps, flank=1e5, verbose=!quiet))
-        if (!quiet) print(time.elapsed)
+                nrow(sites), chrom, as.integer(min(sites$pos)), 
+                as.integer(max(sites$pos))))
+              
+        time.elapsed <- system.time(z <- infer.gp1(ssnvs = sites, 
+            fit = ab.fit, hsnps = hsnps, flank = 1e+05, verbose = !quiet))
+        if (!quiet) 
+            print(time.elapsed)
         z
     }
     if (length(chroms) == 1) {
-        # slightly more efficient for real use cases with chunked computation
-        ab <- do.work(chrom=chroms, sites=sites,
-            ab.fit=ab.fits[chroms,,drop=FALSE],
-            hsnps=training.hsnps)
-    } else {
+                print(head(training.hsnps))
+        ab <- do.work(chrom = chroms, sites = sites, ab.fit = ab.fits[chroms, 
+            , drop = FALSE], hsnps = training.hsnps)
+    }
+    else {
         ab <- do.call(rbind, lapply(chroms, function(chrom) {
             hsnps <- training.hsnps[chr == chrom]
-            ab.fit <- ab.fits[chrom,,drop=FALSE]
-            do.work(chrom=chrom, sites=sites, ab.fit=ab.fit, hsnps=hsnps)
+            ab.fit <- ab.fits[chrom, , drop = FALSE]
+            do.work(chrom = chrom, sites = sites, ab.fit = ab.fit, 
+                hsnps = hsnps)
         }))
     }
-
-    # Chunks are sometimes empty. Add dummy columns so that rbind() doesn't
-    # fail when stiching together results from many chunks.
     if (is.null(ab)) {
-        data.frame(gp.mu=numeric(0), gp.sd=numeric(0))
-    } else {
+        data.frame(gp.mu = numeric(0), gp.sd = numeric(0))
+    }
+    else {
         ab
     }
 }

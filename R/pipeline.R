@@ -25,100 +25,105 @@ perfcheck <- function(msg, expr, print.header=FALSE, report.mem=TRUE) {
 }
 
 
-run.pipeline <- function(
-    sc.sample, bulk.sample,
-    int.tab,
-    abfits,
-    sccigars, bulkcigars, trainingcigars,
-    dptab,
-    genome,
-    grs=genome.string.to.tiling(genome, tilewidth=10e6, group='auto'),
-    target.fdr=0.01,
-    config.yaml=NULL,
-    legacy=FALSE, report.mem=TRUE, verbose=TRUE)
+run.pipeline = function(sc.sample, bulk.sample, int.tab, abfits, sccigars, 
+    bulkcigars, trainingcigars, dptab, genome, grs = genome.string.to.tiling(genome, 
+        tilewidth = 1e+07, group = "auto"), target.fdr = 0.01, 
+    config.yaml = NULL, legacy = FALSE, report.mem = TRUE, verbose = TRUE) 
 {
-    cat('Starting chunked SCAN2 pipeline on', length(grs), 'chunks\n')
-    cat('Setting OpenBLAS corecount to 1. This prevents multithreaded matrix multiplication in chunks where it is undesired.\n')
-    RhpcBLASctl::blas_set_num_threads(1)
-    cat('Parallelizing with', future::nbrOfWorkers(), 'cores\n')
-    cat('Detailed chunk schedule:\n')
-    cat(sprintf('%7s %5s %10s %10s\n', 'Chunk', 'Chr', 'Start', 'End'))
-    for (i in 1:length(grs)) {
-        cat(sprintf('%7d %5s %10d %10d\n',
-            i, as.character(seqnames(grs)[i]), start(grs)[i], end(grs)[i]))
-    }
+	cat("Starting chunked SCAN2 pipeline on", length(grs), "chunks\n")
+	cat("Setting OpenBLAS corecount to 1. This prevents multithreaded matrix multiplication in chunks wher
+	e it is undesired.\n")
+	RhpcBLASctl::blas_set_num_threads(1)
+	cat("Parallelizing with", future::nbrOfWorkers(), "cores\n")
+	cat("Detailed chunk schedule:\n")
+	cat(sprintf("%7s %5s %10s %10s\n", "Chunk", "Chr", "Start", 
+	"End"))
 
-    progressr::with_progress({
-        p <- progressr::progressor(along=1:length(grs))
-        p(amount=0, class='sticky', perfcheck(print.header=TRUE))
-        xs <- future.apply::future_lapply(1:length(grs), function(i) {
-            gr <- grs[i,]
-            # Don't put the perfcheck() calls in p(), because progressr
-            # doesn't evaluate those arguments if progress bars re turned off.
-            pc <- perfcheck(paste('make.scan',i),
-                gt <- make.scan(single.cell=sc.sample, bulk=bulk.sample, genome=genome, region=gr), report.mem=report.mem)
-            p(class='sticky', amount=0, pc)
 
-            if (!is.null(config.yaml)) {
-                gt <- add.static.filter.params(gt, config.path=config.yaml)
-            } else {
-                # the default values in this function ARE NOT GUARANTEED
-                # to match the defaults in the scan2 script.
-                warning('config.yaml not specified, using R function default static filter parameters, which may not match the scan2 tool')
-                gt <- add.static.filter.params(gt, muttype='snv')
-                gt <- add.static.filter.params(gt, muttype='indel')
-            }
+	for (i in 1:length(grs)){
+	cat(sprintf("%7d %5s %10d %10d\n", i, as.character(seqnames(grs)[i]), 
+	    start(grs)[i], end(grs)[i]))
+	}
 
-            pc <- perfcheck(paste('read.integrated.table',i),
-                gt <- read.integrated.table(gt, path=int.tab, quiet=!verbose), report.mem=report.mem)
-            p(class='sticky', amount=0, pc)
 
-            pc <- perfcheck(paste('add.ab.fits',i),
-                gt <- add.ab.fits(gt, path=abfits), report.mem=report.mem)
-            p(class='sticky', amount=0, pc)
+	# Select regions that have some coverage for hetSNPs in the single cell WGS
+	indsL = list()
+	for(i in 1:length(grs)){
+		gr <- grs[i, ]
+		tr <- read.integrated.table.1sample(path = int.tab, sample.id = sc.sample, region = gr, quiet = T)
+		tokeep1 = which(!(tr$balt == 0 | tr$bulk.gt == '1/1' | tr$bulk.gt == '0/0'))
+		tr = tr[tokeep1]
 
-            pc <- perfcheck(paste('compute.ab.estimates',i),
-                gt <- compute.ab.estimates(gt, quiet=!verbose), report.mem=report.mem)
-            p(class='sticky', amount=0, pc)
+		if(nrow(tr) > 0){
+			indsL[[i]] = i
+		}
+		if(i%%20 == 0){print(paste0('Getting genomic regions to call mutations: ', i))}
+	}
 
-            pc <- perfcheck(paste('add.cigar.data',i),
-                gt <- add.cigar.data(gt, sccigars, bulkcigars, quiet=!verbose), report.mem=report.mem)
-            p(class='sticky', amount=0, pc)
 
-            pc <- perfcheck(paste('compute.models',i),
-                gt <- compute.models(gt, verbose=verbose), report.mem=report.mem)
-            p(class='sticky', amount=0, pc)
+	grs_cov = unlist(indsL)
 
-            # Note about legacy mode: legacy mode isn't actually legacy, it's what
-            # is still currently used. Legacy uses only resampled germline hets for
-            # the null CIGAR distn while the new mode uses all germline hets. The new
-            # mode is *way* too slow to ever use because the computation is O(n) where
-            # n is the number of null sites. The new mode needs to approximate the
-            # 2-d CIGAR op probability space with a fixed N (e.g., of gaussians) to
-            # guarantee reasonable runtime.
-            pc <- perfcheck(paste('compute.excess.cigar.scores',i),
-                gt <- compute.excess.cigar.scores(object=gt, path=trainingcigars, legacy=TRUE, quiet=!verbose),
-                    report.mem=report.mem)
-            p(class='sticky', amount=0, pc)
+	progressr::with_progress({
+	p <- progressr::progressor(along = grs_cov)
+	p(amount = 0, class = "sticky", perfcheck(print.header = TRUE))
+	xs <- future.apply::future_lapply(grs_cov, function(i) {
+	    gr <- grs[i, ]
+	    pc <- perfcheck(paste("make.scan", i), gt <- make.scan(single.cell = sc.sample, 
+		bulk = bulk.sample, genome = genome, region = gr), 
+		report.mem = report.mem)
+	    p(class = "sticky", amount = 0, pc)
+	    if (!is.null(config.yaml)) {
+		gt <- add.static.filter.params(gt, config.path = config.yaml)
+	    }
+	    else {
+		warning("config.yaml not specified, using R function default static filter parameters, which may not match the scan2 tool")
+		gt <- add.static.filter.params(gt, muttype = "snv")
+		gt <- add.static.filter.params(gt, muttype = "indel")
+	    }
+	    pc <- perfcheck(paste("read.integrated.table", i), 
+		gt <- read.integrated.table(gt, path = int.tab, 
+		  quiet = !verbose), report.mem = report.mem)
+		gt@gatk$chr = as.character(gt@gatk$chr)
+	    p(class = "sticky", amount = 0, pc)
 
-            pc <- perfcheck(paste('compute.static.filters',i),
-                gt <- compute.static.filters(gt, mode=ifelse(legacy, 'legacy', 'new')), report.mem=report.mem)
-            p(class='sticky', amount=0, pc)
+	    gt@gatk$chr <- as.character(gt@gatk$chr)
 
-            p()
-            gt
-        }, future.seed=0)  # CRITICAL! library(future) ensures that each child process
-                           # has a different random seed.
-    })
-    cat("Chunked pipeline complete.\n")
-
-    x <- do.call(concat, xs)
-    x <- compute.fdr.prior.data(x, mode=ifelse(legacy, 'legacy', 'new'), quiet=!verbose)
-    x <- compute.fdr(x, mode=ifelse(legacy, 'legacy', 'new'), quiet=!verbose)
-    x <- call.mutations(x, target.fdr=target.fdr, quiet=!verbose)
-    x <- add.depth.profile(x, depth.path=dptab)
-    x <- compute.mutburden(x)
-    x
+	    pc <- perfcheck(paste("add.ab.fits", i), gt <- add.ab.fits(gt, 
+		path = abfits), report.mem = report.mem)
+	    p(class = "sticky", amount = 0, pc)
+	    pc <- perfcheck(paste("compute.ab.estimates", i), 
+		gt <- compute.ab.estimates(gt, quiet = !verbose), 
+		report.mem = report.mem)
+	    p(class = "sticky", amount = 0, pc)
+	    pc <- perfcheck(paste("add.cigar.data", i), gt <- add.cigar.data(gt, 
+		sccigars, bulkcigars, quiet = !verbose), report.mem = report.mem)
+	    p(class = "sticky", amount = 0, pc)
+	    pc <- perfcheck(paste("compute.models", i), gt <- compute.models(gt, 
+		verbose = verbose), report.mem = report.mem)
+	    p(class = "sticky", amount = 0, pc)
+	    pc <- perfcheck(paste("compute.excess.cigar.scores", 
+		i), gt <- compute.excess.cigar.scores(object = gt, 
+		path = trainingcigars, legacy = TRUE, quiet = !verbose), 
+		report.mem = report.mem)
+	    p(class = "sticky", amount = 0, pc)
+	    pc <- perfcheck(paste("compute.static.filters", i), 
+		gt <- compute.static.filters(gt, mode = ifelse(legacy, 
+		  "legacy", "new")), report.mem = report.mem)
+	    p(class = "sticky", amount = 0, pc)
+	    p()
+	    gt
+	}, future.seed = 0)
+	})
+	cat("Chunked pipeline complete.\n")
+	x <- do.call(concat, xs)
+	x <- compute.fdr.prior.data(x, mode = ifelse(legacy, "legacy", 
+	"new"), quiet = !verbose)
+	x <- compute.fdr(x, mode = ifelse(legacy, "legacy", "new"), 
+	quiet = !verbose)
+	x <- call.mutations(x, target.fdr = target.fdr, quiet = !verbose)
+	x <- add.depth.profile(x, depth.path = dptab)
+	x <- compute.mutburden(x)
+	x
 }
 
 
@@ -126,155 +131,150 @@ run.pipeline <- function(
 # Full GATK annotation pipeline. Creates an annotated integrated table, which
 # contains many site-specific annotations and the full matrix of alt and ref
 # read counts for all single cells and bulks.
-make.integrated.table <- function(mmq60.tab, mmq1.tab, phased.vcf,
-    bulk.sample, sc.samples, genome,
-    snv.min.bulk.dp, indel.min.bulk.dp,
-    snv.max.bulk.alt=0, snv.max.bulk.af=0,
-    indel.max.bulk.alt=0, indel.max.bulk.af=0,
-    panel=NULL,
-    grs=genome.string.to.tiling(genome, tilewidth=10e6, group='auto'),
-    legacy=FALSE, quiet=TRUE, report.mem=FALSE)
+
+make.integrated.table = function(mmq60.tab, mmq1.tab, bulk.sample, sc.samples, 
+    genome, snv.min.bulk.dp, indel.min.bulk.dp, snv.max.bulk.alt = 0, 
+    snv.max.bulk.af = 0, indel.max.bulk.alt = 0, indel.max.bulk.af = 0, 
+    panel = NULL, grs = genome.string.to.tiling(genome, tilewidth = 1e+07, 
+        group = "auto"), legacy = FALSE, quiet = TRUE, report.mem = FALSE) 
 {
-    cat('Starting integrated table pipeline on', length(grs), 'chunks.\n')
-    cat('Parallelizing with', future::nbrOfWorkers(), 'cores.\n')
-
-    progressr::with_progress({
-        p <- progressr::progressor(along=1:length(grs))
-        p(amount=0, class='sticky', perfcheck(print.header=TRUE))
+    cat("Starting integrated table pipeline on", length(grs), 
+        "chunks.\n")
+    cat("Parallelizing with", future::nbrOfWorkers(), "cores.\n")
+	progressr::with_progress({
+        p <- progressr::progressor(along = 1:length(grs))
+        p(amount = 0, class = "sticky", perfcheck(print.header = TRUE))
         xs <- future.apply::future_lapply(1:length(grs), function(i) {
-            gr <- grs[i,]
-
-            pc <- perfcheck(paste('read and annotate raw data',i), {
-                gatk <- read.tabix.data(path=mmq60.tab, region=gr, quiet=quiet,
-                    colClasses=list(character='chr'))  # force chromosome column to be type=str
-
-                # Columns in GATK are split as site data | sample-specific count data/genotypes
-                # There are 7 site data columns (chr, pos, dbsnp ID, ref allele, alt allele, mq, mqrs).
-                # Try to keep the columns split by site-wide data | sample-specific data
-                sitewide <- gatk[,1:7]
-                samplespecific <- gatk[,-(1:7)]
-
-                annotate.gatk.counts(gatk.meta=sitewide, gatk=samplespecific,
-                    bulk.sample=bulk.sample, sc.samples=sc.samples, legacy=legacy, quiet=quiet)
-                annotate.gatk(gatk=sitewide, genome.string=genome, add.mutsig=TRUE)
-                annotate.gatk.lowmq(sitewide, path=mmq1.tab, bulk=bulk.sample, region=gr, quiet=quiet)
-                annotate.gatk.phasing(sitewide, phasing.path=phased.vcf, region=gr, quiet=quiet)
-                annotate.gatk.panel(sitewide, panel.path=panel, region=gr, quiet=quiet)
-                annotate.gatk.candidate.loci(sitewide,
-                    snv.min.bulk.dp=snv.min.bulk.dp,
-                    snv.max.bulk.alt=snv.max.bulk.alt,
-                    snv.max.bulk.af=snv.max.bulk.af,
-                    indel.min.bulk.dp=indel.min.bulk.dp,
-                    indel.max.bulk.alt=indel.max.bulk.alt,
-                    indel.max.bulk.af=indel.max.bulk.af,
-                    mode=ifelse(legacy, 'legacy', 'new'))   # mode=new is still experimental
-            }, report.mem=report.mem)
-            p(class='sticky', amount=1, pc)
-
+            gr <- grs[i, ]
+            pc <- perfcheck(paste("read and annotate raw data", 
+                i), {
+                gatk <- read.tabix.data(path = mmq60.tab, region = gr, 
+                  quiet = quiet, colClasses = list(character = "chr"))
+                sitewide <- gatk[, 1:6]
+                samplespecific <- gatk[, -(1:6)]
+                annotate.gatk.counts(gatk.meta = sitewide, gatk = samplespecific, 
+                  bulk.sample = bulk.sample, sc.samples = sc.samples, 
+                  legacy = legacy, quiet = quiet)
+                  
+               # Modification: make add.mutsig=F for species that are not supported by SigProfiler
+               if(!( grs@seqinfo@genome[1] %in% c("hs37d5", "hg38", "mm10","rn6")) ){
+			annotate.gatk(gatk = sitewide, genome.string = genome, add.mutsig = F)
+		} else{
+                        annotate.gatk(gatk = sitewide, genome.string = genome, add.mutsig = T)
+               }
+               
+                annotate.gatk.lowmq(sitewide, path = mmq1.tab, 
+                  bulk = bulk.sample, region = gr, quiet = quiet)
+                  
+               # Modification: Skip annotating phasing information
+                #annotate.gatk.phasing(sitewide, phasing.path = phased.vcf, 
+                #  region = gr, quiet = quiet)
+                
+                annotate.gatk.panel(sitewide, panel.path = panel, 
+                  region = gr, quiet = quiet)
+                annotate.gatk.candidate.loci(sitewide, snv.min.bulk.dp = snv.min.bulk.dp, 
+                  snv.max.bulk.alt = snv.max.bulk.alt, snv.max.bulk.af = snv.max.bulk.af, 
+                  indel.min.bulk.dp = indel.min.bulk.dp, indel.max.bulk.alt = indel.max.bulk.alt, 
+                  indel.max.bulk.af = indel.max.bulk.af, mode = ifelse(legacy, 
+                    "legacy", "new"))
+            }, report.mem = report.mem)
+            p(class = "sticky", amount = 1, pc)
             cbind(sitewide, samplespecific)
         })
     })
-
     gatk <- rbindlist(xs)
+    if (nrow(gatk[somatic.candidate == TRUE]) == 0) 
+        stop("0 somatic candidates detected. SCAN2 requires somatic candidates to have 0 supporting reads in the matched bulk - perhaps your bulk is too closely related to your single cells?")
 
-    # Must happen after combining across chunks. Individual chunks may have 0
-    # candidates.
-    if (nrow(gatk[somatic.candidate == TRUE]) == 0)
-        stop('0 somatic candidates detected. SCAN2 requires somatic candidates to have 0 supporting reads in the matched bulk - perhaps your bulk is too closely related to your single cells?')
-
+    # Modification: See the modified function for details
     resampling.details <- gatk.resample.phased.sites(gatk)
-    list(gatk=gatk, resampling.details=resampling.details)
+    
+    # Order columns as: 1 to somatic candidate index, resampled.training.site, bulk genotype and sc genotypes
+    somcandInd <- which(colnames(gatk) == 'somatic.candidate')
+    bulkInd <- which(colnames(gatk) == bulk.sample)
+    bulkInds = bulkInd:(bulkInd+2)
+    rtsInd = which(colnames(gatk) == 'resampled.training.site')
+    the_rest = setdiff(1:ncol(gatk), c(1:(somcandInd), rtsInd, bulkInds))
+    data.table::setcolorder(gatk, neworder = c(1:(somcandInd), rtsInd, bulkInds, the_rest))
+
+    list(gatk = gatk, resampling.details = resampling.details)
 }
 
 
 
 # The reason for chunking this pipeline is dbSNP can be 10s of GB, which requires
 # quite alot of RAM if read in its entirety.
-join.phased.hsnps <- function(bulk.called.vcf, hsnps.vcf, genome,
-    grs=genome.string.to.tiling(genome, tilewidth=10e6, group='auto'),
-    quiet=TRUE, report.mem=FALSE)
+
+join.phased.hsnps <- function(bulk.called.vcf, hsnps.vcf, genome, grs = genome.string.to.tiling(genome, 
+    tilewidth = 1e+07, group = "auto"), quiet = TRUE, report.mem = FALSE)
 {
-    cat('Starting phased hSNP joining on', length(grs), 'chunks.\n')
-    cat('Parallelizing with', future::nbrOfWorkers(), 'cores.\n')
-
+    cat("Starting phased hSNP joining on", length(grs), "chunks.\n")
+    cat("Parallelizing with", future::nbrOfWorkers(), "cores.\n")
     progressr::with_progress({
-        p <- progressr::progressor(along=1:length(grs))
-        p(amount=0, class='sticky', perfcheck(print.header=TRUE))
+        p <- progressr::progressor(along = 1:length(grs))
+        p(amount = 0, class = "sticky", perfcheck(print.header = TRUE))
         xs <- future.apply::future_lapply(1:length(grs), function(i) {
-            gr <- grs[i,]
-
-            pc <- perfcheck(paste('read vcfs and join',i), {
-                # the per-sample genotype information is not relevant - we're just annotating
-                # biallelic sites that are called (i.e., not no-called, which is genotype=./.
-                # in GATK parlance) in bulk.
-                gatk.dt <- read.tabix.data(path=bulk.called.vcf, region=gr, quiet=quiet)[,1:9]
-                colnames(gatk.dt)[1:9] <- c('chr', 'pos', 'dbsnp', 'refnt', 'altnt', 'qual', 'filter', 'info', 'format')
-
-                # Don't waste time reading in dbSNP if there are no GATK rows to annotate
+            gr <- grs[i, ]
+            pc <- perfcheck(paste("read vcfs and join", i), {
+                gatk.dt <- read.tabix.data(path = bulk.called.vcf, 
+                  region = gr, quiet = quiet)[, 1:8]
+                colnames(gatk.dt)[1:8] <- c("chr", "pos",
+                  "refnt", "altnt", "qual", "filter", "info", 
+                  "format")
                 if (nrow(gatk.dt) == 0) {
-                    # add empty final phased genotype column just to preserve table structure
-                    gatk.dt[, phasedgt := NA]
-                } else {
-                    hsnps.dt <- read.tabix.data(path=hsnps.vcf, region=gr, quiet=quiet,
-                        header='chr\tpos\tdbsnp\trefnt\taltnt\tqual\tfilter\tinfo\tformat\tphasedgt',
-                        colClasses=list(character=c('refnt', 'altnt', 'qual', 'filter', 'info')))
-                    hsnps.dt[, qual := '.']
-                    hsnps.dt[, filter := '.']
-                    hsnps.dt[, info := '.']
-                    hsnps.dt[, format := 'GT']
-
-                    # has the (required) side-effect of coercing all column types to character.
-                    # in particular, when a file has 0 rows of data, data.table::fread will default
-                    # all column types to logical, then it will complain if one tries to join to
-                    # a non-logical type.
-                    gatk.dt[, id := paste(chr, pos, dbsnp, refnt, altnt)]
-                    hsnps.dt[, id := paste(chr, pos, dbsnp, refnt, altnt)]
-
-                    # don't use setkey() here because it can reorder the data
-                    gatk.dt <- merge(hsnps.dt, gatk.dt[, .(id)], by='id', all=FALSE, sort=FALSE)
-                    gatk.dt$id <- NULL # no longer needed
+                  gatk.dt[, `:=`(phasedgt, NA)]
                 }
-            }, report.mem=report.mem)
-            p(class='sticky', amount=1, pc)
-
+                else {
+                  hsnps.dt <- read.tabix.data(path = hsnps.vcf, 
+                    region = gr, quiet = quiet, header = "chr\tpos\trefnt\taltnt\tqual\tfilter\tinfo\tformat", 
+                    colClasses = list(character = c("refnt", 
+                      "altnt", "qual", "filter", "info")))
+                  hsnps.dt[, `:=`(qual, ".")]
+                  hsnps.dt[, `:=`(filter, ".")]
+                  hsnps.dt[, `:=`(info, ".")]
+                  hsnps.dt[, `:=`(format, "GT")]
+                  gatk.dt[, `:=`(id, paste(chr, pos, refnt, 
+                    altnt))]
+                  hsnps.dt[, `:=`(id, paste(chr, pos, 
+                    refnt, altnt))]
+                  gatk.dt <- merge(hsnps.dt, gatk.dt[, .(id)], 
+                    by = "id", all = FALSE, sort = FALSE)
+                  gatk.dt$id <- NULL
+                }
+            }, report.mem = report.mem)
+            p(class = "sticky", amount = 1, pc)
             gatk.dt
         })
     })
-
     gatk <- rbindlist(xs)
     gatk
 }
 
 
 
-digest.depth.profile <- function(path, sc.sample, bulk.sample,
-    genome, clamp.dp=500,
-    grs=genome.string.to.tiling(genome, tilewidth=10e6, group='auto'),
-    quiet=TRUE, report.mem=TRUE)
+digest.depth.profile = function(path, sc.sample, bulk.sample, genome, clamp.dp = 500, 
+    grs = NULL, quiet = TRUE, report.mem = TRUE)
 {
-    cat('Digesting depth profile using', length(grs), 'chunks.\n')
-    cat('Parallelizing with', future::nbrOfWorkers(), 'cores.\n')
 
+    grs = retry_genome_string_to_tiling(genome)
+    print(grs)
+    cat("Digesting depth profile using", length(grs), "chunks.\n")
+    cat("Parallelizing with", future::nbrOfWorkers(), "cores.\n")
     progressr::with_progress({
-        p <- progressr::progressor(along=1:length(grs))
-        p(amount=0, class='sticky', perfcheck(print.header=TRUE))
+        p <- progressr::progressor(along = 1:length(grs))
+        p(amount = 0, class = "sticky", perfcheck(print.header = TRUE))
         xs <- future.apply::future_lapply(1:length(grs), function(i) {
-            gr <- grs[i,]
-
-            pc <- perfcheck(paste('digest.depth.2sample',i),
-                dptab <- digest.depth.2sample(path=path, sc.sample=sc.sample,
-                    bulk.sample=bulk.sample, clamp.dp=clamp.dp, region=gr, quiet=quiet),
-                report.mem=report.mem)
-            p(class='sticky', amount=1, pc)
-
+            gr <- grs[i, ]
+            pc <- perfcheck(paste("digest.depth.2sample", i), 
+                dptab <- digest.depth.2sample(path = path, sc.sample = sc.sample, 
+                  bulk.sample = bulk.sample, clamp.dp = clamp.dp, 
+                  region = gr, quiet = quiet), report.mem = report.mem)
+            p(class = "sticky", amount = 1, pc)
             dptab
         })
-    }, enable=TRUE)
-
-    # Sum all of the tables
+    }, enable = TRUE)
     dptab <- Reduce(`+`, xs)
-
-    list(dptab=dptab, clamp.dp=clamp.dp)
+    list(dptab = dptab, clamp.dp = clamp.dp)
 }
 
 
@@ -409,165 +409,111 @@ make.permuted.mutations <- function(sc.sample, muts, callable.bed, genome.string
 # true.sig - same format as artifact.sigs, but for the spectrum of true mutations.  Should
 #     normally not be specified by the user--these are calculated from the high confidence
 #     mutation calls in the objects and add.muts.
-mutsig.rescue <- function(object.paths, add.muts, rescue.target.fdr=0.01,
-    artifact.sigs=list(snv=data(snv.artifact.signature.v3),
-                       indel=data(indel.artifact.signature.v1)),
-    true.sig=NULL, quiet=FALSE, report.mem=TRUE)
-{
-    # Ensure that the user did set names for outputs
-    if (is.null(names(object.paths)))
-        stop('output RDAs must be specified in the `names()` of `object.paths`')
-
-    # Ensure none of the output RDAs exist
+mutsig.rescue = function (object.paths, add.muts, rescue.target.fdr = 0.01, artifact.sigs = list(snv = data(snv.artifact.signature.v3), indel = data(indel.artifact.signature.v1)), true.sig = NULL,  quiet = FALSE, report.mem = TRUE) {
+    if (is.null(names(object.paths))) 
+        stop("output RDAs must be specified in the `names()` of `object.paths`")
     already.exists <- sapply(names(object.paths), file.exists)
-    if (any(already.exists))
-        stop(paste('these files specified in `names()` of `object.paths` already exist, please delete them and rerun this pipeline:', paste(names(object.paths)[already.exists], collapse=' ')))
-
-    # Sanity check the add.muts table before doing any work
+    if (any(already.exists)) 
+        stop(paste("these files specified in `names()` of `object.paths` already exist, please delete them and rerun this pipeline:", 
+            paste(names(object.paths)[already.exists], collapse = " ")))
     use.add.muts <- FALSE
     if (!missing(add.muts) & !is.null(add.muts)) {
-        if (!('data.table' %in% class(add.muts)) |
-            !('muttype' %in% colnames(add.muts)) |
-            !('mutsig' %in% colnames(add.muts)))
-            stop('add.muts must be a data.table with "muttype" and "mutsig" columns')
+        if (!("data.table" %in% class(add.muts)) | !("muttype" %in% 
+            colnames(add.muts)) | !("mutsig" %in% colnames(add.muts))) 
+            stop("add.muts must be a data.table with \"muttype\" and \"mutsig\" columns")
         use.add.muts <- TRUE
     }
-
-    cat('Rescuing mutations by signature.\n')
-    cat('Parallelizing with', future::nbrOfWorkers(), 'cores.\n')
-    cat('WARNING: this pipeline requires ~6 GB of RAM per core due to data.table behavior that does not allow assignment by reference without first copying the entire table.\n')
-
-    cat('Step 1. Getting high confidence mutations from', length(object.paths), 'SCAN2 objects.\n')
+    cat("Rescuing mutations by signature.\n")
+    cat("Parallelizing with", future::nbrOfWorkers(), "cores.\n")
+    cat("WARNING: this pipeline requires ~6 GB of RAM per core due to data.table behavior that does not allow assignment by reference without first copying the entire table.\n")
+    cat("Step 1. Getting high confidence mutations from", length(object.paths), 
+        "SCAN2 objects.\n")
     progressr::with_progress({
-        p <- progressr::progressor(along=1:length(object.paths))
-        p(amount=0, class='sticky', perfcheck(print.header=TRUE))
-        gatks <- future.apply::future_lapply(1:length(object.paths), function(i) {
-            pc <- perfcheck(paste('prepare.object',i), {
-                x <- get(load(object.paths[i]))
-                if (is.compressed(x))
+        p <- progressr::progressor(along = 1:length(object.paths))
+        p(amount = 0, class = "sticky", perfcheck(print.header = TRUE))
+        gatks <- future.apply::future_lapply(1:length(object.paths), 
+            function(i) {
+                pc <- perfcheck(paste("prepare.object", i), {
+                  x <- get(load(object.paths[i]))
+                  if (is.compressed(x)) 
                     x <- decompress(x)
-                ret <- reduce.table(x@gatk, target.fdr=x@call.mutations$target.fdr)
-            }, report.mem=report.mem)
-            p(class='sticky', amount=1, pc)
-
-            # Do not return anything large (like the 1-3 GB complete SCAN2 object).
-            # The main R process must keep memory use low so that future.apply()
-            # forked children do not accidentally copy a process with very high
-            # RAM usage.
-            #
-            # The @gatk table is small here because prepare.object takes a small
-            # subset (~1000 entries out of ~1-10 million).
-            ret
-        })
-    }, enable=TRUE)
-
-
-    cat('Step 2. Building true mutation spectra.\n')
-    muttypes <- c('snv', 'indel')
+                  ret <- reduce.table(x@gatk, target.fdr = x@call.mutations$target.fdr)
+                }, report.mem = report.mem)
+                p(class = "sticky", amount = 1, pc)
+                ret
+            })
+    }, enable = TRUE)
+    cat("Step 2. Building true mutation spectra.\n")
+    muttypes <- c("snv", "indel")
     true.sigs <- setNames(lapply(muttypes, function(mt) {
-        # unless user specifies it, just the raw spectrum of calls
         if (!is.null(true.sig)) {
             return(true.sig[[mt]])
-        } else {
-            mutsigs <- do.call(c, lapply(gatks, function(gatk)
-                get.high.quality.mutations(gatk, muttype=mt)$mutsig))
-
+        }
+        else {
+            mutsigs <- do.call(c, lapply(gatks, function(gatk) get.high.quality.mutations(gatk, 
+                muttype = mt)$mutsig))
             if (use.add.muts) {
                 extra <- add.muts[muttype == mt]$mutsig
-                cat(mt, ':', length(extra), 'mutations taken from outside sources for true signature creation (add.muts)\n')
+                cat(mt, ":", length(extra), "mutations taken from outside sources for true signature creation (add.muts)\n")
                 mutsigs <- c(mutsigs, extra)
             }
-
-            if (mt == 'snv') true.sig <- as.spectrum(sbs96(mutsigs))
-            if (mt == 'indel') true.sig <- as.spectrum(id83(mutsigs))
-
-            cat(mt, ': created true signature from', length(mutsigs), 'high confidence mutations.\n')
+            if (mt == "snv") 
+                true.sig <- as.spectrum(sbs96(mutsigs))
+            if (mt == "indel") 
+                true.sig <- as.spectrum(id83(mutsigs))
+            cat(mt, ": created true signature from", length(mutsigs), 
+                "high confidence mutations.\n")
             return(true.sig)
         }
     }), muttypes)
-
-    # Slim down memory usage as much as possible before fork()ing.
     rm(gatks)
     gc()
-
-
-    cat('Step3. Rescuing mutations and writing out new SCAN2 object RDA files.\n')
+    cat("Step3. Rescuing mutations and writing out new SCAN2 object RDA files.\n")
     progressr::with_progress({
-        p <- progressr::progressor(along=1:length(object.paths))
-        p(amount=0, class='sticky', perfcheck(print.header=TRUE))
-        results <- future.apply::future_lapply(1:length(object.paths), function(i) {
-            pc <- perfcheck(paste('mutsig.rescue.one',i), {
-                x <- get(load(object.paths[i]))
-                if (is.compressed(x))
-                    x <- decompress(x)
-                # some old objects don't have this slot; making it doesn't change the correctness of the code
-                x@mutsig.rescue <- NULL   
-                # there is some very odd data.table behavior that causes data.tables
-                # loaded from disk to not be editable by reference.  data.table
-                # recommends running setDT(), but this doesn't work for object@gatk.
-                # attr(results@gatk, '.internal.selfref') is nil and it seems no
-                # amount of messing with it will allow me to edit it.
-                # I have also tried setalloccol() with no luck; changing mutsig.rescue.one() to
-                # return a small data.table which is then joined onto x@gatk in this function
-                # to avoid issues with function scope; etc.  Nothing worked except the below
-                # (which is VERY bad): using <- assignment (an equivalent := assignment by
-                # reference does NOT work).
-                x@gatk$rescue <- FALSE   # this will be updated by mutsig.rescue.one where appropriate
-                # Why is this bad? it copies the data.table, doubling the memory use
-                # of a 2.5-3.0 GB object. This simply won't be usable on something like
-                # a mouse SCAN2 object with full SNP table.
-                #
-                # The unfortunate result of all this is we need ~6 GB per core to
-                # comfortably run this pipeline for human cells.
-                #
-                # use options(datatable.verbose = TRUE) for debugging
-    
-                for (mt in muttypes) {
-                    x@mutsig.rescue[[mt]] <- mutsig.rescue.one(x,
-                        muttype=mt,
-                        artifact.sig=get(artifact.sigs[[mt]]),
-                        true.sig=true.sigs[[mt]],
-                        rescue.target.fdr=rescue.target.fdr)
-                }
-            }, report.mem=report.mem)
-            p(class='sticky', amount=1, pc)
-
-            results <- x
-            save(results, file=names(object.paths)[i], compress=FALSE)
-
-            # add in sample ID and bulk ID in anticipation of the batch-wide
-            # mutation tables.
-            results@gatk$sample <- results@single.cell
-            results@gatk$bulk.sample <- results@bulk
-            # can't have sample names in columns - rbind would like uniform column names
-            colnames(results@gatk)[colnames(results@gatk) == results@single.cell] <- 'scgt'
-            ret <- list(
-                sample=results@single.cell,
-                muts=results@gatk[pass == TRUE | rescue == TRUE],
-                # one entry for each mutation type (snv, indel)
-                sig.homogeneity.test=
-                    setNames(lapply(results@mutsig.rescue, function(msr) msr$sig.homogeneity.test),
-                        names(results@mutsig.rescue))
-            )
-            ret
-        })
-    }, enable=TRUE)
-
-    # consolidate all SHT test p-values for multiple hypothesis testing correction
-    # there are separate tests for snvs and indels; multiple hypothesis correction
-    # should be applied to each separately.
-    shts <- do.call(rbind, lapply(c('snv', 'indel'), function(mt) {
-        sht <- data.table(sample=sapply(results, function(r) r$sample),
-                          muttype=mt,
-                          sig.homogeneity.test=sapply(results, function(r) r$sig.homogeneity.test[[mt]]))
-        sht$bonferroni <- p.adjust(p=sht$sig.homogeneity.test, method='bonferroni')
-        sht$holm <- p.adjust(p=sht$sig.homogeneity.test, method='holm')
-        sht$bh.fdr <- p.adjust(p=sht$sig.homogeneity.test, method='fdr')
+        p <- progressr::progressor(along = 1:length(object.paths))
+        p(amount = 0, class = "sticky", perfcheck(print.header = TRUE))
+        results <- future.apply::future_lapply(1:length(object.paths), 
+            function(i) {
+                pc <- perfcheck(paste("mutsig.rescue.one", i), 
+                  {
+                    x <- get(load(object.paths[i]))
+                    if (is.compressed(x)) 
+                      x <- decompress(x)
+                    x@mutsig.rescue <- NULL
+                    x@gatk$rescue <- FALSE
+                    for (mt in muttypes) {
+                      x@mutsig.rescue[[mt]] <- mutsig.rescue.one(x, 
+                        muttype = mt, artifact.sig = get(artifact.sigs[[mt]]), 
+                        true.sig = true.sigs[[mt]], rescue.target.fdr = rescue.target.fdr)
+                    }
+                  }, report.mem = report.mem)
+                p(class = "sticky", amount = 1, pc)
+                results <- x
+                save(results, file = names(object.paths)[i], 
+                  compress = FALSE)
+                results@gatk$sample <- results@single.cell
+                results@gatk$bulk.sample <- results@bulk
+                colnames(results@gatk)[colnames(results@gatk) == 
+                  results@single.cell] <- "scgt"
+                ret <- list(sample = results@single.cell, muts = results@gatk[pass == 
+                  TRUE | rescue == TRUE], sig.homogeneity.test = setNames(lapply(results@mutsig.rescue, 
+                  function(msr) msr$sig.homogeneity.test), names(results@mutsig.rescue)))
+                ret
+            })
+    }, enable = TRUE)
+    shts <- do.call(rbind, lapply(c("snv", "indel"), function(mt) {
+        sht <- data.table(sample = sapply(results, function(r) r$sample), 
+            muttype = mt, sig.homogeneity.test = sapply(results, 
+                function(r) r$sig.homogeneity.test[[mt]]))
+        sht$bonferroni <- p.adjust(p = sht$sig.homogeneity.test, 
+            method = "bonferroni")
+        sht$holm <- p.adjust(p = sht$sig.homogeneity.test, method = "holm")
+        sht$bh.fdr <- p.adjust(p = sht$sig.homogeneity.test, 
+            method = "fdr")
         sht
     }))
-
-    list(muts=do.call(rbind, lapply(results, function(r) r$muts)),
-         sig.homogeneity.tests=shts)
+    list(muts = do.call(rbind, lapply(results, function(r) r$muts)), 
+        sig.homogeneity.tests = shts)
 }
 
 

@@ -107,10 +107,9 @@ classify.muts <- function(df, genome.string, spectype='SNV',
     df
 }
 
-genome.to.spmgr.format <- c(
-    hs37d5='GRCh37',
-    hg38='GRCh38',
-    mm10='mm10')
+genome.to.spmgr.format = c("GRCh37", "GRCh38", "mm10", "rheMac10", "panTro6", "calJac4")
+names(genome.to.spmgr.format) = c('hs37d', 'hg38', 'mm10', 'rheMac10', 'panTro6', 'calJac4')
+
 
 # new version: just returns the vector of indel classes
 # FORCES ID83 FOR NOW

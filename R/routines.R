@@ -23,6 +23,39 @@ get.distance.distn <- function(d, min=1, max=5) {
 }
 
 
+convert_to_na <- function(arg) {
+  if (arg == "NA") {
+    return(NA)
+  } else {
+    return(arg)
+  }
+}
+
+
+retry_genome_string_to_tiling <- function(genome, tilewidth = 1e+07, group = "auto", max_attempts = 5) {
+  attempts <- 0
+  success <- FALSE
+  result <- NULL
+  
+  while (!success && attempts < max_attempts) {
+    attempts <- attempts + 1
+    tryCatch({
+      result <- genome.string.to.tiling(genome, tilewidth = tilewidth, group = group)
+      success <- TRUE
+    }, error = function(e) {
+      cat("Attempt", attempts, "failed: ", e$message, "\n")
+    })
+  }
+  
+  if (!success) {
+    stop("Failed to run genome.string.to.tiling after ", max_attempts, " attempts")
+  }
+  
+  return(result)
+}
+
+
+
 muttype.map <- c(
     'A>C'='T>G',
     'A>G'='T>C',

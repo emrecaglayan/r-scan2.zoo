@@ -22,24 +22,16 @@ reduce.table <- function(gatk, target.fdr) {
 # N.B. there are currently no reasons to separate SNVs and indels here
 # because the various test columns already incoporate differences in
 # calling parameters.
-compute.filter.reasons <- function(gatk, target.fdr=o@call.mutations$target.fdr) {
-    m <- gatk[, .(pass=!pass, abc.test,
-        lysis.test=!is.na(lysis.fdr) & lysis.fdr <= target.fdr,
-        mda.test=!is.na(mda.fdr) & mda.fdr <= target.fdr,
-        cigar.id.test, cigar.hs.test,
-        lowmq.test, dp.test, min.sc.alt.test,
-        csf.test, dbsnp.test)]
-
-    # some tests can be NA - e.g., many tests when dp=0, cross-sample filter test when
-    # the site is not in the panel, etc.  these tests should be considered to
-    # have failed when NA.
+compute.filter.reasons <- function(gatk, target.fdr = o@call.mutations$target.fdr) 
+{
+    m <- gatk[, .(pass = !pass, abc.test, lysis.test = !is.na(lysis.fdr) & 
+        lysis.fdr <= target.fdr, mda.test = !is.na(mda.fdr) & 
+        mda.fdr <= target.fdr, cigar.id.test, cigar.hs.test, 
+        lowmq.test, dp.test, min.sc.alt.test, csf.test)]
     m[is.na(m)] <- FALSE
-
-    # don't overlook the negation apply(!m, ...
-    gatk[, filter.reasons :=
-        apply(!m, 1, function(row) paste(colnames(m)[row], collapse='&'))]
+    gatk[, `:=`(filter.reasons, apply(!m, 1, function(row) paste(colnames(m)[row], 
+        collapse = "&")))]
 }
-
 
 mutsig.rescue.one <- function(object, artifact.sig, true.sig,
     target.fdr=object@call.mutations$target.fdr,
