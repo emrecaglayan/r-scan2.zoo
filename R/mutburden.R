@@ -43,7 +43,14 @@ get.gbp.by.genome = function (object)
         chry <- 26350515                                                                                
         chrm <- 16554                                                                                   
         return((total - chrx - chry - chrm) * 2/1e+09)
-    }                                                                        
+    }                                                                                                  
+    else if (object@genome.string == "mm39") {                                                          
+        total <- 2723431143                                                                             
+        chrx <- 169476592
+        chry <- 91455967                                                                                
+        chrm <- 16299                                                                                   
+        return((total - chrx - chry - chrm) * 2/1e+09)
+    }                                                                    
     else {                                                                                              
         warn(paste("gbp not yet implemented for genome", object@genome.string))                         
         warn("the mutation burden for this analysis is a placeholder!")                                 

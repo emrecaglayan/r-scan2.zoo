@@ -46,7 +46,7 @@ check.chunked <- function(object, message) {
         warning(message)
 }
 
-genome.string.to.seqinfo.object = function(genome = c("hs37d5", "hg38", "mm10", "rheMac10", "panTro6", "calJac4")) 
+genome.string.to.seqinfo.object = function(genome = c("hs37d5", "hg38", "mm10", "mm39", "rheMac10", "panTro6", "calJac4")) 
 {
     genome <- match.arg(genome)
     if (genome == "hs37d5") {
@@ -61,6 +61,9 @@ genome.string.to.seqinfo.object = function(genome = c("hs37d5", "hg38", "mm10", 
     else if (genome == "rheMac10") {
         return(GenomeInfoDb::Seqinfo(genome = "rheMac10"))
     }
+    else if (genome == "mm39") {
+        return(GenomeInfoDb::Seqinfo(genome = "mm39"))
+    }
     else if (genome == "panTro6") {
         return(GenomeInfoDb::Seqinfo(genome = "panTro6"))
     }
@@ -72,7 +75,7 @@ genome.string.to.seqinfo.object = function(genome = c("hs37d5", "hg38", "mm10", 
     }
 }
 
-genome.string.to.bsgenome.object = function(genome = c("hs37d5", "hg38", "mm10", 'rheMac10', 'panTro6', 'calJac4'))                                 
+genome.string.to.bsgenome.object = function(genome = c("hs37d5", "hg38", "mm10", 'rheMac10', 'mm39', 'panTro6', 'calJac4'))                                 
 {
     genome <- match.arg(genome)
     if (genome == "hs37d5") {
@@ -91,6 +94,10 @@ genome.string.to.bsgenome.object = function(genome = c("hs37d5", "hg38", "mm10",
         require(BSgenome.Mmulatta.UCSC.rheMac10)                                  
         genome <- BSgenome.Mmulatta.UCSC.rheMac10                               
     }
+    else if (genome == "mm39") {
+        require(BSgenome.Mmusculus.UCSC.mm39)                                  
+        genome <- BSgenome.Mmusculus.UCSC.mm39                               
+    }
     else if (genome == "panTro6") {
         require(BSgenome.Ptroglodytes.UCSC.panTro6)                                  
         genome <- BSgenome.Ptroglodytes.UCSC.panTro6                                 
@@ -105,7 +112,7 @@ genome.string.to.bsgenome.object = function(genome = c("hs37d5", "hg38", "mm10",
     genome
 }
 
-genome.string.to.tiling = function(genome = c("hs37d5", "hg38", "mm10", "rheMac10", "panTro6", "calJac4"), tilewidth = 1e+07, 
+genome.string.to.tiling = function(genome = c("hs37d5", "hg38", "mm10", "rheMac10", "mm39", "panTro6", "calJac4"), tilewidth = 1e+07, 
     group = c("auto", "sex", "circular", "all")) 
 {
     genome <- match.arg(genome)
@@ -159,6 +166,16 @@ genome.string.to.tiling = function(genome = c("hs37d5", "hg38", "mm10", "rheMac1
 	lastchar = substr(sqi_levels_uniq, nchar(sqi_levels_uniq), nchar(sqi_levels_uniq))
 	chroms.to.tile = sqi_levels_uniq[grep("[0-9]", lastchar)]
     }
+    else if (genome == "mm39") {
+        species <- "Mus_musculus"
+        
+	# Get all chromosomes and haplotypes, keep only primary chromosome assemblies
+	sqi <- genome.string.to.seqinfo.object(genome)
+	sqi_levels = seqlevels(sqi)
+	sqi_levels_uniq = unique(gsub('_.*', '', sqi_levels))
+	lastchar = substr(sqi_levels_uniq, nchar(sqi_levels_uniq), nchar(sqi_levels_uniq))
+	chroms.to.tile = sqi_levels_uniq[grep("[0-9]", lastchar)]
+    }
     else {
         stop("unsupported genoome string")
     }
@@ -170,9 +187,9 @@ genome.string.to.tiling = function(genome = c("hs37d5", "hg38", "mm10", "rheMac1
 }
 
 
-make.scan = function(single.cell, bulk, genome = c("hs37d5", "hg38", "mm10", 'rheMac10', 'panTro6', 'calJac4'), region = NULL) 
+make.scan = function(single.cell, bulk, genome = c("hs37d5", "hg38", "mm10", 'rheMac10', 'mm39', 'panTro6', 'calJac4'), region = NULL) 
 {
-    genome <- match.arg(genome, choices = c("hs37d5", "hg38", "mm10", 'rheMac10', 'panTro6', 'calJac4'))
+    genome <- match.arg(genome, choices = c("hs37d5", "hg38", "mm10", 'rheMac10', 'mm39', 'panTro6', 'calJac4'))
     new("SCAN2", single.cell = single.cell, bulk = bulk, genome.string = genome, 
         genome.seqinfo = genome.string.to.seqinfo.object(genome), 
         region = region, gatk = NULL, ab.fits = NULL, ab.estimates = NULL, 
