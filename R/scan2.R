@@ -654,6 +654,9 @@ function(object, config.path, muttype=c('snv', 'indel'),
 #               in that case, allowing >= cutoff effectively disables the filter, which
 #               is necessary.
 
+# EC addition: removed muttype == 'snv' from csf.test to remove recurrent sSNVs.
+# This behavior was also removed in the recent versions of scan2.
+
 compute.static.filters = function(object, mode=c('new', 'legacy'))
 {
     check.slots(object, c("gatk", "cigar.data", "mut.models"))
@@ -668,7 +671,7 @@ compute.static.filters = function(object, mode=c('new', 'legacy'))
             is.na(balt.lowmq) | balt.lowmq <= sfp$max.bulk.alt, 
             dp >= sfp$min.sc.dp & bulk.dp >= sfp$min.bulk.dp, 
             abc.pv > 0.05, scalt >= sfp$min.sc.alt, balt <= sfp$max.bulk.alt, 
-            bulk.af <= sfp$max.bulk.af, muttype == "snv" | unique.donors <= 
+            bulk.af <= sfp$max.bulk.af, unique.donors <= 
                 1 | max.out <= 2))]
         if (mode == "legacy") {
             object@gatk[muttype == mt, `:=`(c("cigar.id.test", 
