@@ -46,7 +46,7 @@ check.chunked <- function(object, message) {
         warning(message)
 }
 
-genome.string.to.seqinfo.object = function(genome = c("hs37d5", "hg38", "mm10", "mm39", "rheMac10", "panTro6", "calJac4")) 
+genome.string.to.seqinfo.object = function(genome = c("hs37d5", "hg38", "mm10", "mm39", "rheMac10", "panTro6", "calJac4", "musFur1")) 
 {
     genome <- match.arg(genome)
     if (genome == "hs37d5") {
@@ -70,12 +70,15 @@ genome.string.to.seqinfo.object = function(genome = c("hs37d5", "hg38", "mm10", 
     else if (genome == "calJac4") {
         return(GenomeInfoDb::Seqinfo(genome = "calJac4"))
     }
+    else if (genome == "musFur1") {
+        return(GenomeInfoDb::Seqinfo(genome = "musFur1"))
+    }
     else {
         stop("unsupported genome string")
     }
 }
 
-genome.string.to.bsgenome.object = function(genome = c("hs37d5", "hg38", "mm10", 'rheMac10', 'mm39', 'panTro6', 'calJac4'))                                 
+genome.string.to.bsgenome.object = function(genome = c("hs37d5", "hg38", "mm10", 'rheMac10', 'mm39', 'panTro6', 'calJac4', 'musFur1'))                                 
 {
     genome <- match.arg(genome)
     if (genome == "hs37d5") {
@@ -106,13 +109,17 @@ genome.string.to.bsgenome.object = function(genome = c("hs37d5", "hg38", "mm10",
         require(BSgenome.Cjacchus.UCSC.calJac4)                                  
         genome <- BSgenome.Cjacchus.UCSC.calJac4                                 
     }
+    else if (genome == "musFur1") {
+        require(BSgenome.Mfuro.UCSC.musFur1)                                  
+        genome <- BSgenome.Mfuro.UCSC.musFur1                                 
+    }
     else {
         stop("unsupported genome string")                                      
     }
     genome
 }
 
-genome.string.to.tiling = function(genome = c("hs37d5", "hg38", "mm10", "rheMac10", "mm39", "panTro6", "calJac4"), tilewidth = 1e+07, 
+genome.string.to.tiling = function(genome = c("hs37d5", "hg38", "mm10", "rheMac10", "mm39", "panTro6", "calJac4", "musFur1"), tilewidth = 1e+07, 
     group = c("auto", "sex", "circular", "all")) 
 {
     genome <- match.arg(genome)
@@ -166,6 +173,16 @@ genome.string.to.tiling = function(genome = c("hs37d5", "hg38", "mm10", "rheMac1
 	lastchar = substr(sqi_levels_uniq, nchar(sqi_levels_uniq), nchar(sqi_levels_uniq))
 	chroms.to.tile = sqi_levels_uniq[grep("[0-9]", lastchar)]
     }
+    else if (genome == "musFur1") {
+        species <- "Mustela_putorius"
+        
+	# Get all chromosomes and haplotypes, keep only primary chromosome assemblies
+	sqi <- genome.string.to.seqinfo.object(genome)
+	sqi_levels = seqlevels(sqi)
+	sqi_levels_uniq = unique(gsub('_.*', '', sqi_levels))
+	lastchar = substr(sqi_levels_uniq, nchar(sqi_levels_uniq), nchar(sqi_levels_uniq))
+	chroms.to.tile = sqi_levels_uniq[grep("[0-9]", lastchar)]
+    }
     else if (genome == "mm39") {
         species <- "Mus_musculus"
         
@@ -187,9 +204,9 @@ genome.string.to.tiling = function(genome = c("hs37d5", "hg38", "mm10", "rheMac1
 }
 
 
-make.scan = function(single.cell, bulk, genome = c("hs37d5", "hg38", "mm10", 'rheMac10', 'mm39', 'panTro6', 'calJac4'), region = NULL) 
+make.scan = function(single.cell, bulk, genome = c("hs37d5", "hg38", "mm10", 'rheMac10', 'mm39', 'panTro6', 'calJac4', 'musFur1'), region = NULL) 
 {
-    genome <- match.arg(genome, choices = c("hs37d5", "hg38", "mm10", 'rheMac10', 'mm39', 'panTro6', 'calJac4'))
+    genome <- match.arg(genome, choices = c("hs37d5", "hg38", "mm10", 'rheMac10', 'mm39', 'panTro6', 'calJac4', 'musFur1'))
     new("SCAN2", single.cell = single.cell, bulk = bulk, genome.string = genome, 
         genome.seqinfo = genome.string.to.seqinfo.object(genome), 
         region = region, gatk = NULL, ab.fits = NULL, ab.estimates = NULL, 
@@ -654,9 +671,6 @@ function(object, config.path, muttype=c('snv', 'indel'),
 #               in that case, allowing >= cutoff effectively disables the filter, which
 #               is necessary.
 
-# EC addition: removed muttype == 'snv' from csf.test to remove recurrent sSNVs.
-# This behavior was also removed in the recent versions of scan2.
-
 compute.static.filters = function(object, mode=c('new', 'legacy'))
 {
     check.slots(object, c("gatk", "cigar.data", "mut.models"))
@@ -671,8 +685,7 @@ compute.static.filters = function(object, mode=c('new', 'legacy'))
             is.na(balt.lowmq) | balt.lowmq <= sfp$max.bulk.alt, 
             dp >= sfp$min.sc.dp & bulk.dp >= sfp$min.bulk.dp, 
             abc.pv > 0.05, scalt >= sfp$min.sc.alt, balt <= sfp$max.bulk.alt, 
-            bulk.af <= sfp$max.bulk.af, unique.donors <= 
-                1 | max.out <= 2))]
+            bulk.af <= sfp$max.bulk.af, muttype == 'snv' | max.out <= 2))]
         if (mode == "legacy") {
             object@gatk[muttype == mt, `:=`(c("cigar.id.test", 
                 "cigar.hs.test"), list(id.score > object@excess.cigar.scores[[mt]]$id.score.q, 
@@ -925,7 +938,7 @@ setMethod("call.mutations", "SCAN2", function(object, target.fdr=0.01, quiet=FAL
     # Pass germline heterozygous sites using L-O-O for sensitivity estimation
     object@gatk[training.site == TRUE,
         training.pass := 
-            # same tests as static.filter EXCEPT dbsnp.test, lowmq.test, max.bulk.alt.test,
+            # same tests as static.filter EXCEPT lowmq.test, max.bulk.alt.test,
             # which mostly will fail at training het germline sites.
             (cigar.id.test & cigar.hs.test & dp.test & abc.test & min.sc.alt.test) &
             lysis.fdr <= target.fdr & mda.fdr <= target.fdr]

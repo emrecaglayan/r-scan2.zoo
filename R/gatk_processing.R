@@ -203,6 +203,7 @@ annotate.gatk <- function(gatk, genome.string, add.mutsig=TRUE) {
   	    pos=gatk_indel$pos[i]
   	    refnt=gatk_indel$refnt[i]
   	    altnt=gatk_indel$altnt[i]
+            if(i%%100==0){print(paste0('Number of variants processed: ', i)); flush.console()}
    	    chs=attribution_of_indels(genome=genome.string.to.bsgenome.object(genome.string),
   			in_CHROM=chr, in_POS=pos, in_REF=refnt, in_ALT=altnt) })
           gatk[muttype == 'indel', mutsig := unlist(chs_list)] 

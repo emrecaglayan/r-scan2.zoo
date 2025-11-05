@@ -55,8 +55,8 @@ retry_genome_string_to_tiling <- function(genome, tilewidth = 1e+07, group = "au
 }
 
 
-genome.to.spmgr.format = c("GRCh37", "GRCh38", "mm10", "mm39", "rheMac10", "panTro6", "calJac4")
-names(genome.to.spmgr.format) = c('hs37d', 'hg38', 'mm10', 'mm39', 'rheMac10', 'panTro6', 'calJac4')
+#genome.to.spmgr.format = c("GRCh37", "GRCh38", "mm10", "mm39", "rheMac10", "panTro6", "calJac4", "musFur1")
+#names(genome.to.spmgr.format) = c('hs37d5', 'hg38', 'mm10', 'mm39', 'rheMac10', 'panTro6', 'calJac4', 'musFur1')
 
 
 muttype.map <- c(
