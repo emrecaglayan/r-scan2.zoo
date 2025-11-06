@@ -32,7 +32,7 @@ convert_to_na <- function(arg) {
 }
 
 
-retry_genome_string_to_tiling <- function(genome, tilewidth = 1e+07, group = "auto", max_attempts = 5) {
+retry_genome_string_to_tiling <- function(genome, tilewidth = 1e+07, scaffolds = scaffolds, max_attempts = 5) {
   attempts <- 0
   success <- FALSE
   result <- NULL
@@ -40,7 +40,7 @@ retry_genome_string_to_tiling <- function(genome, tilewidth = 1e+07, group = "au
   while (!success && attempts < max_attempts) {
     attempts <- attempts + 1
     tryCatch({
-      result <- genome.string.to.tiling(genome, tilewidth = tilewidth, group = group)
+      result <- genome.string.to.tiling(genome, tilewidth = tilewidth, scaffolds = scaffolds)
       success <- TRUE
     }, error = function(e) {
       cat("Attempt", attempts, "failed: ", e$message, "\n")

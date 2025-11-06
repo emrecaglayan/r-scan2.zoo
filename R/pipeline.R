@@ -26,8 +26,7 @@ perfcheck <- function(msg, expr, print.header=FALSE, report.mem=TRUE) {
 
 
 run.pipeline = function(sc.sample, bulk.sample, int.tab, abfits, sccigars, 
-    bulkcigars, trainingcigars, dptab, genome, grs = genome.string.to.tiling(genome, 
-        tilewidth = 1e+07, group = "auto"), target.fdr = 0.01, 
+    bulkcigars, trainingcigars, dptab, genome, grs, target.fdr = 0.01, 
     config.yaml = NULL, legacy = FALSE, report.mem = TRUE, verbose = TRUE) 
 {
 	cat("Starting chunked SCAN2 pipeline on", length(grs), "chunks\n")
@@ -135,8 +134,8 @@ run.pipeline = function(sc.sample, bulk.sample, int.tab, abfits, sccigars,
 make.integrated.table = function(mmq60.tab, mmq1.tab, bulk.sample, sc.samples, 
     genome, snv.min.bulk.dp, indel.min.bulk.dp, snv.max.bulk.alt = 0, 
     snv.max.bulk.af = 0, indel.max.bulk.alt = 0, indel.max.bulk.af = 0, 
-    panel = NULL, grs = genome.string.to.tiling(genome, tilewidth = 1e+07, 
-        group = "auto"), legacy = FALSE, quiet = TRUE, report.mem = FALSE) 
+    panel = NULL, grs = genome.string.to.tiling(genome, tilewidth = 1e+07, scaffolds = scaffolds),
+    legacy = FALSE, quiet = TRUE, report.mem = FALSE) 
 {
     cat("Starting integrated table pipeline on", length(grs), 
         "chunks.\n")
@@ -207,50 +206,50 @@ make.integrated.table = function(mmq60.tab, mmq1.tab, bulk.sample, sc.samples,
 # The reason for chunking this pipeline is dbSNP can be 10s of GB, which requires
 # quite alot of RAM if read in its entirety.
 
-join.phased.hsnps <- function(bulk.called.vcf, hsnps.vcf, genome, grs = genome.string.to.tiling(genome, 
-    tilewidth = 1e+07, group = "auto"), quiet = TRUE, report.mem = FALSE)
-{
-    cat("Starting phased hSNP joining on", length(grs), "chunks.\n")
-    cat("Parallelizing with", future::nbrOfWorkers(), "cores.\n")
-    progressr::with_progress({
-        p <- progressr::progressor(along = 1:length(grs))
-        p(amount = 0, class = "sticky", perfcheck(print.header = TRUE))
-        xs <- future.apply::future_lapply(1:length(grs), function(i) {
-            gr <- grs[i, ]
-            pc <- perfcheck(paste("read vcfs and join", i), {
-                gatk.dt <- read.tabix.data(path = bulk.called.vcf, 
-                  region = gr, quiet = quiet)[, 1:8]
-                colnames(gatk.dt)[1:8] <- c("chr", "pos",
-                  "refnt", "altnt", "qual", "filter", "info", 
-                  "format")
-                if (nrow(gatk.dt) == 0) {
-                  gatk.dt[, `:=`(phasedgt, NA)]
-                }
-                else {
-                  hsnps.dt <- read.tabix.data(path = hsnps.vcf, 
-                    region = gr, quiet = quiet, header = "chr\tpos\trefnt\taltnt\tqual\tfilter\tinfo\tformat", 
-                    colClasses = list(character = c("refnt", 
-                      "altnt", "qual", "filter", "info")))
-                  hsnps.dt[, `:=`(qual, ".")]
-                  hsnps.dt[, `:=`(filter, ".")]
-                  hsnps.dt[, `:=`(info, ".")]
-                  hsnps.dt[, `:=`(format, "GT")]
-                  gatk.dt[, `:=`(id, paste(chr, pos, refnt, 
-                    altnt))]
-                  hsnps.dt[, `:=`(id, paste(chr, pos, 
-                    refnt, altnt))]
-                  gatk.dt <- merge(hsnps.dt, gatk.dt[, .(id)], 
-                    by = "id", all = FALSE, sort = FALSE)
-                  gatk.dt$id <- NULL
-                }
-            }, report.mem = report.mem)
-            p(class = "sticky", amount = 1, pc)
-            gatk.dt
-        })
-    })
-    gatk <- rbindlist(xs)
-    gatk
-}
+#join.phased.hsnps <- function(bulk.called.vcf, hsnps.vcf, genome, grs = genome.string.to.tiling(genome, 
+#    tilewidth = 1e+07, scaffolds = scaffolds), quiet = TRUE, report.mem = FALSE)
+#{
+#    cat("Starting phased hSNP joining on", length(grs), "chunks.\n")
+#    cat("Parallelizing with", future::nbrOfWorkers(), "cores.\n")
+#    progressr::with_progress({
+#        p <- progressr::progressor(along = 1:length(grs))
+#        p(amount = 0, class = "sticky", perfcheck(print.header = TRUE))
+#        xs <- future.apply::future_lapply(1:length(grs), function(i) {
+#            gr <- grs[i, ]
+#            pc <- perfcheck(paste("read vcfs and join", i), {
+#                gatk.dt <- read.tabix.data(path = bulk.called.vcf, 
+#                  region = gr, quiet = quiet)[, 1:8]
+#                colnames(gatk.dt)[1:8] <- c("chr", "pos",
+#                  "refnt", "altnt", "qual", "filter", "info", 
+#                  "format")
+#                if (nrow(gatk.dt) == 0) {
+#                  gatk.dt[, `:=`(phasedgt, NA)]
+#                }
+#                else {
+#                  hsnps.dt <- read.tabix.data(path = hsnps.vcf, 
+#                    region = gr, quiet = quiet, header = "chr\tpos\trefnt\taltnt\tqual\tfilter\tinfo\tformat", 
+#                    colClasses = list(character = c("refnt", 
+#                      "altnt", "qual", "filter", "info")))
+#                  hsnps.dt[, `:=`(qual, ".")]
+#                  hsnps.dt[, `:=`(filter, ".")]
+#                  hsnps.dt[, `:=`(info, ".")]
+#                  hsnps.dt[, `:=`(format, "GT")]
+#                  gatk.dt[, `:=`(id, paste(chr, pos, refnt, 
+#                    altnt))]
+#                  hsnps.dt[, `:=`(id, paste(chr, pos, 
+#                    refnt, altnt))]
+#                  gatk.dt <- merge(hsnps.dt, gatk.dt[, .(id)], 
+#                    by = "id", all = FALSE, sort = FALSE)
+#                  gatk.dt$id <- NULL
+#                }
+#            }, report.mem = report.mem)
+#            p(class = "sticky", amount = 1, pc)
+#            gatk.dt
+#        })
+#    })
+#    gatk <- rbindlist(xs)
+#    gatk
+#}
 
 
 
@@ -285,7 +284,7 @@ digest.depth.profile = function(path, sc.sample, bulk.sample, genome, clamp.dp =
 # here are basepair resolution and cover essentially the entire genome.
 make.callable.regions <- function(path, sc.sample, bulk.sample,
     genome, min.sc.dp, min.bulk.dp,
-    grs=genome.string.to.tiling(genome, tilewidth=5e6, group='auto'),
+    grs=genome.string.to.tiling(genome, tilewidth=5e6, scaffolds = scaffolds),
     quiet=TRUE, report.mem=TRUE)
 {
     cat('Getting callable regions using', length(grs), 'chunks.\n')

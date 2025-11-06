@@ -119,89 +119,19 @@ genome.string.to.bsgenome.object = function(genome = c("hs37d5", "hg38", "mm10",
     genome
 }
 
-genome.string.to.tiling = function(genome = c("hs37d5", "hg38", "mm10", "rheMac10", "mm39", "panTro6", "calJac4", "musFur1"), tilewidth = 1e+07, 
-    group = c("auto", "sex", "circular", "all")) 
+
+genome.string.to.tiling = function (genome, tilewidth = 1e+07, scaffolds = '') 
 {
-    genome <- match.arg(genome)
-    group <- match.arg(group)
-    if (genome == "hs37d5") {
-        species <- "Homo_sapiens"
-	sqi <- genome.string.to.seqinfo.object(genome)
-	chroms.to.tile <- GenomeInfoDb::extractSeqlevelsByGroup(species = species,
-	style = seqlevelsStyle(sqi)[1], group = group)
-    }
-    else if (genome == "hg38") {
-        species <- "Homo_sapiens"
-	sqi <- genome.string.to.seqinfo.object(genome)
-	chroms.to.tile <- GenomeInfoDb::extractSeqlevelsByGroup(species = species,
-	style = seqlevelsStyle(sqi)[1], group = group)
-    }
-    else if (genome == "mm10") {
-        species <- "Mus_musculus"
-	sqi <- genome.string.to.seqinfo.object(genome)
-	chroms.to.tile <- GenomeInfoDb::extractSeqlevelsByGroup(species = species,
-	style = seqlevelsStyle(sqi)[1], group = group)
-    }
-    else if (genome == "rheMac10") {
-        species <- "Macaca_mulatta"
-        
-	# Get all chromosomes and haplotypes, keep only primary chromosome assemblies
-	sqi <- genome.string.to.seqinfo.object(genome)
-	sqi_levels = seqlevels(sqi)
-	sqi_levels_uniq = unique(gsub('_.*', '', sqi_levels))
-	lastchar = substr(sqi_levels_uniq, nchar(sqi_levels_uniq), nchar(sqi_levels_uniq))
-	chroms.to.tile = sqi_levels_uniq[grep("[0-9]", lastchar)]
-    }
-    else if (genome == "panTro6") {
-        species <- "Pan_troglodytes"
-        
-	# Get all chromosomes and haplotypes, keep only primary chromosome assemblies
-	sqi <- genome.string.to.seqinfo.object(genome)
-	sqi_levels = seqlevels(sqi)
-	sqi_levels_uniq = unique(gsub('_.*', '', sqi_levels))
-	lastchar = substr(sqi_levels_uniq, nchar(sqi_levels_uniq), nchar(sqi_levels_uniq))
-	chroms.to.tile = sqi_levels_uniq[grep("[0-9]", lastchar)]
-	chroms.to.tile = c(chroms.to.tile[1], 'chr2A', 'chr2B', chroms.to.tile[2:length(chroms.to.tile)])
-    }
-    else if (genome == "calJac4") {
-        species <- "Callithrix_jacchus"
-        
-	# Get all chromosomes and haplotypes, keep only primary chromosome assemblies
-	sqi <- genome.string.to.seqinfo.object(genome)
-	sqi_levels = seqlevels(sqi)
-	sqi_levels_uniq = unique(gsub('_.*', '', sqi_levels))
-	lastchar = substr(sqi_levels_uniq, nchar(sqi_levels_uniq), nchar(sqi_levels_uniq))
-	chroms.to.tile = sqi_levels_uniq[grep("[0-9]", lastchar)]
-    }
-    else if (genome == "musFur1") {
-        species <- "Mustela_putorius"
-        
-	# Get all chromosomes and haplotypes, keep only primary chromosome assemblies
-	sqi <- genome.string.to.seqinfo.object(genome)
-	sqi_levels = seqlevels(sqi)
-	sqi_levels_uniq = unique(gsub('_.*', '', sqi_levels))
-	lastchar = substr(sqi_levels_uniq, nchar(sqi_levels_uniq), nchar(sqi_levels_uniq))
-	chroms.to.tile = sqi_levels_uniq[grep("[0-9]", lastchar)]
-    }
-    else if (genome == "mm39") {
-        species <- "Mus_musculus"
-        
-	# Get all chromosomes and haplotypes, keep only primary chromosome assemblies
-	sqi <- genome.string.to.seqinfo.object(genome)
-	sqi_levels = seqlevels(sqi)
-	sqi_levels_uniq = unique(gsub('_.*', '', sqi_levels))
-	lastchar = substr(sqi_levels_uniq, nchar(sqi_levels_uniq), nchar(sqi_levels_uniq))
-	chroms.to.tile = sqi_levels_uniq[grep("[0-9]", lastchar)]
-    }
-    else {
-        stop("unsupported genoome string")
-    }
-    
-        
+    sqi <- genome.string.to.seqinfo.object(genome)
+    sqi = sqi[scaffolds]
+    sqi_levels = seqlevels(sqi)
+    chroms.to.tile = sqi_levels
+
     grs <- GenomicRanges::tileGenome(seqlengths = sqi[chroms.to.tile], 
         tilewidth = tilewidth, cut.last.tile.in.chrom = TRUE)
     grs
 }
+
 
 
 make.scan = function(single.cell, bulk, genome = c("hs37d5", "hg38", "mm10", 'rheMac10', 'mm39', 'panTro6', 'calJac4', 'musFur1'), region = NULL) 

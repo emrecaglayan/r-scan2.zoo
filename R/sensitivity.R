@@ -2,8 +2,8 @@
 # Use small tiles for parallelization (~1MB) because of basepair resolution.
 compute.spatial.sensitivity.depth <- function(single.cell.id, bulk.id,
     static.filter.params, joint.dptab.path, genome.string, sens.tilewidth=1e3,
-    grs.for.sens=genome.string.to.tiling(genome.string, tilewidth=sens.tilewidth, group='auto'),
-    grs.for.parallelization=genome.string.to.tiling(genome.string, tilewidth=1e6, group='auto'),
+    grs.for.sens=genome.string.to.tiling(genome.string, tilewidth=sens.tilewidth, scaffolds=scaffolds),
+    grs.for.parallelization=genome.string.to.tiling(genome.string, tilewidth=1e6, scaffolds=scaffolds),
     quiet=TRUE, report.mem=TRUE)
 {
     cat('Gathering read depth data for spatial somatic calling sensitivity using', length(grs.for.parallelization), 'chunks.\n')
@@ -81,8 +81,8 @@ compute.spatial.sensitivity.depth <- function(single.cell.id, bulk.id,
 # try to prevent it. For human genomes, this means a waste of ~2-2.5G of RAM per thread.
 compute.spatial.sensitivity.abmodel <- function(
     single.cell.id, ab.fits, integrated.table.path, genome.string, sens.tilewidth=1e3,
-    grs.for.sens=genome.string.to.tiling(genome.string, tilewidth=sens.tilewidth, group='auto'),
-    grs.for.parallelization=genome.string.to.tiling(genome.string, tilewidth=10e6, group='auto'),
+    grs.for.sens=genome.string.to.tiling(genome.string, tilewidth=sens.tilewidth, scaffolds=scaffolds),
+    grs.for.parallelization=genome.string.to.tiling(genome.string, tilewidth=10e6, scaffolds=scaffolds),
     quiet=TRUE, report.mem=TRUE)
 {
     cat('Estimating genome-wide AB for spatial somatic calling sensitivity using', length(grs.for.parallelization), 'chunks.\n')
@@ -498,7 +498,7 @@ count.somatic.sites.for.sens <- function(grs, sites, seqinfo, neighborhood.tiles
 #   be a reasonable default.
 integrate.spatial.sensitivity.covariates <- function(object, abmodel.covs, depth.covs,
     sens.tilewidth=1e3, neighborhood.tiles=10,
-    grs.for.sens=genome.string.to.tiling(object@genome.string, tilewidth=sens.tilewidth, group='auto'))
+    grs.for.sens=genome.string.to.tiling(object@genome.string, tilewidth=sens.tilewidth, scaffolds=scaffolds))
 {
     ab.data <- data.table::data.table(chr=as.character(seqnames(grs.for.sens)),
         start=start(grs.for.sens), end=end(grs.for.sens))
