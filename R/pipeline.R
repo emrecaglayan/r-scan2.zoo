@@ -134,7 +134,7 @@ run.pipeline = function(sc.sample, bulk.sample, int.tab, abfits, sccigars,
 make.integrated.table = function(mmq60.tab, mmq1.tab, bulk.sample, sc.samples, 
     genome, snv.min.bulk.dp, indel.min.bulk.dp, snv.max.bulk.alt = 0, 
     snv.max.bulk.af = 0, indel.max.bulk.alt = 0, indel.max.bulk.af = 0, 
-    panel = NULL, grs = genome.string.to.tiling(genome, tilewidth = 1e+07, scaffolds = scaffolds),
+    panel = NULL, grs,
     legacy = FALSE, quiet = TRUE, report.mem = FALSE) 
 {
     cat("Starting integrated table pipeline on", length(grs), 
@@ -253,12 +253,10 @@ make.integrated.table = function(mmq60.tab, mmq1.tab, bulk.sample, sc.samples,
 
 
 
-digest.depth.profile = function(path, sc.sample, bulk.sample, genome, clamp.dp = 500, 
-    grs = NULL, quiet = TRUE, report.mem = TRUE)
+digest.depth.profile = function(path, sc.sample, bulk.sample, clamp.dp = 500, 
+    grs, quiet = TRUE, report.mem = TRUE)
 {
 
-    grs = retry_genome_string_to_tiling(genome)
-    print(grs)
     cat("Digesting depth profile using", length(grs), "chunks.\n")
     cat("Parallelizing with", future::nbrOfWorkers(), "cores.\n")
     progressr::with_progress({

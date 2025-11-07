@@ -14,6 +14,10 @@ abmodel.fit.one.chrom = function(path, sc.sample, chrom, genome.seqinfo, n.chunk
     region <- as(genome.seqinfo, "GRanges")[chrom, ]
     hsnps <- read.training.hsnps(path = path, sample.id = sc.sample, 
         region = region)
+    # If a scaffold has not hetsnps, return null
+    if( !(nrow(hsnps) > 0) ){
+    	return(NULL)
+    }
     hsnps <- abmodel.downsample.hsnps(hsnps, hsnp.tilesize = hsnp.tilesize, 
         n.tiles = n.tiles, verbose = TRUE)
         

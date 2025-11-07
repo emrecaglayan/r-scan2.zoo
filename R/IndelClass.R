@@ -57,7 +57,7 @@ rgestStartSubstr<-function(word1, word2){
 
 
 
-attribution_of_indels <-function(genome, in_CHROM, in_POS,in_REF,in_ALT) { 
+attribution_of_indels <-function(genome, in_CHROM, in_POS, in_REF, in_ALT) { 
 
 
 	ref_length <- nchar(in_REF) 
@@ -72,7 +72,7 @@ attribution_of_indels <-function(genome, in_CHROM, in_POS,in_REF,in_ALT) {
 	# Check if the variant too close to the beginning of the chromosome
 	if(in_POS - in_offsetL < 0){
 		in_offsetL = max_length+1
-		warning(paste0('This indel at ', in_CHROM, ':', in_POS, ' is too close to the beginning of the chromosome. Setting the five prime offset to max_length + 1. Classification may not be accurate.'))
+		warning(paste0('This indel at ', in_CHROM, ':', in_POS, ' is too close to the beginning of the chromosome. Setting the five prime offset to maximum possible length. Classification may not be accurate.'))
 		# In rare cases the offset size will be more than the position, especially if it is at the beginning of the chromosome. Adjust the offset size in that case.
 		if(in_offsetL > in_POS){
 			in_offsetL = in_POS-1
@@ -82,8 +82,9 @@ attribution_of_indels <-function(genome, in_CHROM, in_POS,in_REF,in_ALT) {
 	# Check if the variant too close to the end of the chromosome
 	chrlength = seqlengths(genome)[in_CHROM]
 	if( (chrlength - (in_offsetR + in_POS)) < 0){
-		in_offsetR = max_length+1
-		warning(paste0('This indel at ', in_CHROM, ':', in_POS, ' is too close to the end of the chromosome. Setting the three prime offset to max_length + 1. Classification may not be accurate.'))
+		max_offsetR_length = chrlength - in_POS - 1
+		in_offsetR = min(max_length+1, max_offsetR_length)
+		warning(paste0('This indel at ', in_CHROM, ':', in_POS, ' is too close to the end of the chromosome. Setting the three prime offset to maximum possible length. Classification may not be accurate.'))
 	}
 
 	in_dat_return <- attribute_sequence_contex_indel(genome=genome, 
