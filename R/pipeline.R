@@ -46,17 +46,27 @@ run.pipeline = function(sc.sample, bulk.sample, int.tab, abfits, sccigars,
 
 
 	# Select regions that have some coverage for hetSNPs in the single cell WGS
+	# Also select regions that more than 2 training hetSNPs
 	indsL = list()
 	for(i in 1:length(grs)){
 		gr <- grs[i, ]
-		tr <- read.integrated.table.1sample(path = int.tab, sample.id = sc.sample, region = gr, quiet = T)
-		tokeep1 = which(!(tr$balt == 0 | tr$bulk.gt == '1/1' | tr$bulk.gt == '0/0'))
+		gt <- make.scan(single.cell = sc.sample, 
+			bulk = bulk.sample, genome = genome, region = gr)
+		gt <- read.integrated.table(gt, path = int.tab, 
+			  quiet = !verbose)
+		tr = gt@gatk
+			
+		training.hsnps <- get.training.sites.for.abmodel.by.range(region = gr, 
+		    integrated.table.path = gt@integrated.table.path, single.cell.id = gt@single.cell, 
+		    quiet = T)
+
+		tokeep1 = which(!(tr$balt == 0 | tr$bulk.gt == "1/1" | tr$bulk.gt == "0/0"))
 		tr = tr[tokeep1]
 
-		if(nrow(tr) > 0){
-			indsL[[i]] = i
+		if ( (nrow(tr) > 0) & nrow(training.hsnps)>2 ) {
+		    indsL[[i]] = i
 		}
-		if(i%%20 == 0){print(paste0('Getting genomic regions to call mutations: ', i))}
+			if(i%%20 == 0){print(paste0('Getting genomic regions to call mutations: ', i))}
 	}
 
 
