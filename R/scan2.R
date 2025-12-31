@@ -593,7 +593,7 @@ function(object, config.path, muttype=c('snv', 'indel'),
     }
     object
 })
-        
+
 
 # legacy mode - id.score/hs.score both must be strictly > the id/hs.score.q cutoffs.
 #               this was later found to be problematic for non-BWA MEM aligners that
