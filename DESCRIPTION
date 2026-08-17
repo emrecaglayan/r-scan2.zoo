@@ -1,8 +1,8 @@
-Package: scanZooTrial1
+Package: scan2.zoo
 Version: 0.1
 Date: 2025-06-04
-Title: Single Cell ANalysis 2
-Description: Single cell genotyper using a spatial model of allele balance.
+Title: Single Cell ANalysis 2 Zoo
+Description: Single-cell somatic mutation caller using a spatial model of allele balance from any diploid species.
 Author: Emre Caglayan <emre.caglayan@childrens.harvard.edu>
 Depends: data.table, GenomicRanges, GenomeInfoDb
 Imports: methods, fastGHQuad, yaml, pracma, Rsamtools, future, future.apply, progressr, RhpcBLASctl, reticulate, SigProfilerMatrixGeneratorR, BSgenome, qs, bedtoolsr, digest, viridisLite, DNAcopy, UpSetR, KernSmooth

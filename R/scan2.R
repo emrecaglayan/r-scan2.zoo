@@ -811,7 +811,17 @@ read.and.annotate.integrated.table <- function(path, sample.id, region=NULL, qui
 			nan_check = is.nan(res$lower) | is.nan(res$upper)
 			!(nan_check) & interval_check
 			})
-	tokeep2 = tokeep1[which(unlist(resL))]
+
+	if(length(resL) == 0){
+		return(NULL)
+	} else{
+	    tokeep2 = tokeep1[which(unlist(resL))]
+	    tr[, `:=`(hetSNP, .I %in% tokeep2)]
+	    tr[, `:=`(training.site, hetSNP == T & sc.gt != "./." & bulk.gt != 
+		"./.")]
+	    tr[, `:=`(hetSNP, NULL)]
+	    return(tr)
+	}
 
 	# Subset the data frame to include only high-quality SNPs
 	tr[, hetSNP := .I %in% tokeep2]

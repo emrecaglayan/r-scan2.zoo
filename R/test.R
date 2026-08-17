@@ -46,7 +46,7 @@ testpipe <- function(test.data=c('legacy_tiny', 'legacy_chr22', 'legacy_custom')
     if (test.data != 'legacy_custom') {
         sc.sample <- 'h25'
         bulk.sample <- 'hunamp'
-        fpath <- function(...) system.file('extdata', paste0(test.data, '_', ...), package='scan2')
+        fpath <- function(...) system.file('extdata', paste0(test.data, '_', ...), package='scan2.zoo')
     } else {
         sc.sample <- custom$sc.sample
         bulk.sample <- custom$bulk.sample
@@ -116,7 +116,7 @@ test.output <- function(pipeline.output,
         if (test.data != 'legacy_custom') {
             legacy.rda <-
                 system.file('extdata', paste0(test.data, '_', mt, '_somatic_genotypes.rda'),
-                    package='scan2')
+                    package='scan2.zoo')
         } else {
             legacy.rda <- paste0(custom$path, '/', mt, '_somatic_genotypes.rda')
         }

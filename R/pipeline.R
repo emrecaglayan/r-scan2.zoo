@@ -46,7 +46,7 @@ run.pipeline = function(sc.sample, bulk.sample, int.tab, abfits, sccigars,
 
 
 	# Select regions that have some coverage for hetSNPs in the single cell WGS
-	# Also select regions that more than 2 training hetSNPs
+	# Also select regions that have more than 2 training hetSNPs (rarely occurs)
 	indsL = list()
 	for(i in 1:length(grs)){
 		gr <- grs[i, ]
@@ -60,12 +60,14 @@ run.pipeline = function(sc.sample, bulk.sample, int.tab, abfits, sccigars,
 		tokeep1 = which(!(tr$balt == 0 | tr$bulk.gt == "1/1" | tr$bulk.gt == "0/0"))
 		tr = tr[tokeep1]
 
-		if( nrow(tr) > 0){
-			training.hsnps <- get.training.sites.for.abmodel.by.range(region = gr, 
-			integrated.table.path = gt@integrated.table.path, single.cell.id = gt@single.cell, 
-			quiet = T)
-			if (nrow(training.hsnps)>2) {
+		if (!is.null(nrow(tr))){
+			if (nrow(tr) > 0) {
+			    training.hsnps <- get.training.sites.for.abmodel.by.range(region = gr, 
+				integrated.table.path = gt@integrated.table.path, 
+				single.cell.id = gt@single.cell, quiet = T)
+			    if (nrow(training.hsnps) > 2) {
 				indsL[[i]] = i
+			    }
 			}
 		}
 

@@ -161,7 +161,7 @@ abmodel.approx.logp <- function(a, b, c, d, ctx,
         ctx$U, ctx$V, ctx$B, ctx$sqrtW,
         ctx$K, ctx$A,
         max.it, verbose,
-        PACKAGE="scanZooTrial1")
+        PACKAGE="scan2.zoo")
     return(result)
 }
 
