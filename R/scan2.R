@@ -823,13 +823,6 @@ read.and.annotate.integrated.table <- function(path, sample.id, region=NULL, qui
 	    return(tr)
 	}
 
-	# Subset the data frame to include only high-quality SNPs
-	tr[, hetSNP := .I %in% tokeep2]
-
-	tr[, `:=`(training.site, hetSNP == T & sc.gt != "./." & bulk.gt != "./.")]
-	tr[, hetSNP := NULL]
-	tr
-
 }
 
 
