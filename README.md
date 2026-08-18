@@ -1,2 +1,4 @@
 # r-scan2.zoo
-Single-cell somatic mutation caller using a spatial model of allele balance from diploid species.
+R package with supporting routines for the SCAN2-Zoo pipeline.
+
+See https://github.com/emrecaglayan/SCAN2-Zoo for the full pipeline.
