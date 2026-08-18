@@ -17,3 +17,7 @@ anaconda upload --user ecaglayan \
 
 conda-build -c conda-forge -c bioconda -c ecaglayan conda-recipes/r-scan2.zoo
 
+anaconda login # follow the prompt
+anaconda upload --user ecaglayan \
+    /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/linux-64/r-fastghquad-1.0.1-r42hbad8821_0.conda
+
