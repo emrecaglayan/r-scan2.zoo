@@ -1,14 +1,14 @@
 package:
-  name: r-scan2
-  version: '1.1'
+  name: r-scan2.zoo
+  version: '0.1'
 
 source:
-  git_url: https://github.com/parklab/r-scan2.git
+  git_url: https://github.com/emrecaglayan/r-scan2.zoo
 
 build:
   merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
-  number: 1
+  number: 0
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
@@ -25,11 +25,9 @@ requirements:
     - coreutils         # [win]
     - zip               # [win]
   host:
-    - r-base
+    - r-base >=4.2
     - openblas
     - htslib
-    - sigprofilermatrixgenerator>=1.2.17
-    - r-sigprofilermatrixgeneratorr>=1.2.13
     - r-plyr
     - r-fastghquad
     - r-yaml
@@ -45,18 +43,23 @@ requirements:
     - r-r.utils
     - r-digest
     - r-viridis
+    - r-viridisLite
     - bioconductor-bsgenome
     - bioconductor-genomicranges
     - bioconductor-genomeinfodb
     - bioconductor-rsamtools
     - bioconductor-bsgenome.hsapiens.1000genomes.hs37d5
+    - bioconductor-bsgenome.hsapiens.UCSC.hg38
+    - bioconductor-bsgenome.mmusculus.UCSC.mm10
+    - bioconductor-bsgenome.mmulatta.UCSC.rheMac10
+    - bioconductor-bsgenome.ptroglodytes.UCSC.panTro6
+    - bioconductor-bsgenome.mfuro.UCSC.musFur1
+
   run:
     - python
-    - r-base
+    - r-base >=4.2
     - openblas
     - htslib
-    - sigprofilermatrixgenerator>=1.2.17
-    - r-sigprofilermatrixgeneratorr>=1.2.13
     - r-plyr
     - r-fastghquad
     - r-yaml
@@ -72,17 +75,23 @@ requirements:
     - r-r.utils
     - r-digest
     - r-viridis
+    - r-viridisLite
     - bioconductor-bsgenome
     - bioconductor-genomicranges
     - bioconductor-genomeinfodb
     - bioconductor-rsamtools
     - bioconductor-bsgenome.hsapiens.1000genomes.hs37d5
+    - bioconductor-bsgenome.hsapiens.UCSC.hg38
+    - bioconductor-bsgenome.mmusculus.UCSC.mm10
+    - bioconductor-bsgenome.mmulatta.UCSC.rheMac10
+    - bioconductor-bsgenome.ptroglodytes.UCSC.panTro6
+    - bioconductor-bsgenome.mfuro.UCSC.musFur1
 
 test:
   commands:
-    - $R -e "library('scan2')"           # [not win]
-    - "\"%R%\" -e \"library('scan2')\""  # [win]
+    - $R -e "library('scan2.zoo')"           # [not win]
+    - "\"%R%\" -e \"library('scan2.zoo')\""  # [win]
 
 about:
-  home: https://github.com/parklab/r-scan2
+  home: https://github.com/emrecaglayan/r-scan2.zoo
   summary: R objects for interactive single cell SNV and indel genotyping

@@ -6,6 +6,6 @@ if [[ $target_platform =~ linux.* ]]; then
   grep -v '^Priority: ' DESCRIPTION.old > DESCRIPTION
   $R CMD INSTALL --build .
 else
-  mkdir -p $PREFIX/lib/R/library/scan2
-  mv * $PREFIX/lib/R/library/scan2
+  mkdir -p $PREFIX/lib/R/library/scan2.zoo
+  mv * $PREFIX/lib/R/library/scan2.zoo
 fi
