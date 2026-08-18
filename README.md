@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 R package with supporting routines for the SCAN2 pipeline.  These routines
 may not be particularly useful when separate from the main pipeline.
 
@@ -20,3 +21,7 @@ reasons:
 After installing r-scan2, the user must download and install a reference
 genome for SigProfilerMatrixGenerator.  See the SCAN2 pipeline README
 for detailed instructions.
+=======
+# r-scan2.zoo
+Single-cell somatic mutation caller using a spatial model of allele balance from diploid species.
+>>>>>>> 24e955205c31a863d9293804cc026e0fc79e9900
