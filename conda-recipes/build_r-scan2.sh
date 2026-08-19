@@ -6,7 +6,8 @@
 # You may still get errors during the build and will most likely need to resolve them.
 cd /home/ch253794/workdir/PROGRAMS/SCAN2_ZOO_R/scan2.zoo
 
-git add conda-recipes & git commit -m "Update"
+git add conda-recipes
+git commit -m "Update"
 git push -u origin main
 
 conda-build -c conda-forge -c bioconda -c ecaglayan conda-recipes/r-scan2.zoo > conda-build2.log 2>&1

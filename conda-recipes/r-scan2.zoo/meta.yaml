@@ -25,7 +25,6 @@ requirements:
     - coreutils         # [win]
     - zip               # [win]
   host:
-    - python >=3.8,<3.13
     - r-base >=4.2
     - openblas
     - htslib >=1.9
@@ -34,7 +33,6 @@ requirements:
     - r-yaml
     - r-pracma
     - r-data.table
-    - r-reticulate
     - r-RhpcBLASctl
     - r-progressr
     - r-future
@@ -57,7 +55,6 @@ requirements:
     - bioconductor-bsgenome.mfuro.UCSC.musFur1
 
   run:
-    - python >=3.8,<3.13
     - r-base >=4.2
     - openblas
     - htslib >=1.9
@@ -66,7 +63,6 @@ requirements:
     - r-yaml
     - r-pracma
     - r-data.table
-    - r-reticulate
     - r-RhpcBLASctl
     - r-progressr
     - r-future
