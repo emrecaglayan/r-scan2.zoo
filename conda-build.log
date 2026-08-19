@@ -1,0 +1,1161 @@
+Adding in variants from internal_defaults
+WARNING: Number of parsed outputs does not match detected raw metadata blocks. Identified output block may be wrong! If you are using Jinja conditionals to include or exclude outputs, consider using `skip: true  # [condition]` instead.
+Attempting to finalize metadata for r-scan2.zoo
+Reloading output folder: ...working... done
+Getting pinned dependencies: ...working... done
+Reloading output folder: ...working... done
+Getting pinned dependencies: ...working... done
+Reloading output folder: ...working... done
+Getting pinned dependencies: ...working... done
+BUILD START: ['r-scan2.zoo-0.1-py314r44h3fd9d12_0.conda']
+Reloading output folder: ...working... done
+Solving environment (_h_env): ...working... done
+
+## Package Plan ##
+
+  environment location: /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehol
+
+
+The following NEW packages will be INSTALLED:
+
+    _openmp_mutex:                                     4.5-20_gnu                    conda-forge
+    _r-mutex:                                          1.0.1-anacondar_1             conda-forge
+    argcomplete:                                       3.7.2-pyhcf101f3_0            conda-forge
+    bedtools:                                          2.31.1-h13024bc_3             bioconda   
+    binutils_impl_linux-64:                            2.46.1-default_hfdba357_102   conda-forge
+    binutils_linux-64:                                 2.46.1-default_h4852527_102   conda-forge
+    bioconductor-biobase:                              2.66.0-r44h3df3fcb_0          bioconda   
+    bioconductor-biocgenerics:                         0.52.0-r44hdfd78af_3          bioconda   
+    bioconductor-biocio:                               1.16.0-r44hdfd78af_0          bioconda   
+    bioconductor-biocparallel:                         1.40.0-r44he5774e6_1          bioconda   
+    bioconductor-biostrings:                           2.74.0-r44h3df3fcb_1          bioconda   
+    bioconductor-bsgenome:                             1.74.0-r44hdfd78af_0          bioconda   
+    bioconductor-bsgenome.hsapiens.1000genomes.hs37d5: 0.99.1-r44hdfd78af_13         bioconda   
+    bioconductor-bsgenome.hsapiens.ucsc.hg38:          1.4.5-r44hdfd78af_3           bioconda   
+    bioconductor-bsgenome.mfuro.ucsc.musfur1:          1.4.1-r44hdfd78af_13          bioconda   
+    bioconductor-bsgenome.mmulatta.ucsc.rhemac10:      1.4.2-r44hdfd78af_9           bioconda   
+    bioconductor-bsgenome.mmusculus.ucsc.mm10:         1.4.3-r44hdfd78af_5           bioconda   
+    bioconductor-bsgenome.ptroglodytes.ucsc.pantro6:   1.4.2-r44hdfd78af_13          bioconda   
+    bioconductor-data-packages:                        20260207-hdfd78af_1           bioconda   
+    bioconductor-delayedarray:                         0.32.0-r44h3df3fcb_1          bioconda   
+    bioconductor-genomeinfodb:                         1.42.0-r44hdfd78af_2          bioconda   
+    bioconductor-genomeinfodbdata:                     1.2.13-r44hdfd78af_0          bioconda   
+    bioconductor-genomicalignments:                    1.42.0-r44h3df3fcb_1          bioconda   
+    bioconductor-genomicranges:                        1.58.0-r44h3df3fcb_2          bioconda   
+    bioconductor-iranges:                              2.40.0-r44h3df3fcb_2          bioconda   
+    bioconductor-matrixgenerics:                       1.18.0-r44hdfd78af_0          bioconda   
+    bioconductor-rhtslib:                              3.2.0-r44h15a9599_2           bioconda   
+    bioconductor-rsamtools:                            2.22.0-r44h77050f0_1          bioconda   
+    bioconductor-rtracklayer:                          1.66.0-r44h15a9599_1          bioconda   
+    bioconductor-s4arrays:                             1.6.0-r44h3df3fcb_1           bioconda   
+    bioconductor-s4vectors:                            0.44.0-r44h3df3fcb_2          bioconda   
+    bioconductor-sparsearray:                          1.6.0-r44h3df3fcb_1           bioconda   
+    bioconductor-summarizedexperiment:                 1.36.0-r44hdfd78af_0          bioconda   
+    bioconductor-ucsc.utils:                           1.2.0-r44h9ee0642_1           bioconda   
+    bioconductor-xvector:                              0.46.0-r44h15a9599_2          bioconda   
+    bioconductor-zlibbioc:                             1.52.0-r44h3df3fcb_2          bioconda   
+    bwidget:                                           1.10.1-ha770c72_1             conda-forge
+    bzip2:                                             1.0.8-hda65f42_10             conda-forge
+    c-ares:                                            1.34.8-h280c20c_1             conda-forge
+    ca-certificates:                                   2026.7.22-hbd8a1cb_0          conda-forge
+    cairo:                                             1.18.4-he90730b_1             conda-forge
+    curl:                                              8.21.0-heca4667_4             conda-forge
+    font-ttf-dejavu-sans-mono:                         2.37-hab24e00_0               conda-forge
+    font-ttf-inconsolata:                              3.000-h77eed37_0              conda-forge
+    font-ttf-source-code-pro:                          2.038-h77eed37_0              conda-forge
+    font-ttf-ubuntu:                                   0.83-h77eed37_3               conda-forge
+    fontconfig:                                        2.18.3-h4db4eae_1             conda-forge
+    fonts-conda-ecosystem:                             1-0                           conda-forge
+    fonts-conda-forge:                                 1-hc364b38_1                  conda-forge
+    fribidi:                                           1.0.16-hb03c661_1             conda-forge
+    gcc_impl_linux-64:                                 16.1.0-h5fcb69b_1             conda-forge
+    gcc_linux-64:                                      16.1.0-h5fd2508_0             conda-forge
+    gfortran_impl_linux-64:                            16.1.0-h08e1a1a_1             conda-forge
+    graphite2:                                         1.3.15-h54a6638_1             conda-forge
+    gsl:                                               2.7-he838d99_0                conda-forge
+    gxx_impl_linux-64:                                 16.1.0-he33a5f8_1             conda-forge
+    gxx_linux-64:                                      16.1.0-h5525346_0             conda-forge
+    htslib:                                            1.24-ha79157c_0               bioconda   
+    icu:                                               78.3-py310h44b86e0_2          conda-forge
+    jq:                                                1.8.2-h280c20c_1              conda-forge
+    kernel-headers_linux-64:                           4.18.0-he073ed8_9             conda-forge
+    keyutils:                                          1.6.3-h7cc23a3_1              conda-forge
+    krb5:                                              1.22.2-hbc21106_2             conda-forge
+    ld_impl_linux-64:                                  2.46.1-default_hbd61a6d_102   conda-forge
+    lerc:                                              4.2.0-hdb68285_0              conda-forge
+    libblas:                                           3.11.0-9_h4a7cf45_openblas    conda-forge
+    libcblas:                                          3.11.0-9_h0358290_openblas    conda-forge
+    libcurl:                                           8.21.0-heca4667_4             conda-forge
+    libdeflate:                                        1.25-hd45a770_1               conda-forge
+    libedit:                                           3.1.20250104-pl5321h373387f_1 conda-forge
+    libev:                                             4.33-h280c20c_3               conda-forge
+    libexpat:                                          2.8.1-hecca717_1              conda-forge
+    libffi:                                            3.7.0-h3435931_0              conda-forge
+    libfreetype:                                       2.14.3-ha770c72_2             conda-forge
+    libfreetype6:                                      2.14.3-h5e6c136_2             conda-forge
+    libgcc:                                            16.1.0-ha9f2e26_1             conda-forge
+    libgcc-devel_linux-64:                             16.1.0-h59071f9_101           conda-forge
+    libgcc-ng:                                         16.1.0-h69a702a_1             conda-forge
+    libgfortran:                                       16.1.0-h69a702a_1             conda-forge
+    libgfortran5:                                      16.1.0-h79bb938_1             conda-forge
+    libglib:                                           2.88.3-h45c3219_1             conda-forge
+    libgomp:                                           16.1.0-he0feb66_1             conda-forge
+    libharfbuzz:                                       14.3.1-h23af247_0             conda-forge
+    libhwloc:                                          2.13.0-default_he001693_1000  conda-forge
+    libiconv:                                          1.18-h0cb94f2_3               conda-forge
+    libjpeg-turbo:                                     3.2.0-hb03c661_1              conda-forge
+    liblapack:                                         3.11.0-9_h47877c9_openblas    conda-forge
+    liblzma:                                           5.8.3-hb03c661_1              conda-forge
+    libmpdec:                                          4.0.0-hb03c661_2              conda-forge
+    libnghttp2:                                        1.68.1-h877daf1_0             conda-forge
+    libopenblas:                                       0.3.34-pthreads_h94d23a6_0    conda-forge
+    libpng:                                            1.6.58-h922cc85_1             conda-forge
+    libpsl:                                            0.23.1-hd9e3e90_1             conda-forge
+    libsanitizer:                                      16.1.0-hf2715c6_1             conda-forge
+    libsqlite:                                         3.53.4-h13e7031_1             conda-forge
+    libssh2:                                           1.11.1-h6154650_1             conda-forge
+    libstdcxx:                                         16.1.0-h934c35e_1             conda-forge
+    libstdcxx-devel_linux-64:                          16.1.0-h41cdd0d_101           conda-forge
+    libtiff:                                           4.7.2-h9d88235_0              conda-forge
+    libuuid:                                           2.42.2-h5347b49_0             conda-forge
+    libwebp-base:                                      1.6.0-hd42ef1d_1              conda-forge
+    libxcb:                                            1.17.0-hb83e432_1             conda-forge
+    libxml2:                                           2.15.3-h49c6c72_0             conda-forge
+    libxml2-16:                                        2.15.3-hca6bf5a_0             conda-forge
+    libxml2-devel:                                     2.15.3-h49c6c72_0             conda-forge
+    libzlib:                                           1.3.2-h25fd6f3_3              conda-forge
+    lz4-c:                                             1.10.0-hee9eb32_2             conda-forge
+    make:                                              4.4.1-hb03c661_3              conda-forge
+    ncurses:                                           6.6-hdb14827_1                conda-forge
+    oniguruma:                                         6.9.10-h280c20c_1             conda-forge
+    openblas:                                          0.3.34-pthreads_h6ec200e_0    conda-forge
+    openssl:                                           3.6.3-h35e630c_1              conda-forge
+    pango:                                             1.58.2-hda50119_0             conda-forge
+    pcre2:                                             10.47-haa7fec5_0              conda-forge
+    pip:                                               26.2.1-pyh145f28c_0           conda-forge
+    pixman:                                            0.46.4-h54a6638_3             conda-forge
+    pthread-stubs:                                     0.4-hb03c661_1003             conda-forge
+    python:                                            3.14.6-h242f9ac_102_cp314     conda-forge
+    python_abi:                                        3.14-8_cp314                  conda-forge
+    pyyaml:                                            6.0.3-py314h67df5f8_1         conda-forge
+    r-abind:                                           1.4_8-r44hc72bb7e_1           conda-forge
+    r-askpass:                                         1.2.1-r44h54b55ab_1           conda-forge
+    r-base:                                            4.4.3-h502d0c9_11             conda-forge
+    r-bedtoolsr:                                       2.30.0.2-r44hdfd78af_3        bioconda   
+    r-bh:                                              1.87.0_1-r44hc72bb7e_1        conda-forge
+    r-bitops:                                          1.0_9-r44h54b55ab_1           conda-forge
+    r-cli:                                             3.6.6-r44h3697838_0           conda-forge
+    r-codetools:                                       0.2_20-r44hc72bb7e_2          conda-forge
+    r-colorspace:                                      2.1_3-r44h54b55ab_0           conda-forge
+    r-cpp11:                                           0.5.5-r44h785f33e_0           conda-forge
+    r-crayon:                                          1.5.3-r44hc72bb7e_2           conda-forge
+    r-curl:                                            7.1.0-r44h10955f1_0           conda-forge
+    r-data.table:                                      1.18.4-r44h1c8cec4_0          conda-forge
+    r-digest:                                          0.6.39-r44h3697838_0          conda-forge
+    r-farver:                                          2.1.2-r44h3697838_2           conda-forge
+    r-fastghquad:                                      1.0.1-r44h3697838_4           conda-forge
+    r-formatr:                                         1.14-r44hc72bb7e_3            conda-forge
+    r-futile.logger:                                   1.4.9-r44hc72bb7e_0           conda-forge
+    r-futile.options:                                  1.0.1-r44hc72bb7e_1006        conda-forge
+    r-future:                                          1.75.0-r44hc72bb7e_0          conda-forge
+    r-future.apply:                                    1.20.2-r44hc72bb7e_0          conda-forge
+    r-ggplot2:                                         4.0.3-r44h785f33e_0           conda-forge
+    r-globals:                                         0.19.1-r44hc72bb7e_0          conda-forge
+    r-glue:                                            1.8.1-r44h54b55ab_0           conda-forge
+    r-gridextra:                                       2.3.1-r44hc72bb7e_0           conda-forge
+    r-gtable:                                          0.3.6-r44hc72bb7e_1           conda-forge
+    r-here:                                            1.0.2-r44hc72bb7e_0           conda-forge
+    r-httr:                                            1.4.8-r44hc72bb7e_0           conda-forge
+    r-isoband:                                         0.3.0-r44h3697838_0           conda-forge
+    r-jsonlite:                                        2.0.0-r44h54b55ab_1           conda-forge
+    r-labeling:                                        0.4.3-r44hc72bb7e_2           conda-forge
+    r-lambda.r:                                        1.2.4-r44hc72bb7e_5           conda-forge
+    r-lattice:                                         0.22_9-r44h54b55ab_0          conda-forge
+    r-lifecycle:                                       1.0.5-r44hc72bb7e_0           conda-forge
+    r-listenv:                                         1.0.0-r44hc72bb7e_0           conda-forge
+    r-matrix:                                          1.7_6-r44h0e4624f_0           conda-forge
+    r-matrixstats:                                     1.5.0-r44h54b55ab_1           conda-forge
+    r-mime:                                            0.13-r44h54b55ab_1            conda-forge
+    r-munsell:                                         0.5.1-r44hc72bb7e_2           conda-forge
+    r-openssl:                                         2.4.2-r44h68c19f5_0           conda-forge
+    r-parallelly:                                      1.48.0-r44h54b55ab_0          conda-forge
+    r-plyr:                                            1.8.9-r44h3697838_3           conda-forge
+    r-png:                                             0.1_9-r44haf2892b_0           conda-forge
+    r-pracma:                                          2.4.6-r44hc72bb7e_0           conda-forge
+    r-progressr:                                       1.0.0-r44hc72bb7e_0           conda-forge
+    r-qs:                                              0.27.3-r44h8b7a39e_1          conda-forge
+    r-r.methodss3:                                     1.8.2-r44hc72bb7e_4           conda-forge
+    r-r.oo:                                            1.27.1-r44hc72bb7e_1          conda-forge
+    r-r.utils:                                         2.13.0-r44hc72bb7e_1          conda-forge
+    r-r6:                                              2.6.1-r44hc72bb7e_1           conda-forge
+    r-rapiserialize:                                   0.1.4-r44h3697838_1           conda-forge
+    r-rappdirs:                                        0.3.4-r44h54b55ab_0           conda-forge
+    r-rcolorbrewer:                                    1.1_3-r44h785f33e_4           conda-forge
+    r-rcpp:                                            1.1.2-r44h3697838_0           conda-forge
+    r-rcppparallel:                                    5.1.11_2-r44heb10100_1        conda-forge
+    r-rcpptoml:                                        0.2.3-r44h3697838_1           conda-forge
+    r-rcurl:                                           1.98_1.19-r44h46721d4_0       conda-forge
+    r-restfulr:                                        0.0.16-r44h5ef9028_0          bioconda   
+    r-reticulate:                                      1.46.0-r44h3697838_0          conda-forge
+    r-rhpcblasctl:                                     0.23_42-r44h54b55ab_4         conda-forge
+    r-rjson:                                           0.2.23-r44h3697838_1          conda-forge
+    r-rlang:                                           1.3.0-r44h3697838_0           conda-forge
+    r-rprojroot:                                       2.1.1-r44hc72bb7e_1           conda-forge
+    r-s7:                                              0.2.2-r44h54b55ab_0           conda-forge
+    r-scales:                                          1.4.0-r44hc72bb7e_1           conda-forge
+    r-snow:                                            0.4_4-r44hc72bb7e_4           conda-forge
+    r-stringfish:                                      0.19.0-r44h05ef45b_1          conda-forge
+    r-sys:                                             3.4.3-r44h54b55ab_1           conda-forge
+    r-vctrs:                                           0.7.3-r44h3697838_0           conda-forge
+    r-viridis:                                         0.6.5-r44hc72bb7e_2           conda-forge
+    r-viridislite:                                     0.4.3-r44hc72bb7e_0           conda-forge
+    r-withr:                                           3.0.3-r44hc72bb7e_0           conda-forge
+    r-xml:                                             3.99_0.23-r44hf705907_0       conda-forge
+    r-yaml:                                            2.3.12-r44h54b55ab_0          conda-forge
+    readline:                                          8.3-hd6e31c0_1                conda-forge
+    sed:                                               4.10-h19d0853_0               conda-forge
+    sysroot_linux-64:                                  2.28-h4ee821c_9               conda-forge
+    tbb:                                               2023.0.0-hab88423_2           conda-forge
+    tbb-devel:                                         2023.0.0-hab88423_2           conda-forge
+    tk:                                                8.6.13-noxft_hd70dff1_3       conda-forge
+    tktable:                                           2.10-h0eb2ad0_9               conda-forge
+    tomlkit:                                           0.15.1-pyhcf101f3_0           conda-forge
+    tzdata:                                            2026c-h151e31d_0              conda-forge
+    xmltodict:                                         1.0.4-pyhcf101f3_0            conda-forge
+    xorg-libice:                                       1.1.2-h280c20c_0              conda-forge
+    xorg-libsm:                                        1.2.6-h0d788c3_1              conda-forge
+    xorg-libx11:                                       1.8.13-he1eb515_1             conda-forge
+    xorg-libxau:                                       1.0.12-hb03c661_2             conda-forge
+    xorg-libxdmcp:                                     1.1.5-hb03c661_2              conda-forge
+    xorg-libxext:                                      1.3.7-h7cc23a3_1              conda-forge
+    xorg-libxrender:                                   0.9.12-hb03c661_1             conda-forge
+    xorg-libxt:                                        1.3.1-h7cc23a3_1              conda-forge
+    yaml:                                              0.2.5-h280c20c_3              conda-forge
+    yq:                                                4.1.2-pyhcf101f3_1            conda-forge
+    zstd:                                              1.5.7-hb78ec9c_7              conda-forge
+
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
+Reloading output folder: ...working... done
+Solving environment (_build_env): ...working... done
+Reloading output folder: ...working... done
+Solving environment (_test_env): ...working... done
+
+## Package Plan ##
+
+  environment location: /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_build_env
+
+
+The following NEW packages will be INSTALLED:
+
+    _openmp_mutex:            4.5-20_gnu                  conda-forge
+    binutils_impl_linux-64:   2.46.1-default_hfdba357_102 conda-forge
+    binutils_linux-64:        2.46.1-default_h4852527_102 conda-forge
+    gcc_impl_linux-64:        16.1.0-h5fcb69b_1           conda-forge
+    gcc_linux-64:             16.1.0-h5fd2508_0           conda-forge
+    gxx_impl_linux-64:        16.1.0-he33a5f8_1           conda-forge
+    gxx_linux-64:             16.1.0-h5525346_0           conda-forge
+    kernel-headers_linux-64:  4.18.0-he073ed8_9           conda-forge
+    ld_impl_linux-64:         2.46.1-default_hbd61a6d_102 conda-forge
+    libgcc:                   16.1.0-ha9f2e26_1           conda-forge
+    libgcc-devel_linux-64:    16.1.0-h59071f9_101         conda-forge
+    libgomp:                  16.1.0-he0feb66_1           conda-forge
+    libsanitizer:             16.1.0-hf2715c6_1           conda-forge
+    libstdcxx:                16.1.0-h934c35e_1           conda-forge
+    libstdcxx-devel_linux-64: 16.1.0-h41cdd0d_101         conda-forge
+    libzlib:                  1.3.2-h25fd6f3_3            conda-forge
+    make:                     4.4.1-hb03c661_3            conda-forge
+    sysroot_linux-64:         2.28-h4ee821c_9             conda-forge
+    tzdata:                   2026c-h151e31d_0            conda-forge
+    zstd:                     1.5.7-hb78ec9c_7            conda-forge
+
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
+Cloning into '/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/work'...
+done.
+Your branch is up to date with 'origin/_conda_cache_origin_head'.
+fatal: No names found, cannot describe anything.
+* installing to library ‘/lab-share/Gene-Walsh-e2/Public/indData/emre/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehol/lib/R/library’
+* installing *source* package ‘scan2.zoo’ ...
+** using staged installation
+** libs
+using C compiler: ‘x86_64-conda-linux-gnu-cc (conda-forge gcc 16.1.0-1) 16.1.0’
+installing to /lab-share/Gene-Walsh-e2/Public/indData/emre/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehol/lib/R/library/00LOCK-work/00new/scan2.zoo/libs
+** R
+** data
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* creating tarball
+Warning: invalid uid value replaced by that for user 'nobody'
+Warning: invalid gid value replaced by that for user 'nobody'
+packaged installation of ‘scan2.zoo’ as ‘scan2.zoo_0.1_R_x86_64-conda-linux-gnu.tar.gz’
+* DONE (scan2.zoo)
+commit fdcc747c2cb2c98af9650aa702ab25397675f7e2
+Author: Emre_Caglayan <ch253794@compute-10-9.rc.tch.harvard.edu>
+Date:   Tue Aug 18 14:45:28 2026 -0400
+
+    Update
+
+commit fdcc747c2cb2c98af9650aa702ab25397675f7e2
+Author: Emre_Caglayan <ch253794@compute-10-9.rc.tch.harvard.edu>
+Date:   Tue Aug 18 14:45:28 2026 -0400
+
+    Update
+
+On branch _conda_cache_origin_head
+Your branch is up to date with 'origin/_conda_cache_origin_head'.
+
+nothing to commit, working tree clean
+
+checkout: 'HEAD'
+==> /usr/bin/git log -n1 <==
+
+==> /usr/bin/git describe --tags --dirty <==
+
+==> /usr/bin/git status <==
+
+
+Rendered as:
+```yaml
+package:
+  name: r-scan2.zoo
+  version: '0.1'
+source:
+  git_url: https://github.com/emrecaglayan/r-scan2.zoo
+build:
+  number: '0'
+  rpaths:
+    - lib/R/lib/
+    - lib/
+requirements:
+  build:
+    - _openmp_mutex 4.5 20_gnu
+    - binutils_impl_linux-64 2.46.1 default_hfdba357_102
+    - binutils_linux-64 2.46.1 default_h4852527_102
+    - gcc_impl_linux-64 16.1.0 h5fcb69b_1
+    - gcc_linux-64 16.1.0 h5fd2508_0
+    - gxx_impl_linux-64 16.1.0 he33a5f8_1
+    - gxx_linux-64 16.1.0 h5525346_0
+    - kernel-headers_linux-64 4.18.0 he073ed8_9
+    - ld_impl_linux-64 2.46.1 default_hbd61a6d_102
+    - libgcc 16.1.0 ha9f2e26_1
+    - libgcc-devel_linux-64 16.1.0 h59071f9_101
+    - libgomp 16.1.0 he0feb66_1
+    - libsanitizer 16.1.0 hf2715c6_1
+    - libstdcxx 16.1.0 h934c35e_1
+    - libstdcxx-devel_linux-64 16.1.0 h41cdd0d_101
+    - libzlib 1.3.2 h25fd6f3_3
+    - make 4.4.1 hb03c661_3
+    - sysroot_linux-64 2.28 h4ee821c_9
+    - tzdata 2026c h151e31d_0
+    - zstd 1.5.7 hb78ec9c_7
+  host:
+    - _openmp_mutex 4.5 20_gnu
+    - _r-mutex 1.0.1 anacondar_1
+    - argcomplete 3.7.2 pyhcf101f3_0
+    - bedtools 2.31.1 h13024bc_3
+    - binutils_impl_linux-64 2.46.1 default_hfdba357_102
+    - binutils_linux-64 2.46.1 default_h4852527_102
+    - bioconductor-biobase 2.66.0 r44h3df3fcb_0
+    - bioconductor-biocgenerics 0.52.0 r44hdfd78af_3
+    - bioconductor-biocio 1.16.0 r44hdfd78af_0
+    - bioconductor-biocparallel 1.40.0 r44he5774e6_1
+    - bioconductor-biostrings 2.74.0 r44h3df3fcb_1
+    - bioconductor-bsgenome 1.74.0 r44hdfd78af_0
+    - bioconductor-bsgenome.hsapiens.1000genomes.hs37d5 0.99.1 r44hdfd78af_13
+    - bioconductor-bsgenome.hsapiens.ucsc.hg38 1.4.5 r44hdfd78af_3
+    - bioconductor-bsgenome.mfuro.ucsc.musfur1 1.4.1 r44hdfd78af_13
+    - bioconductor-bsgenome.mmulatta.ucsc.rhemac10 1.4.2 r44hdfd78af_9
+    - bioconductor-bsgenome.mmusculus.ucsc.mm10 1.4.3 r44hdfd78af_5
+    - bioconductor-bsgenome.ptroglodytes.ucsc.pantro6 1.4.2 r44hdfd78af_13
+    - bioconductor-data-packages 20260207 hdfd78af_1
+    - bioconductor-delayedarray 0.32.0 r44h3df3fcb_1
+    - bioconductor-genomeinfodb 1.42.0 r44hdfd78af_2
+    - bioconductor-genomeinfodbdata 1.2.13 r44hdfd78af_0
+    - bioconductor-genomicalignments 1.42.0 r44h3df3fcb_1
+    - bioconductor-genomicranges 1.58.0 r44h3df3fcb_2
+    - bioconductor-iranges 2.40.0 r44h3df3fcb_2
+    - bioconductor-matrixgenerics 1.18.0 r44hdfd78af_0
+    - bioconductor-rhtslib 3.2.0 r44h15a9599_2
+    - bioconductor-rsamtools 2.22.0 r44h77050f0_1
+    - bioconductor-rtracklayer 1.66.0 r44h15a9599_1
+    - bioconductor-s4arrays 1.6.0 r44h3df3fcb_1
+    - bioconductor-s4vectors 0.44.0 r44h3df3fcb_2
+    - bioconductor-sparsearray 1.6.0 r44h3df3fcb_1
+    - bioconductor-summarizedexperiment 1.36.0 r44hdfd78af_0
+    - bioconductor-ucsc.utils 1.2.0 r44h9ee0642_1
+    - bioconductor-xvector 0.46.0 r44h15a9599_2
+    - bioconductor-zlibbioc 1.52.0 r44h3df3fcb_2
+    - bwidget 1.10.1 ha770c72_1
+    - bzip2 1.0.8 hda65f42_10
+    - c-ares 1.34.8 h280c20c_1
+    - ca-certificates 2026.7.22 hbd8a1cb_0
+    - cairo 1.18.4 he90730b_1
+    - curl 8.21.0 heca4667_4
+    - font-ttf-dejavu-sans-mono 2.37 hab24e00_0
+    - font-ttf-inconsolata 3.000 h77eed37_0
+    - font-ttf-source-code-pro 2.038 h77eed37_0
+    - font-ttf-ubuntu 0.83 h77eed37_3
+    - fontconfig 2.18.3 h4db4eae_1
+    - fonts-conda-ecosystem 1 0
+    - fonts-conda-forge 1 hc364b38_1
+    - fribidi 1.0.16 hb03c661_1
+    - gcc_impl_linux-64 16.1.0 h5fcb69b_1
+    - gcc_linux-64 16.1.0 h5fd2508_0
+    - gfortran_impl_linux-64 16.1.0 h08e1a1a_1
+    - graphite2 1.3.15 h54a6638_1
+    - gsl 2.7 he838d99_0
+    - gxx_impl_linux-64 16.1.0 he33a5f8_1
+    - gxx_linux-64 16.1.0 h5525346_0
+    - htslib 1.24 ha79157c_0
+    - icu 78.3 py310h44b86e0_2
+    - jq 1.8.2 h280c20c_1
+    - kernel-headers_linux-64 4.18.0 he073ed8_9
+    - keyutils 1.6.3 h7cc23a3_1
+    - krb5 1.22.2 hbc21106_2
+    - ld_impl_linux-64 2.46.1 default_hbd61a6d_102
+    - lerc 4.2.0 hdb68285_0
+    - libblas 3.11.0 9_h4a7cf45_openblas
+    - libcblas 3.11.0 9_h0358290_openblas
+    - libcurl 8.21.0 heca4667_4
+    - libdeflate 1.25 hd45a770_1
+    - libedit 3.1.20250104 pl5321h373387f_1
+    - libev 4.33 h280c20c_3
+    - libexpat 2.8.1 hecca717_1
+    - libffi 3.7.0 h3435931_0
+    - libfreetype 2.14.3 ha770c72_2
+    - libfreetype6 2.14.3 h5e6c136_2
+    - libgcc 16.1.0 ha9f2e26_1
+    - libgcc-devel_linux-64 16.1.0 h59071f9_101
+    - libgcc-ng 16.1.0 h69a702a_1
+    - libgfortran 16.1.0 h69a702a_1
+    - libgfortran5 16.1.0 h79bb938_1
+    - libglib 2.88.3 h45c3219_1
+    - libgomp 16.1.0 he0feb66_1
+    - libharfbuzz 14.3.1 h23af247_0
+    - libhwloc 2.13.0 default_he001693_1000
+    - libiconv 1.18 h0cb94f2_3
+    - libjpeg-turbo 3.2.0 hb03c661_1
+    - liblapack 3.11.0 9_h47877c9_openblas
+    - liblzma 5.8.3 hb03c661_1
+    - libmpdec 4.0.0 hb03c661_2
+    - libnghttp2 1.68.1 h877daf1_0
+    - libopenblas 0.3.34 pthreads_h94d23a6_0
+    - libpng 1.6.58 h922cc85_1
+    - libpsl 0.23.1 hd9e3e90_1
+    - libsanitizer 16.1.0 hf2715c6_1
+    - libsqlite 3.53.4 h13e7031_1
+    - libssh2 1.11.1 h6154650_1
+    - libstdcxx 16.1.0 h934c35e_1
+    - libstdcxx-devel_linux-64 16.1.0 h41cdd0d_101
+    - libtiff 4.7.2 h9d88235_0
+    - libuuid 2.42.2 h5347b49_0
+    - libwebp-base 1.6.0 hd42ef1d_1
+    - libxcb 1.17.0 hb83e432_1
+    - libxml2 2.15.3 h49c6c72_0
+    - libxml2-16 2.15.3 hca6bf5a_0
+    - libxml2-devel 2.15.3 h49c6c72_0
+    - libzlib 1.3.2 h25fd6f3_3
+    - lz4-c 1.10.0 hee9eb32_2
+    - make 4.4.1 hb03c661_3
+    - ncurses 6.6 hdb14827_1
+    - oniguruma 6.9.10 h280c20c_1
+    - openblas 0.3.34 pthreads_h6ec200e_0
+    - openssl 3.6.3 h35e630c_1
+    - pango 1.58.2 hda50119_0
+    - pcre2 10.47 haa7fec5_0
+    - pip 26.2.1 pyh145f28c_0
+    - pixman 0.46.4 h54a6638_3
+    - pthread-stubs 0.4 hb03c661_1003
+    - python 3.14.6 h242f9ac_102_cp314
+    - python_abi 3.14 8_cp314
+    - pyyaml 6.0.3 py314h67df5f8_1
+    - r-abind 1.4_8 r44hc72bb7e_1
+    - r-askpass 1.2.1 r44h54b55ab_1
+    - r-base 4.4.3 h502d0c9_11
+    - r-bedtoolsr 2.30.0.2 r44hdfd78af_3
+    - r-bh 1.87.0_1 r44hc72bb7e_1
+    - r-bitops 1.0_9 r44h54b55ab_1
+    - r-cli 3.6.6 r44h3697838_0
+    - r-codetools 0.2_20 r44hc72bb7e_2
+    - r-colorspace 2.1_3 r44h54b55ab_0
+    - r-cpp11 0.5.5 r44h785f33e_0
+    - r-crayon 1.5.3 r44hc72bb7e_2
+    - r-curl 7.1.0 r44h10955f1_0
+    - r-data.table 1.18.4 r44h1c8cec4_0
+    - r-digest 0.6.39 r44h3697838_0
+    - r-farver 2.1.2 r44h3697838_2
+    - r-fastghquad 1.0.1 r44h3697838_4
+    - r-formatr 1.14 r44hc72bb7e_3
+    - r-futile.logger 1.4.9 r44hc72bb7e_0
+    - r-futile.options 1.0.1 r44hc72bb7e_1006
+    - r-future 1.75.0 r44hc72bb7e_0
+    - r-future.apply 1.20.2 r44hc72bb7e_0
+    - r-ggplot2 4.0.3 r44h785f33e_0
+    - r-globals 0.19.1 r44hc72bb7e_0
+    - r-glue 1.8.1 r44h54b55ab_0
+    - r-gridextra 2.3.1 r44hc72bb7e_0
+    - r-gtable 0.3.6 r44hc72bb7e_1
+    - r-here 1.0.2 r44hc72bb7e_0
+    - r-httr 1.4.8 r44hc72bb7e_0
+    - r-isoband 0.3.0 r44h3697838_0
+    - r-jsonlite 2.0.0 r44h54b55ab_1
+    - r-labeling 0.4.3 r44hc72bb7e_2
+    - r-lambda.r 1.2.4 r44hc72bb7e_5
+    - r-lattice 0.22_9 r44h54b55ab_0
+    - r-lifecycle 1.0.5 r44hc72bb7e_0
+    - r-listenv 1.0.0 r44hc72bb7e_0
+    - r-matrix 1.7_6 r44h0e4624f_0
+    - r-matrixstats 1.5.0 r44h54b55ab_1
+    - r-mime 0.13 r44h54b55ab_1
+    - r-munsell 0.5.1 r44hc72bb7e_2
+    - r-openssl 2.4.2 r44h68c19f5_0
+    - r-parallelly 1.48.0 r44h54b55ab_0
+    - r-plyr 1.8.9 r44h3697838_3
+    - r-png 0.1_9 r44haf2892b_0
+    - r-pracma 2.4.6 r44hc72bb7e_0
+    - r-progressr 1.0.0 r44hc72bb7e_0
+    - r-qs 0.27.3 r44h8b7a39e_1
+    - r-r.methodss3 1.8.2 r44hc72bb7e_4
+    - r-r.oo 1.27.1 r44hc72bb7e_1
+    - r-r.utils 2.13.0 r44hc72bb7e_1
+    - r-r6 2.6.1 r44hc72bb7e_1
+    - r-rapiserialize 0.1.4 r44h3697838_1
+    - r-rappdirs 0.3.4 r44h54b55ab_0
+    - r-rcolorbrewer 1.1_3 r44h785f33e_4
+    - r-rcpp 1.1.2 r44h3697838_0
+    - r-rcppparallel 5.1.11_2 r44heb10100_1
+    - r-rcpptoml 0.2.3 r44h3697838_1
+    - r-rcurl 1.98_1.19 r44h46721d4_0
+    - r-restfulr 0.0.16 r44h5ef9028_0
+    - r-reticulate 1.46.0 r44h3697838_0
+    - r-rhpcblasctl 0.23_42 r44h54b55ab_4
+    - r-rjson 0.2.23 r44h3697838_1
+    - r-rlang 1.3.0 r44h3697838_0
+    - r-rprojroot 2.1.1 r44hc72bb7e_1
+    - r-s7 0.2.2 r44h54b55ab_0
+    - r-scales 1.4.0 r44hc72bb7e_1
+    - r-snow 0.4_4 r44hc72bb7e_4
+    - r-stringfish 0.19.0 r44h05ef45b_1
+    - r-sys 3.4.3 r44h54b55ab_1
+    - r-vctrs 0.7.3 r44h3697838_0
+    - r-viridis 0.6.5 r44hc72bb7e_2
+    - r-viridislite 0.4.3 r44hc72bb7e_0
+    - r-withr 3.0.3 r44hc72bb7e_0
+    - r-xml 3.99_0.23 r44hf705907_0
+    - r-yaml 2.3.12 r44h54b55ab_0
+    - readline 8.3 hd6e31c0_1
+    - sed 4.10 h19d0853_0
+    - sysroot_linux-64 2.28 h4ee821c_9
+    - tbb 2023.0.0 hab88423_2
+    - tbb-devel 2023.0.0 hab88423_2
+    - tk 8.6.13 noxft_hd70dff1_3
+    - tktable 2.10 h0eb2ad0_9
+    - tomlkit 0.15.1 pyhcf101f3_0
+    - tzdata 2026c h151e31d_0
+    - xmltodict 1.0.4 pyhcf101f3_0
+    - xorg-libice 1.1.2 h280c20c_0
+    - xorg-libsm 1.2.6 h0d788c3_1
+    - xorg-libx11 1.8.13 he1eb515_1
+    - xorg-libxau 1.0.12 hb03c661_2
+    - xorg-libxdmcp 1.1.5 hb03c661_2
+    - xorg-libxext 1.3.7 h7cc23a3_1
+    - xorg-libxrender 0.9.12 hb03c661_1
+    - xorg-libxt 1.3.1 h7cc23a3_1
+    - yaml 0.2.5 h280c20c_3
+    - yq 4.1.2 pyhcf101f3_1
+    - zstd 1.5.7 hb78ec9c_7
+  run:
+    - bioconductor-bsgenome >=1.74.0,<1.75.0a0
+    - bioconductor-bsgenome.hsapiens.1000genomes.hs37d5 >=0.99.1,<0.100.0a0
+    - bioconductor-bsgenome.hsapiens.UCSC.hg38
+    - bioconductor-bsgenome.mfuro.UCSC.musFur1
+    - bioconductor-bsgenome.mmulatta.UCSC.rheMac10
+    - bioconductor-bsgenome.mmusculus.UCSC.mm10
+    - bioconductor-bsgenome.ptroglodytes.UCSC.panTro6
+    - bioconductor-genomeinfodb >=1.42.0,<1.43.0a0
+    - bioconductor-genomicranges >=1.58.0,<1.59.0a0
+    - bioconductor-rsamtools >=2.22.0,<2.23.0a0
+    - htslib >=1.24,<1.25.0a0
+    - libgcc >=16
+    - libstdcxx >=16
+    - openblas
+    - python >=3.14,<3.15.0a0
+    - r-RhpcBLASctl
+    - r-base >=4.4,<4.5.0a0
+    - r-base >=4.4,<4.5.0a0
+    - r-bedtoolsr
+    - r-data.table
+    - r-digest
+    - r-fastghquad
+    - r-future
+    - r-future.apply
+    - r-plyr
+    - r-pracma
+    - r-progressr
+    - r-qs
+    - r-r.utils
+    - r-reticulate
+    - r-viridis
+    - r-viridisLite
+    - r-yaml
+test:
+  commands:
+    - $R -e "library('scan2.zoo')"
+about:
+  home: https://github.com/emrecaglayan/r-scan2.zoo
+  summary: R objects for interactive single cell SNV and indel genotyping
+extra:
+  final: true
+  copy_test_source_files: true
+```
+
+source tree in: /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/work
+export PREFIX=/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehol
+export BUILD_PREFIX=/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_build_env
+export SRC_DIR=/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/work
+INFO: activate-binutils_linux-64.sh made the following environmental changes:
++ADDR2LINE=x86_64-conda-linux-gnu-addr2line
++AR=x86_64-conda-linux-gnu-ar
++AS=x86_64-conda-linux-gnu-as
++CXXFILT=x86_64-conda-linux-gnu-c++filt
++ELFEDIT=x86_64-conda-linux-gnu-elfedit
++GPROF=x86_64-conda-linux-gnu-gprof
++LD=x86_64-conda-linux-gnu-ld
++NM=x86_64-conda-linux-gnu-nm
++OBJCOPY=x86_64-conda-linux-gnu-objcopy
++OBJDUMP=x86_64-conda-linux-gnu-objdump
++RANLIB=x86_64-conda-linux-gnu-ranlib
++READELF=x86_64-conda-linux-gnu-readelf
++SIZE=x86_64-conda-linux-gnu-size
++STRINGS=x86_64-conda-linux-gnu-strings
++STRIP=x86_64-conda-linux-gnu-strip
+INFO: activate-gcc_linux-64.sh made the following environmental changes:
++build_alias=x86_64-conda-linux-gnu
+-BUILD=x86_64-conda_cos6-linux-gnu
++BUILD=x86_64-conda-linux-gnu
++CC_FOR_BUILD=x86_64-conda-linux-gnu-cc
++CC=x86_64-conda-linux-gnu-cc
++CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
++CMAKE_ARGS=-DCMAKE_AR=$PREFIX/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=$PREFIX/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=$PREFIX/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=$PREFIX/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=$PREFIX/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=$PREFIX/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=$PREFIX/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=$PREFIX/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DCMAKE_FIND_ROOT_PATH=$PREFIX;$BUILD_PREFIX/x86_64-conda-linux-gnu/sysroot -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_PROGRAM_PATH=$BUILD_PREFIX/bin;$PREFIX/bin -DCMAKE_POLICY_DEFAULT_CMP0094=NEW
++CMAKE_PREFIX_PATH=$PREFIX:$PREFIX/x86_64-conda-linux-gnu/sysroot/usr
++CONDA_BUILD_CROSS_COMPILATION=
++CONDA_BUILD_SYSROOT=$PREFIX/x86_64-conda-linux-gnu/sysroot
++CONDA_TOOLCHAIN_BUILD=x86_64-conda-linux-gnu
++CONDA_TOOLCHAIN_HOST=x86_64-conda-linux-gnu
++CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem $PREFIX/include
++CPP_FOR_BUILD=x86_64-conda-linux-gnu-cpp
++CPP=x86_64-conda-linux-gnu-cpp
++DEBUG_CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
++DEBUG_CPPFLAGS=-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem $PREFIX/include
++GCC_AR=x86_64-conda-linux-gnu-gcc-ar
++GCC_NM=x86_64-conda-linux-gnu-gcc-nm
++GCC_RANLIB=x86_64-conda-linux-gnu-gcc-ranlib
++GCC=x86_64-conda-linux-gnu-gcc
++host_alias=x86_64-conda-linux-gnu
++HOST=x86_64-conda-linux-gnu
++LDFLAGS_LD=-O2 --sort-common --as-needed -z relro -z now --disable-new-dtags --gc-sections --allow-shlib-undefined -rpath $PREFIX/lib -rpath-link $PREFIX/lib -L$PREFIX/lib
++LDFLAGS=-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,$PREFIX/lib -Wl,-rpath-link,$PREFIX/lib -L$PREFIX/lib
++MESON_ARGS=-Dbuildtype=release --prefix=$PREFIX -Dlibdir=lib
+INFO: activate-gxx_linux-64.sh made the following environmental changes:
++CXXFLAGS=-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
++CXX_FOR_BUILD=x86_64-conda-linux-gnu-c++
++CXX=x86_64-conda-linux-gnu-c++
++DEBUG_CXXFLAGS=-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
++GXX=x86_64-conda-linux-gnu-g++
+INFO: activate-binutils_linux-64.sh made the following environmental changes:
+INFO: activate-gcc_linux-64.sh made the following environmental changes:
+-CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
++CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
++CMAKE_ARGS=-DCMAKE_AR=$BUILD_PREFIX/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=$BUILD_PREFIX/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=$BUILD_PREFIX/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=$BUILD_PREFIX/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=$BUILD_PREFIX/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=$BUILD_PREFIX/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=$BUILD_PREFIX/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=$BUILD_PREFIX/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DCMAKE_FIND_ROOT_PATH=$PREFIX;$BUILD_PREFIX/x86_64-conda-linux-gnu/sysroot -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_PROGRAM_PATH=$BUILD_PREFIX/bin;$PREFIX/bin -DCMAKE_POLICY_DEFAULT_CMP0094=NEW
+-CMAKE_ARGS=-DCMAKE_AR=$PREFIX/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=$PREFIX/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=$PREFIX/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=$PREFIX/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=$PREFIX/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=$PREFIX/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=$PREFIX/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=$PREFIX/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DCMAKE_FIND_ROOT_PATH=$PREFIX;$BUILD_PREFIX/x86_64-conda-linux-gnu/sysroot -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_PROGRAM_PATH=$BUILD_PREFIX/bin;$PREFIX/bin -DCMAKE_POLICY_DEFAULT_CMP0094=NEW
++CMAKE_PREFIX_PATH=$PREFIX:$BUILD_PREFIX/x86_64-conda-linux-gnu/sysroot/usr:$PREFIX:$PREFIX/x86_64-conda-linux-gnu/sysroot/usr
+-CMAKE_PREFIX_PATH=$PREFIX:$PREFIX/x86_64-conda-linux-gnu/sysroot/usr
++CONDA_BUILD_SYSROOT=$BUILD_PREFIX/x86_64-conda-linux-gnu/sysroot
+-CONDA_BUILD_SYSROOT=$PREFIX/x86_64-conda-linux-gnu/sysroot
+-CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem $PREFIX/include
++CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem $PREFIX/include -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem $PREFIX/include
+-DEBUG_CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
++DEBUG_CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
+-DEBUG_CPPFLAGS=-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem $PREFIX/include
++DEBUG_CPPFLAGS=-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem $PREFIX/include -D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem $PREFIX/include
+-LDFLAGS_LD=-O2 --sort-common --as-needed -z relro -z now --disable-new-dtags --gc-sections --allow-shlib-undefined -rpath $PREFIX/lib -rpath-link $PREFIX/lib -L$PREFIX/lib
++LDFLAGS_LD=-O2 --sort-common --as-needed -z relro -z now --disable-new-dtags --gc-sections --allow-shlib-undefined -rpath $PREFIX/lib -rpath-link $PREFIX/lib -L$PREFIX/lib -O2 --sort-common --as-needed -z relro -z now --disable-new-dtags --gc-sections --allow-shlib-undefined -rpath $PREFIX/lib -rpath-link $PREFIX/lib -L$PREFIX/lib
+-LDFLAGS=-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,$PREFIX/lib -Wl,-rpath-link,$PREFIX/lib -L$PREFIX/lib
++LDFLAGS=-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,$PREFIX/lib -Wl,-rpath-link,$PREFIX/lib -L$PREFIX/lib -Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,$PREFIX/lib -Wl,-rpath-link,$PREFIX/lib -L$PREFIX/lib
+INFO: activate-gxx_linux-64.sh made the following environmental changes:
+-CXXFLAGS=-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
++CXXFLAGS=-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
+-DEBUG_CXXFLAGS=-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
++DEBUG_CXXFLAGS=-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
+x86_64-conda-linux-gnu-cc -shared -L$PREFIX/lib/R/lib -Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,$PREFIX/lib -Wl,-rpath-link,$PREFIX/lib -L$PREFIX/lib -o scan2.zoo.so laplace.o -llapack -lblas -L$PREFIX/lib/R/lib -lR
+in method for ‘add.cigar.data’ with signature ‘"SCAN2"’: no definition for class “SCAN2”
+in method for ‘compute.excess.cigar.scores’ with signature ‘"SCAN2"’: no definition for class “SCAN2”
+in method for ‘mean.coverage’ with signature ‘"SCAN2"’: no definition for class “SCAN2”
+in method for ‘compute.mutburden’ with signature ‘"SCAN2"’: no definition for class “SCAN2”
+in method for ‘mutburden’ with signature ‘"SCAN2"’: no definition for class “SCAN2”
+in method for ‘plot.region’ with signature ‘"SCAN2"’: no definition for class “SCAN2”
+Note: possible error in 'make.integrated.table(mmq60.tab = mmq60, ': unused argument (phased.vcf = phased.vcf) 
+No man pages found in package  ‘scan2.zoo’ 
+
+Resource usage statistics from building r-scan2.zoo:
+   Process count: 6
+   CPU time: Sys=0:00:00.8, User=0:00:13.1
+   Memory: 451.2M
+   Disk usage: 24.8K
+   Time elapsed: 0:00:22.8
+
+
+Packaging r-scan2.zoo
+Packaging r-scan2.zoo-0.1-py314r44h3fd9d12_0
+fatal: No names found, cannot describe anything.
+number of files: 67
+Warning: rpath /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_build_env/lib is outside prefix /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehol (removing it)
+Warning: rpath /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/scanZoo_tmp1/lib is outside prefix /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehol (removing it)
+   INFO: sysroot: '/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_build_env/x86_64-conda-linux-gnu/sysroot/' files: '['usr/share/locale/locale.alias', 'usr/share/licenses/glibc/LICENSES', 'usr/share/licenses/glibc/COPYING.LIB', 'usr/share/licenses/glibc/COPYING']'
+WARNING (r-scan2.zoo,lib/R/library/scan2.zoo/libs/scan2.zoo.so): Needed DSO lib/libopenblas.so.0 found in ['conda-forge/linux-64::libopenblas==0.3.34=pthreads_h94d23a6_0']
+WARNING (r-scan2.zoo,lib/R/library/scan2.zoo/libs/scan2.zoo.so): .. but ['conda-forge/linux-64::libopenblas==0.3.34=pthreads_h94d23a6_0'] not in reqs/run, (i.e. it is overlinking) (likely) or a missing dependency (less likely)
+   INFO (r-scan2.zoo,lib/R/library/scan2.zoo/libs/scan2.zoo.so): Needed DSO lib/R/lib/libR.so found in conda-forge/linux-64::r-base==4.4.3=h502d0c9_11
+   INFO (r-scan2.zoo,lib/R/library/scan2.zoo/libs/scan2.zoo.so): Needed DSO x86_64-conda-linux-gnu/sysroot/lib64/libc.so.6 found in CDT/compiler package conda-forge/noarch::sysroot_linux-64==2.28=h4ee821c_9
+WARNING (r-scan2.zoo,lib/R/library/scan2.zoo/libs/scanZooTrial1.so): Needed DSO lib/libopenblas.so.0 found in ['conda-forge/linux-64::libopenblas==0.3.34=pthreads_h94d23a6_0']
+WARNING (r-scan2.zoo,lib/R/library/scan2.zoo/libs/scanZooTrial1.so): .. but ['conda-forge/linux-64::libopenblas==0.3.34=pthreads_h94d23a6_0'] not in reqs/run, (i.e. it is overlinking) (likely) or a missing dependency (less likely)
+   INFO (r-scan2.zoo,lib/R/library/scan2.zoo/libs/scanZooTrial1.so): Needed DSO lib/R/lib/libR.so found in conda-forge/linux-64::r-base==4.4.3=h502d0c9_11
+   INFO (r-scan2.zoo,lib/R/library/scan2.zoo/libs/scanZooTrial1.so): Needed DSO x86_64-conda-linux-gnu/sysroot/lib64/libc.so.6 found in CDT/compiler package conda-forge/noarch::sysroot_linux-64==2.28=h4ee821c_9
+WARNING (r-scan2.zoo): interpreted library (R) package conda-forge/noarch::r-pracma==2.4.6=r44hc72bb7e_0 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): plugin library (R) package conda-forge/linux-64::r-data.table==1.18.4=r44h1c8cec4_0 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): plugin library (R) package conda-forge/linux-64::r-fastghquad==1.0.1=r44h3697838_4 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): interpreted library (R) package conda-forge/noarch::r-r.utils==2.13.0=r44hc72bb7e_1 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): plugin library (R) package conda-forge/linux-64::r-reticulate==1.46.0=r44h3697838_0 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): interpreted library (R) package bioconda/noarch::r-bedtoolsr==2.30.0.2=r44hdfd78af_3 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): interpreted library (R) package conda-forge/noarch::r-progressr==1.0.0=r44hc72bb7e_0 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): plugin library (R) package conda-forge/linux-64::r-yaml==2.3.12=r44h54b55ab_0 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): interpreted library (R) package conda-forge/noarch::r-viridis==0.6.5=r44hc72bb7e_2 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): run-exports library package bioconda/linux-64::htslib==1.24=ha79157c_0 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): run-exports library package bioconda/noarch::bioconductor-bsgenome.hsapiens.1000genomes.hs37d5==0.99.1=r44hdfd78af_13 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): dso library package conda-forge/linux-64::libstdcxx==16.1.0=h934c35e_1 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): run-exports library package bioconda/linux-64::bioconductor-rsamtools==2.22.0=r44h77050f0_1 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): interpreter (Python) package conda-forge/linux-64::python==3.14.6=h242f9ac_102_cp314 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): plugin library (R) package conda-forge/linux-64::r-plyr==1.8.9=r44h3697838_3 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): plugin library (R) package conda-forge/linux-64::r-qs==0.27.3=r44h8b7a39e_1 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): run-exports library package bioconda/linux-64::bioconductor-genomicranges==1.58.0=r44h3df3fcb_2 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): interpreted library (R) package conda-forge/noarch::r-future.apply==1.20.2=r44hc72bb7e_0 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): interpreted library (R) package conda-forge/noarch::r-future==1.75.0=r44hc72bb7e_0 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): run-exports library package bioconda/noarch::bioconductor-bsgenome==1.74.0=r44hdfd78af_0 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): plugin library (R) package conda-forge/linux-64::r-digest==0.6.39=r44h3697838_0 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+WARNING (r-scan2.zoo): run-exports library package bioconda/noarch::bioconductor-genomeinfodb==1.42.0=r44hdfd78af_2 in requirements/run but it is not used (i.e. it is overdepending or perhaps statically linked? If that is what you want then add it to `build/ignore_run_exports`)
+Fixing permissions
+INFO :: Time taken to mark (prefix)
+        0 replacements in 0 files was 0.29 seconds
+TEST START: /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/linux-64/r-scan2.zoo-0.1-py314r44h3fd9d12_0.conda
+Adding in variants from /temp_work/ch253794/tmp6e26broj/info/recipe/conda_build_config.yaml
+Adding in variants from config.variant
+Renaming /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_build_env prefix directory '/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_build_env' to '/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/build_prefix_moved_r-scan2.zoo-0.1-py314r44h3fd9d12_0_linux-64'
+shutil.move(/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_build_env prefix)=/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_build_env, dest=/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/build_prefix_moved_r-scan2.zoo-0.1-py314r44h3fd9d12_0_linux-64)
+Renaming work directory '/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/work' to '/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/work_moved_r-scan2.zoo-0.1-py314r44h3fd9d12_0_linux-64'
+shutil.move(work)=/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/work, dest=/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/work_moved_r-scan2.zoo-0.1-py314r44h3fd9d12_0_linux-64)
+Reloading output folder: ...working... done
+Solving environment (_test_env): ...working... done
+
+## Package Plan ##
+
+  environment location: /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_test_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pla
+
+
+The following NEW packages will be INSTALLED:
+
+    _openmp_mutex:                                     4.5-20_gnu                    conda-forge
+    _r-mutex:                                          1.0.1-anacondar_1             conda-forge
+    argcomplete:                                       3.7.2-pyhcf101f3_0            conda-forge
+    bedtools:                                          2.31.1-h13024bc_3             bioconda   
+    binutils_impl_linux-64:                            2.46.1-default_hfdba357_102   conda-forge
+    binutils_linux-64:                                 2.46.1-default_h4852527_102   conda-forge
+    bioconductor-biobase:                              2.66.0-r44h3df3fcb_0          bioconda   
+    bioconductor-biocgenerics:                         0.52.0-r44hdfd78af_3          bioconda   
+    bioconductor-biocio:                               1.16.0-r44hdfd78af_0          bioconda   
+    bioconductor-biocparallel:                         1.40.0-r44he5774e6_1          bioconda   
+    bioconductor-biostrings:                           2.74.0-r44h3df3fcb_1          bioconda   
+    bioconductor-bsgenome:                             1.74.0-r44hdfd78af_0          bioconda   
+    bioconductor-bsgenome.hsapiens.1000genomes.hs37d5: 0.99.1-r44hdfd78af_13         bioconda   
+    bioconductor-bsgenome.hsapiens.ucsc.hg38:          1.4.5-r44hdfd78af_3           bioconda   
+    bioconductor-bsgenome.mfuro.ucsc.musfur1:          1.4.1-r44hdfd78af_13          bioconda   
+    bioconductor-bsgenome.mmulatta.ucsc.rhemac10:      1.4.2-r44hdfd78af_9           bioconda   
+    bioconductor-bsgenome.mmusculus.ucsc.mm10:         1.4.3-r44hdfd78af_5           bioconda   
+    bioconductor-bsgenome.ptroglodytes.ucsc.pantro6:   1.4.2-r44hdfd78af_13          bioconda   
+    bioconductor-data-packages:                        20260207-hdfd78af_1           bioconda   
+    bioconductor-delayedarray:                         0.32.0-r44h3df3fcb_1          bioconda   
+    bioconductor-genomeinfodb:                         1.42.0-r44hdfd78af_2          bioconda   
+    bioconductor-genomeinfodbdata:                     1.2.13-r44hdfd78af_0          bioconda   
+    bioconductor-genomicalignments:                    1.42.0-r44h3df3fcb_1          bioconda   
+    bioconductor-genomicranges:                        1.58.0-r44h3df3fcb_2          bioconda   
+    bioconductor-iranges:                              2.40.0-r44h3df3fcb_2          bioconda   
+    bioconductor-matrixgenerics:                       1.18.0-r44hdfd78af_0          bioconda   
+    bioconductor-rhtslib:                              3.2.0-r44h15a9599_2           bioconda   
+    bioconductor-rsamtools:                            2.22.0-r44h77050f0_1          bioconda   
+    bioconductor-rtracklayer:                          1.66.0-r44h15a9599_1          bioconda   
+    bioconductor-s4arrays:                             1.6.0-r44h3df3fcb_1           bioconda   
+    bioconductor-s4vectors:                            0.44.0-r44h3df3fcb_2          bioconda   
+    bioconductor-sparsearray:                          1.6.0-r44h3df3fcb_1           bioconda   
+    bioconductor-summarizedexperiment:                 1.36.0-r44hdfd78af_0          bioconda   
+    bioconductor-ucsc.utils:                           1.2.0-r44h9ee0642_1           bioconda   
+    bioconductor-xvector:                              0.46.0-r44h15a9599_2          bioconda   
+    bioconductor-zlibbioc:                             1.52.0-r44h3df3fcb_2          bioconda   
+    bwidget:                                           1.10.1-ha770c72_1             conda-forge
+    bzip2:                                             1.0.8-hda65f42_10             conda-forge
+    c-ares:                                            1.34.8-h280c20c_1             conda-forge
+    ca-certificates:                                   2026.7.22-hbd8a1cb_0          conda-forge
+    cairo:                                             1.18.4-he90730b_1             conda-forge
+    curl:                                              8.21.0-heca4667_4             conda-forge
+    font-ttf-dejavu-sans-mono:                         2.37-hab24e00_0               conda-forge
+    font-ttf-inconsolata:                              3.000-h77eed37_0              conda-forge
+    font-ttf-source-code-pro:                          2.038-h77eed37_0              conda-forge
+    font-ttf-ubuntu:                                   0.83-h77eed37_3               conda-forge
+    fontconfig:                                        2.18.3-h4db4eae_1             conda-forge
+    fonts-conda-ecosystem:                             1-0                           conda-forge
+    fonts-conda-forge:                                 1-hc364b38_1                  conda-forge
+    fribidi:                                           1.0.16-hb03c661_1             conda-forge
+    gcc_impl_linux-64:                                 16.1.0-h5fcb69b_1             conda-forge
+    gcc_linux-64:                                      16.1.0-h5fd2508_0             conda-forge
+    gfortran_impl_linux-64:                            16.1.0-h08e1a1a_1             conda-forge
+    graphite2:                                         1.3.15-h54a6638_1             conda-forge
+    gsl:                                               2.7-he838d99_0                conda-forge
+    gxx_impl_linux-64:                                 16.1.0-he33a5f8_1             conda-forge
+    gxx_linux-64:                                      16.1.0-h5525346_0             conda-forge
+    htslib:                                            1.24-ha79157c_0               bioconda   
+    icu:                                               78.3-py310h44b86e0_2          conda-forge
+    jq:                                                1.8.2-h280c20c_1              conda-forge
+    kernel-headers_linux-64:                           4.18.0-he073ed8_9             conda-forge
+    keyutils:                                          1.6.3-h7cc23a3_1              conda-forge
+    krb5:                                              1.22.2-hbc21106_2             conda-forge
+    ld_impl_linux-64:                                  2.46.1-default_hbd61a6d_102   conda-forge
+    lerc:                                              4.2.0-hdb68285_0              conda-forge
+    libblas:                                           3.11.0-9_h4a7cf45_openblas    conda-forge
+    libcblas:                                          3.11.0-9_h0358290_openblas    conda-forge
+    libcurl:                                           8.21.0-heca4667_4             conda-forge
+    libdeflate:                                        1.25-hd45a770_1               conda-forge
+    libedit:                                           3.1.20250104-pl5321h373387f_1 conda-forge
+    libev:                                             4.33-h280c20c_3               conda-forge
+    libexpat:                                          2.8.1-hecca717_1              conda-forge
+    libffi:                                            3.7.0-h3435931_0              conda-forge
+    libfreetype:                                       2.14.3-ha770c72_2             conda-forge
+    libfreetype6:                                      2.14.3-h5e6c136_2             conda-forge
+    libgcc:                                            16.1.0-ha9f2e26_1             conda-forge
+    libgcc-devel_linux-64:                             16.1.0-h59071f9_101           conda-forge
+    libgcc-ng:                                         16.1.0-h69a702a_1             conda-forge
+    libgfortran:                                       16.1.0-h69a702a_1             conda-forge
+    libgfortran5:                                      16.1.0-h79bb938_1             conda-forge
+    libglib:                                           2.88.3-h45c3219_1             conda-forge
+    libgomp:                                           16.1.0-he0feb66_1             conda-forge
+    libharfbuzz:                                       14.3.1-h23af247_0             conda-forge
+    libhwloc:                                          2.13.0-default_he001693_1000  conda-forge
+    libiconv:                                          1.18-h0cb94f2_3               conda-forge
+    libjpeg-turbo:                                     3.2.0-hb03c661_1              conda-forge
+    liblapack:                                         3.11.0-9_h47877c9_openblas    conda-forge
+    liblzma:                                           5.8.3-hb03c661_1              conda-forge
+    libmpdec:                                          4.0.0-hb03c661_2              conda-forge
+    libnghttp2:                                        1.68.1-h877daf1_0             conda-forge
+    libopenblas:                                       0.3.34-pthreads_h94d23a6_0    conda-forge
+    libpng:                                            1.6.58-h922cc85_1             conda-forge
+    libpsl:                                            0.23.1-hd9e3e90_1             conda-forge
+    libsanitizer:                                      16.1.0-hf2715c6_1             conda-forge
+    libsqlite:                                         3.53.4-h13e7031_1             conda-forge
+    libssh2:                                           1.11.1-h6154650_1             conda-forge
+    libstdcxx:                                         16.1.0-h934c35e_1             conda-forge
+    libstdcxx-devel_linux-64:                          16.1.0-h41cdd0d_101           conda-forge
+    libtiff:                                           4.7.2-h9d88235_0              conda-forge
+    libuuid:                                           2.42.2-h5347b49_0             conda-forge
+    libwebp-base:                                      1.6.0-hd42ef1d_1              conda-forge
+    libxcb:                                            1.17.0-hb83e432_1             conda-forge
+    libxml2:                                           2.15.3-h49c6c72_0             conda-forge
+    libxml2-16:                                        2.15.3-hca6bf5a_0             conda-forge
+    libxml2-devel:                                     2.15.3-h49c6c72_0             conda-forge
+    libzlib:                                           1.3.2-h25fd6f3_3              conda-forge
+    lz4-c:                                             1.10.0-hee9eb32_2             conda-forge
+    make:                                              4.4.1-hb03c661_3              conda-forge
+    ncurses:                                           6.6-hdb14827_1                conda-forge
+    oniguruma:                                         6.9.10-h280c20c_1             conda-forge
+    openblas:                                          0.3.34-pthreads_h6ec200e_0    conda-forge
+    openssl:                                           3.6.3-h35e630c_1              conda-forge
+    pango:                                             1.58.2-hda50119_0             conda-forge
+    pcre2:                                             10.47-haa7fec5_0              conda-forge
+    pip:                                               26.2.1-pyh145f28c_0           conda-forge
+    pixman:                                            0.46.4-h54a6638_3             conda-forge
+    pthread-stubs:                                     0.4-hb03c661_1003             conda-forge
+    python:                                            3.14.6-h242f9ac_102_cp314     conda-forge
+    python_abi:                                        3.14-8_cp314                  conda-forge
+    pyyaml:                                            6.0.3-py314h67df5f8_1         conda-forge
+    r-abind:                                           1.4_8-r44hc72bb7e_1           conda-forge
+    r-askpass:                                         1.2.1-r44h54b55ab_1           conda-forge
+    r-base:                                            4.4.3-h502d0c9_11             conda-forge
+    r-bedtoolsr:                                       2.30.0.2-r44hdfd78af_3        bioconda   
+    r-bh:                                              1.87.0_1-r44hc72bb7e_1        conda-forge
+    r-bitops:                                          1.0_9-r44h54b55ab_1           conda-forge
+    r-cli:                                             3.6.6-r44h3697838_0           conda-forge
+    r-codetools:                                       0.2_20-r44hc72bb7e_2          conda-forge
+    r-colorspace:                                      2.1_3-r44h54b55ab_0           conda-forge
+    r-cpp11:                                           0.5.5-r44h785f33e_0           conda-forge
+    r-crayon:                                          1.5.3-r44hc72bb7e_2           conda-forge
+    r-curl:                                            7.1.0-r44h10955f1_0           conda-forge
+    r-data.table:                                      1.18.4-r44h1c8cec4_0          conda-forge
+    r-digest:                                          0.6.39-r44h3697838_0          conda-forge
+    r-farver:                                          2.1.2-r44h3697838_2           conda-forge
+    r-fastghquad:                                      1.0.1-r44h3697838_4           conda-forge
+    r-formatr:                                         1.14-r44hc72bb7e_3            conda-forge
+    r-futile.logger:                                   1.4.9-r44hc72bb7e_0           conda-forge
+    r-futile.options:                                  1.0.1-r44hc72bb7e_1006        conda-forge
+    r-future:                                          1.75.0-r44hc72bb7e_0          conda-forge
+    r-future.apply:                                    1.20.2-r44hc72bb7e_0          conda-forge
+    r-ggplot2:                                         4.0.3-r44h785f33e_0           conda-forge
+    r-globals:                                         0.19.1-r44hc72bb7e_0          conda-forge
+    r-glue:                                            1.8.1-r44h54b55ab_0           conda-forge
+    r-gridextra:                                       2.3.1-r44hc72bb7e_0           conda-forge
+    r-gtable:                                          0.3.6-r44hc72bb7e_1           conda-forge
+    r-here:                                            1.0.2-r44hc72bb7e_0           conda-forge
+    r-httr:                                            1.4.8-r44hc72bb7e_0           conda-forge
+    r-isoband:                                         0.3.0-r44h3697838_0           conda-forge
+    r-jsonlite:                                        2.0.0-r44h54b55ab_1           conda-forge
+    r-labeling:                                        0.4.3-r44hc72bb7e_2           conda-forge
+    r-lambda.r:                                        1.2.4-r44hc72bb7e_5           conda-forge
+    r-lattice:                                         0.22_9-r44h54b55ab_0          conda-forge
+    r-lifecycle:                                       1.0.5-r44hc72bb7e_0           conda-forge
+    r-listenv:                                         1.0.0-r44hc72bb7e_0           conda-forge
+    r-matrix:                                          1.7_6-r44h0e4624f_0           conda-forge
+    r-matrixstats:                                     1.5.0-r44h54b55ab_1           conda-forge
+    r-mime:                                            0.13-r44h54b55ab_1            conda-forge
+    r-munsell:                                         0.5.1-r44hc72bb7e_2           conda-forge
+    r-openssl:                                         2.4.2-r44h68c19f5_0           conda-forge
+    r-parallelly:                                      1.48.0-r44h54b55ab_0          conda-forge
+    r-plyr:                                            1.8.9-r44h3697838_3           conda-forge
+    r-png:                                             0.1_9-r44haf2892b_0           conda-forge
+    r-pracma:                                          2.4.6-r44hc72bb7e_0           conda-forge
+    r-progressr:                                       1.0.0-r44hc72bb7e_0           conda-forge
+    r-qs:                                              0.27.3-r44h8b7a39e_1          conda-forge
+    r-r.methodss3:                                     1.8.2-r44hc72bb7e_4           conda-forge
+    r-r.oo:                                            1.27.1-r44hc72bb7e_1          conda-forge
+    r-r.utils:                                         2.13.0-r44hc72bb7e_1          conda-forge
+    r-r6:                                              2.6.1-r44hc72bb7e_1           conda-forge
+    r-rapiserialize:                                   0.1.4-r44h3697838_1           conda-forge
+    r-rappdirs:                                        0.3.4-r44h54b55ab_0           conda-forge
+    r-rcolorbrewer:                                    1.1_3-r44h785f33e_4           conda-forge
+    r-rcpp:                                            1.1.2-r44h3697838_0           conda-forge
+    r-rcppparallel:                                    5.1.11_2-r44heb10100_1        conda-forge
+    r-rcpptoml:                                        0.2.3-r44h3697838_1           conda-forge
+    r-rcurl:                                           1.98_1.19-r44h46721d4_0       conda-forge
+    r-restfulr:                                        0.0.16-r44h5ef9028_0          bioconda   
+    r-reticulate:                                      1.46.0-r44h3697838_0          conda-forge
+    r-rhpcblasctl:                                     0.23_42-r44h54b55ab_4         conda-forge
+    r-rjson:                                           0.2.23-r44h3697838_1          conda-forge
+    r-rlang:                                           1.3.0-r44h3697838_0           conda-forge
+    r-rprojroot:                                       2.1.1-r44hc72bb7e_1           conda-forge
+    r-s7:                                              0.2.2-r44h54b55ab_0           conda-forge
+    r-scales:                                          1.4.0-r44hc72bb7e_1           conda-forge
+    r-scan2.zoo:                                       0.1-py314r44h3fd9d12_0        local      
+    r-snow:                                            0.4_4-r44hc72bb7e_4           conda-forge
+    r-stringfish:                                      0.19.0-r44h05ef45b_1          conda-forge
+    r-sys:                                             3.4.3-r44h54b55ab_1           conda-forge
+    r-vctrs:                                           0.7.3-r44h3697838_0           conda-forge
+    r-viridis:                                         0.6.5-r44hc72bb7e_2           conda-forge
+    r-viridislite:                                     0.4.3-r44hc72bb7e_0           conda-forge
+    r-withr:                                           3.0.3-r44hc72bb7e_0           conda-forge
+    r-xml:                                             3.99_0.23-r44hf705907_0       conda-forge
+    r-yaml:                                            2.3.12-r44h54b55ab_0          conda-forge
+    readline:                                          8.3-hd6e31c0_1                conda-forge
+    sed:                                               4.10-h19d0853_0               conda-forge
+    sysroot_linux-64:                                  2.28-h4ee821c_9               conda-forge
+    tbb:                                               2023.0.0-hab88423_2           conda-forge
+    tbb-devel:                                         2023.0.0-hab88423_2           conda-forge
+    tk:                                                8.6.13-noxft_hd70dff1_3       conda-forge
+    tktable:                                           2.10-h0eb2ad0_9               conda-forge
+    tomlkit:                                           0.15.1-pyhcf101f3_0           conda-forge
+    tzdata:                                            2026c-h151e31d_0              conda-forge
+    xmltodict:                                         1.0.4-pyhcf101f3_0            conda-forge
+    xorg-libice:                                       1.1.2-h280c20c_0              conda-forge
+    xorg-libsm:                                        1.2.6-h0d788c3_1              conda-forge
+    xorg-libx11:                                       1.8.13-he1eb515_1             conda-forge
+    xorg-libxau:                                       1.0.12-hb03c661_2             conda-forge
+    xorg-libxdmcp:                                     1.1.5-hb03c661_2              conda-forge
+    xorg-libxext:                                      1.3.7-h7cc23a3_1              conda-forge
+    xorg-libxrender:                                   0.9.12-hb03c661_1             conda-forge
+    xorg-libxt:                                        1.3.1-h7cc23a3_1              conda-forge
+    yaml:                                              0.2.5-h280c20c_3              conda-forge
+    yq:                                                4.1.2-pyhcf101f3_1            conda-forge
+    zstd:                                              1.5.7-hb78ec9c_7              conda-forge
+
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
++ /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_test_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pla/bin/R -e 'library('\''scan2.zoo'\'')'
+Loading required package: data.table
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, aperm, append, as.data.frame, basename, cbind,
+    colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
+    get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
+    match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
+    Position, rank, rbind, Reduce, rownames, sapply, saveRDS, setdiff,
+    table, tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+
+Attaching package: ‘S4Vectors’
+
+The following objects are masked from ‘package:data.table’:
+
+    first, second
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    expand.grid, I, unname
+
+Loading required package: IRanges
+
+Attaching package: ‘IRanges’
+
+The following object is masked from ‘package:data.table’:
+
+    shift
+
+Loading required package: GenomeInfoDb
++ exit 0
+export PREFIX=/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_test_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pla
+export SRC_DIR=/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/test_tmp
+INFO: activate-binutils_linux-64.sh made the following environmental changes:
++ADDR2LINE=x86_64-conda-linux-gnu-addr2line
++AR=x86_64-conda-linux-gnu-ar
++AS=x86_64-conda-linux-gnu-as
++CXXFILT=x86_64-conda-linux-gnu-c++filt
++ELFEDIT=x86_64-conda-linux-gnu-elfedit
++GPROF=x86_64-conda-linux-gnu-gprof
++LD=x86_64-conda-linux-gnu-ld
++NM=x86_64-conda-linux-gnu-nm
++OBJCOPY=x86_64-conda-linux-gnu-objcopy
++OBJDUMP=x86_64-conda-linux-gnu-objdump
++RANLIB=x86_64-conda-linux-gnu-ranlib
++READELF=x86_64-conda-linux-gnu-readelf
++SIZE=x86_64-conda-linux-gnu-size
++STRINGS=x86_64-conda-linux-gnu-strings
++STRIP=x86_64-conda-linux-gnu-strip
+INFO: activate-gcc_linux-64.sh made the following environmental changes:
++build_alias=x86_64-conda-linux-gnu
+-BUILD=x86_64-conda_cos6-linux-gnu
++BUILD=x86_64-conda-linux-gnu
++CC_FOR_BUILD=x86_64-conda-linux-gnu-cc
++CC=x86_64-conda-linux-gnu-cc
++CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
++CMAKE_ARGS=-DCMAKE_AR=$PREFIX/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=$PREFIX/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=$PREFIX/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=$PREFIX/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=$PREFIX/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=$PREFIX/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=$PREFIX/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=$PREFIX/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DCMAKE_FIND_ROOT_PATH=$PREFIX;/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_build_env/x86_64-conda-linux-gnu/sysroot -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_PROGRAM_PATH=/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/_build_env/bin;$PREFIX/bin -DCMAKE_POLICY_DEFAULT_CMP0094=NEW
++CMAKE_PREFIX_PATH=$PREFIX:$PREFIX/x86_64-conda-linux-gnu/sysroot/usr
++CONDA_BUILD_CROSS_COMPILATION=
++CONDA_BUILD_SYSROOT=$PREFIX/x86_64-conda-linux-gnu/sysroot
++CONDA_TOOLCHAIN_BUILD=x86_64-conda-linux-gnu
++CONDA_TOOLCHAIN_HOST=x86_64-conda-linux-gnu
++CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem $PREFIX/include
++CPP_FOR_BUILD=x86_64-conda-linux-gnu-cpp
++CPP=x86_64-conda-linux-gnu-cpp
++DEBUG_CFLAGS=-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
++DEBUG_CPPFLAGS=-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem $PREFIX/include
++GCC_AR=x86_64-conda-linux-gnu-gcc-ar
++GCC_NM=x86_64-conda-linux-gnu-gcc-nm
++GCC_RANLIB=x86_64-conda-linux-gnu-gcc-ranlib
++GCC=x86_64-conda-linux-gnu-gcc
++host_alias=x86_64-conda-linux-gnu
++HOST=x86_64-conda-linux-gnu
++LDFLAGS_LD=-O2 --sort-common --as-needed -z relro -z now --disable-new-dtags --gc-sections --allow-shlib-undefined -rpath $PREFIX/lib -rpath-link $PREFIX/lib -L$PREFIX/lib
++LDFLAGS=-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,$PREFIX/lib -Wl,-rpath-link,$PREFIX/lib -L$PREFIX/lib
++MESON_ARGS=-Dbuildtype=release --prefix=$PREFIX -Dlibdir=lib
+INFO: activate-gxx_linux-64.sh made the following environmental changes:
++CXXFLAGS=-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
++CXX_FOR_BUILD=x86_64-conda-linux-gnu-c++
++CXX=x86_64-conda-linux-gnu-c++
++DEBUG_CXXFLAGS=-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -fno-merge-constants -isystem $PREFIX/include -fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/r-scan2.zoo-0.1 -fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix
++GXX=x86_64-conda-linux-gnu-g++
+
+R version 4.4.3 (2025-02-28) -- "Trophy Case"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-conda-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library('scan2.zoo')
+> 
+> 
+
+Resource usage statistics from testing r-scan2.zoo:
+   Process count: 5
+   CPU time: Sys=0:00:00.4, User=0:00:03.6
+   Memory: 248.9M
+   Disk usage: 2B
+   Time elapsed: 0:00:12.3
+
+
+TEST END: /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/linux-64/r-scan2.zoo-0.1-py314r44h3fd9d12_0.conda
+Renaming work directory '/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/work' to '/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/work_moved_r-scan2.zoo-0.1-r>=42h3fd9d12_0_linux-64_main_build_loop'
+shutil.move(work)=/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/work, dest=/home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/r-scan2.zoo_1787151300043/work_moved_r-scan2.zoo-0.1-r>=42h3fd9d12_0_linux-64_main_build_loop)
+# Automatic uploading is disabled
+# If you want to upload package(s) to anaconda.org later, type:
+
+
+# To have conda build upload to anaconda.org automatically, use
+# conda config --set anaconda_upload yes
+anaconda upload \
+    /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/linux-64/r-scan2.zoo-0.1-py314r44h3fd9d12_0.conda
+anaconda_upload is not set.  Not uploading wheels: []
+
+INFO :: The inputs making up the hashes for the built packages are as follows:
+{
+  "r-scan2.zoo-0.1-py314r44h3fd9d12_0.conda": {
+    "recipe": {
+      "c_compiler": "gcc",
+      "cxx_compiler": "gxx",
+      "target_platform": "linux-64"
+    }
+  }
+}
+
+
+####################################################################################
+Resource usage summary:
+
+Total time: 0:46:13.4
+CPU usage: sys=0:00:01.2, user=0:00:16.7
+Maximum memory usage observed: 451.2M
+Total disk usage observed (not including envs): 24.8K
+
+
+####################################################################################
+Source and build intermediates have been left in /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld.
+There are currently 11 accumulated.
+To remove them, you can run the ```conda build purge``` command

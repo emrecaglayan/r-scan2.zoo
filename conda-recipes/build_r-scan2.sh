@@ -1,23 +1,18 @@
 #!/bin/bash
 
-conda-build -c conda-forge -c bioconda -c jluquette r-scan2
+# Before doing this, upload your local repo to your github's repo
+# Then specify your github's repo in your meta.yaml file
+# Then create a token from github because this command will prompt you for the password
+# You may still get errors during the build and will most likely need to resolve them.
+cd /home/ch253794/workdir/PROGRAMS/SCAN2_ZOO_R/scan2.zoo
 
-anaconda upload  /home/ljl11/miniconda3_for_building/conda-bld/linux-64/r-scan2-1.0-py38r41h3fd9d12_6.tar.bz2
+git add conda-recipes & git commit -m "Update"
+git push -u origin main
 
-
-# Build and upload fastGHQuad so that it doesn't rely on r 3.5 (not used)
-#conda skeleton cran fastGHQuad
-#conda build -c conda-forge -c bioconda r-fastghquad/ --python 3.10
-
-anaconda login # follow the prompt
-anaconda upload --user ecaglayan \
-    /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/linux-64/r-fastghquad-1.0.1-r42hbad8821_0.conda
-
-
-
-conda-build -c conda-forge -c bioconda -c ecaglayan conda-recipes/r-scan2.zoo
+conda-build -c conda-forge -c bioconda -c ecaglayan conda-recipes/r-scan2.zoo > conda-build2.log 2>&1
 
 anaconda login # follow the prompt
-anaconda upload --user ecaglayan \
-    /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/linux-64/r-fastghquad-1.0.1-r42hbad8821_0.conda
+anaconda upload --force \
+    /home/ch253794/workdir/PROGRAMS/miniconda3_py310/envs/build_env/conda-bld/linux-64/r-scan2.zoo-0.1-py314r44h3fd9d12_0.conda
+
 

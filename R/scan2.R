@@ -320,19 +320,22 @@ setMethod("concat", signature="SCAN2", function(...) {
 })
 
 
-read.integrated.table = function(object, path, quiet = FALSE) 
-{
+read.integrated.table = function(object, path, quiet = FALSE){
     object@gatk <- read.and.annotate.integrated.table(path = path, 
         sample.id = object@single.cell, region = object@region, 
         quiet = quiet)
     object@integrated.table.path <- path
 
-    id <- object@gatk[, paste(chr, pos, refnt, altnt)]
-    dupid <- duplicated(id)
-    if (sum(dupid)) {
-        stop(paste("found", sum(dupid), "duplicate (chr,pos,refnt,altnt) instances in integrated table. This is likely a bug, please report it."))
+    if(is.null(object@gatk)){
+	return(object)
+    } else{
+	id <- object@gatk[, paste(chr, pos, refnt, altnt)]
+	dupid <- duplicated(id)
+	if (sum(dupid)) {
+	stop(paste("found", sum(dupid), "duplicate (chr,pos,refnt,altnt) instances in integrated table. This is likely a bug, please report it."))
+	}
+	return(object)
     }
-    object
 }
 
 

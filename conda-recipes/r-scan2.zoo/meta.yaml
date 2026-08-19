@@ -25,9 +25,10 @@ requirements:
     - coreutils         # [win]
     - zip               # [win]
   host:
+    - python >=3.8,<3.13
     - r-base >=4.2
     - openblas
-    - htslib
+    - htslib >=1.9
     - r-plyr
     - r-fastghquad
     - r-yaml
@@ -56,10 +57,10 @@ requirements:
     - bioconductor-bsgenome.mfuro.UCSC.musFur1
 
   run:
-    - python
+    - python >=3.8,<3.13
     - r-base >=4.2
     - openblas
-    - htslib
+    - htslib >=1.9
     - r-plyr
     - r-fastghquad
     - r-yaml
