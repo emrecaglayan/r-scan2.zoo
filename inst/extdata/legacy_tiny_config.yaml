@@ -1,7 +1,0 @@
-bulk_sample: hunamp
-sc_bams:
-    h25: dummy.bam
-min_bulk_dp: 11
-min_sc_alt: 2
-min_sc_dp: 6
-max_bulk_alt: 0

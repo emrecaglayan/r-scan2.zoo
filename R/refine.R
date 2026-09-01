@@ -495,7 +495,7 @@ extract_basecall_and_read = function(bam, outfile, chr, pos){
 	chromosome <- chr
 	position <- pos
 
-	python_script <- "/home/ch253794/SCRIPTS/Extract_readname_and_basecall2.py"  # Use the full path to your Python script
+	python_script <- system.file("Extract_readname_and_basecall.py", package = "scan2.zoo")
 
 	# Construct the command to run the Python script
 	command <- sprintf("python %s %s %s %s %s", python_script, bam_file, outfile, chromosome, position)
